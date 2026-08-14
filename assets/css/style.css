@@ -3442,35 +3442,31 @@ body {
    Floating Mobile Index FAB Button & Left Slide-In Drawer Panel
    ========================================================================== */
 
+/* Hide Index Floating Button — Edge Drag Gesture active */
 .terms-mobile-fab-btn {
+   display: none !important;
+}
+
+/* Subtle Left Edge Swipe Indicator Pill */
+.terms-edge-swipe-hint {
    display: none;
    position: fixed;
-   top: 90px;
-   left: 16px;
-   z-index: 999;
-   background: rgba(15, 23, 42, 0.92);
-   backdrop-filter: blur(16px);
-   -webkit-backdrop-filter: blur(16px);
-   color: #ffffff;
-   border: 1px solid rgba(255, 255, 255, 0.18);
-   padding: 8px 16px;
-   border-radius: 100px;
-   font-size: 0.82rem;
-   font-weight: 700;
-   box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.35);
-   cursor: pointer;
-   align-items: center;
-   gap: 8px;
-   transition: transform 0.25s ease, background 0.25s ease;
+   top: 50%;
+   left: 0;
+   transform: translateY(-50%);
+   width: 4px;
+   height: 54px;
+   background: linear-gradient(180deg, #2563eb, #38bdf8);
+   border-radius: 0 4px 4px 0;
+   z-index: 998;
+   box-shadow: 2px 0 12px rgba(37, 99, 235, 0.5);
+   opacity: 0.7;
+   transition: opacity 0.3s ease, width 0.25s ease;
 }
 
-.terms-mobile-fab-btn:hover {
-   transform: translateY(-2px) scale(1.02);
-   background: #0f172a;
-}
-
-.terms-mobile-fab-btn #terms-fab-percent {
-   color: #38bdf8;
+.terms-edge-swipe-hint:hover {
+   width: 6px;
+   opacity: 1;
 }
 
 /* Mobile Terms Drawer Overlay & Left Slide-in Panel */
@@ -3569,8 +3565,8 @@ body {
       display: none;
    }
 
-   .terms-mobile-fab-btn {
-      display: flex;
+   .terms-edge-swipe-hint {
+      display: block;
    }
 
    .terms-doc-header-card {

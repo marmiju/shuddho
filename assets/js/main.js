@@ -980,6 +980,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileTermsDrawer);
     if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileTermsDrawer);
 
+    const edgeHint = document.getElementById('terms-edge-swipe-hint');
+    if (edgeHint) edgeHint.addEventListener('click', openMobileTermsDrawer);
+
+    // Touch Drag / Left-to-Right Edge Swipe Gestures
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!touchStartX) return;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const deltaX = currentX - touchStartX;
+      const deltaY = Math.abs(currentY - touchStartY);
+
+      const isDrawerOpen = drawerPanel && drawerPanel.classList.contains('is-open');
+
+      // Swipe from left edge to right (touchStartX < 70 & drag deltaX > 45)
+      if (!isDrawerOpen && touchStartX < 70 && deltaX > 45 && deltaX > deltaY * 1.2) {
+        openMobileTermsDrawer();
+        touchStartX = 0; // Prevent duplicate trigger
+      } else if (isDrawerOpen && deltaX < -45 && Math.abs(deltaX) > deltaY * 1.2) {
+        closeMobileTermsDrawer();
+        touchStartX = 0;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      touchStartX = 0;
+      touchStartY = 0;
+    }, { passive: true });
+
     // Auto-close drawer on link click
     document.querySelectorAll('.mobile-drawer-nav-links a').forEach(link => {
       link.addEventListener('click', closeMobileTermsDrawer);
