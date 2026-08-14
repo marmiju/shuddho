@@ -879,12 +879,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Back to top button smooth scroll
-  const backToTopBtn = document.getElementById('footer-back-to-top');
-  if (backToTopBtn) {
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  /* ==========================================================================
+     Dynamic Contact Info Loader (public/data/contact.json)
+     ========================================================================== */
+  async function loadContactData() {
+    try {
+      const response = await fetch('public/data/contact.json');
+      if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
+      const data = await response.json();
+
+      // Email updates
+      if (data.email) {
+        const availEmailLink = document.getElementById('availability-email-link');
+        const availEmailSubtext = document.getElementById('availability-email-subtext');
+        const contactEmailBtn = document.getElementById('contact-email-btn');
+        const contactEmailBtnText = document.getElementById('contact-email-btn-text');
+        const contactCardEmailText = document.getElementById('contact-card-email-text');
+
+        if (availEmailLink && data.email.inquiryMailto) availEmailLink.href = data.email.inquiryMailto;
+        if (availEmailSubtext && (data.email.displayLabel || data.email.address)) {
+          availEmailSubtext.textContent = data.email.displayLabel || data.email.address;
+        }
+        if (contactEmailBtn && data.email.mailto) contactEmailBtn.href = data.email.mailto;
+        if (contactEmailBtnText && data.email.buttonText) contactEmailBtnText.textContent = data.email.buttonText;
+        if (contactCardEmailText && data.email.address) contactCardEmailText.textContent = data.email.address;
+      }
+
+      // WhatsApp updates
+      if (data.whatsapp) {
+        const contactWhatsappBtn = document.getElementById('contact-whatsapp-btn');
+        const contactWhatsappBtnText = document.getElementById('contact-whatsapp-btn-text');
+        const contactCardWhatsappText = document.getElementById('contact-card-whatsapp-text');
+
+        if (contactWhatsappBtn && data.whatsapp.link) contactWhatsappBtn.href = data.whatsapp.link;
+        if (contactWhatsappBtnText && data.whatsapp.buttonText) contactWhatsappBtnText.textContent = data.whatsapp.buttonText;
+        if (contactCardWhatsappText && (data.whatsapp.formattedNumber || data.whatsapp.number)) {
+          contactCardWhatsappText.textContent = data.whatsapp.formattedNumber || data.whatsapp.number;
+        }
+      }
+
+      // Calendly updates
+      if (data.calendly) {
+        const availCalendlyLink = document.getElementById('availability-calendly-link');
+        const availCalendlySubtext = document.getElementById('availability-calendly-subtext');
+        const floatingCalendlyLink = document.getElementById('floating-calendly-link');
+
+        if (availCalendlyLink && data.calendly.link) availCalendlyLink.href = data.calendly.link;
+        if (availCalendlySubtext && data.calendly.subtext) availCalendlySubtext.textContent = data.calendly.subtext;
+        if (floatingCalendlyLink && data.calendly.link) floatingCalendlyLink.href = data.calendly.link;
+      }
+
+      // Location updates
+      if (data.location) {
+        const contactCardLocationTitle = document.getElementById('contact-card-location-title');
+        const contactCardLocationText = document.getElementById('contact-card-location-text');
+
+        if (contactCardLocationTitle && data.location.title) contactCardLocationTitle.textContent = data.location.title;
+        if (contactCardLocationText && data.location.description) contactCardLocationText.textContent = data.location.description;
+      }
+    } catch (error) {
+      console.warn('Unable to load contact.json dynamically:', error);
+    }
   }
 
   // Immediate startup for static elements & fallback cards
@@ -896,5 +951,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadPortfolioProjectsData();
   loadTrustData();
+  loadContactData();
   initProjectSwiper();
 });

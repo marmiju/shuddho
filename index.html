@@ -477,7 +477,7 @@
 
                         <!-- Option 2: Direct Mail -->
                         <a href="mailto:mar.miju.dev@gmail.com?subject=New%20Project%20Inquiry%20-%20Shuddho%20Portfolio"
-                            class="contact-option-card option-email">
+                            class="contact-option-card option-email" id="availability-email-link">
                             <div class="option-icon-badge" style="color: #34d399;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -489,14 +489,14 @@
                             </div>
                             <div class="option-details">
                                 <span class="option-label">Email Directly</span>
-                                <span class="option-subtext">mar.miju.dev@gmail.com</span>
+                                <span class="option-subtext" id="availability-email-subtext">mar.miju.dev@gmail.com</span>
                             </div>
                             <span class="option-arrow">→</span>
                         </a>
 
                         <!-- Option 3: Book Call with Calendly -->
                         <a href="https://calendly.com/marmiju/59min?back=1&month=2026-08" target="_blank"
-                            rel="noopener noreferrer" class="contact-option-card option-calendly">
+                            rel="noopener noreferrer" class="contact-option-card option-calendly" id="availability-calendly-link">
                             <div class="option-icon-badge" style="color: #38bdf8;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -508,7 +508,7 @@
                             </div>
                             <div class="option-details">
                                 <span class="option-label">Book via Calendly</span>
-                                <span class="option-subtext">1-on-1 Discovery Call</span>
+                                <span class="option-subtext" id="availability-calendly-subtext">1-on-1 Discovery Call</span>
                             </div>
                             <span class="option-arrow">→</span>
                         </a>
@@ -969,12 +969,12 @@
                     </p>
 
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
-                        <a href="mailto:mar.miju.dev@gmail.com" class="btn-dark btn-collaborate">
-                            <span>Email Us Directly</span>
+                        <a href="mailto:mar.miju.dev@gmail.com" class="btn-dark btn-collaborate" id="contact-email-btn">
+                            <span id="contact-email-btn-text">Email Us Directly</span>
                         </a>
                         <a href="https://wa.me/8801860131470" target="_blank" rel="noopener"
-                            class="btn-dark btn-collaborate" style="background-color: #25D366;">
-                            <span>WhatsApp: 01860131470</span>
+                            class="btn-dark btn-collaborate" style="background-color: #25D366;" id="contact-whatsapp-btn">
+                            <span id="contact-whatsapp-btn-text">WhatsApp: 01860131470</span>
                         </a>
                     </div>
 
@@ -984,7 +984,7 @@
                             <div
                                 style="font-size: 0.75rem; font-weight: 800; color: var(--color-brand-blue); text-transform: uppercase;">
                                 Direct Email</div>
-                            <div style="font-weight: 700; color: var(--color-dark-text);">mar.miju.dev@gmail.com</div>
+                            <div style="font-weight: 700; color: var(--color-dark-text);" id="contact-card-email-text">mar.miju.dev@gmail.com</div>
                         </div>
                     </div>
 
@@ -994,7 +994,7 @@
                             <div
                                 style="font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase;">
                                 Direct WhatsApp</div>
-                            <div style="font-weight: 700; color: var(--color-dark-text);">+880 1860-131470</div>
+                            <div style="font-weight: 700; color: var(--color-dark-text);" id="contact-card-whatsapp-text">+880 1860-131470</div>
                         </div>
                     </div>
 
@@ -1002,9 +1002,9 @@
                         <div class="contact-info-icon">📍</div>
                         <div>
                             <div
-                                style="font-size: 0.75rem; font-weight: 800; color: var(--color-brand-blue); text-transform: uppercase;">
+                                style="font-size: 0.75rem; font-weight: 800; color: var(--color-brand-blue); text-transform: uppercase;" id="contact-card-location-title">
                                 Availability & Location</div>
-                            <div style="font-weight: 700; color: var(--color-dark-text);">Available Globally for Remote
+                            <div style="font-weight: 700; color: var(--color-dark-text);" id="contact-card-location-text">Available Globally for Remote
                                 Projects</div>
                         </div>
                     </div>
@@ -1089,7 +1089,7 @@
 
     <div class="calendly-floating-badge-wrapper" id="calendly-floating-badge">
         <a href="https://calendly.com/marmiju/59min?back=1&month=2026-08" target="_blank" rel="noopener noreferrer"
-            class="calendly-badge-btn" aria-label="Book a Call on Calendly">
+            class="calendly-badge-btn" id="floating-calendly-link" aria-label="Book a Call on Calendly">
             <span class="badge-icon-cal">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                     stroke-linecap="round" stroke-linejoin="round">
