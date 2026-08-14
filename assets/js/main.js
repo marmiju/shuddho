@@ -943,16 +943,47 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     Advanced Scroll Animation & Reading Progress System for Terms Page
+     Advanced Scroll Animation & Responsive Drawer System for Terms Page
      ========================================================================== */
   function initTermsPageScrollEngine() {
     const termsCards = document.querySelectorAll('.terms-section-card');
     const termsNavItems = document.querySelectorAll('.terms-nav-item');
     const progressFill = document.getElementById('terms-progress-fill');
     const readPercentText = document.getElementById('terms-read-percent');
+    const mobileProgressFill = document.getElementById('terms-mobile-progress-fill');
+    const mobileReadPercentText = document.getElementById('terms-mobile-read-percent');
+    const fabPercentText = document.getElementById('terms-fab-percent');
     const termsWrapper = document.getElementById('terms-content-wrapper');
 
+    // Mobile Terms Drawer Elements
+    const fabBtn = document.getElementById('terms-mobile-fab-btn');
+    const drawerPanel = document.getElementById('terms-mobile-drawer-panel');
+    const drawerBackdrop = document.getElementById('terms-drawer-backdrop');
+    const drawerCloseBtn = document.getElementById('terms-drawer-close-btn');
+
     if (termsCards.length === 0) return;
+
+    // Mobile Drawer Toggle Handlers
+    function openMobileTermsDrawer() {
+      if (drawerPanel) drawerPanel.classList.add('is-open');
+      if (drawerBackdrop) drawerBackdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileTermsDrawer() {
+      if (drawerPanel) drawerPanel.classList.remove('is-open');
+      if (drawerBackdrop) drawerBackdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    if (fabBtn) fabBtn.addEventListener('click', openMobileTermsDrawer);
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileTermsDrawer);
+    if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileTermsDrawer);
+
+    // Auto-close drawer on link click
+    document.querySelectorAll('.mobile-drawer-nav-links a').forEach(link => {
+      link.addEventListener('click', closeMobileTermsDrawer);
+    });
 
     // 1. Intersection Observer for Smooth Staggered Card Entrance Animation
     const cardEntranceObserver = new IntersectionObserver((entries) => {
@@ -973,16 +1004,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const windowHeight = window.innerHeight;
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-      // Update Reading Progress Bar
-      if (termsWrapper && progressFill) {
+      // Update Reading Progress Bars (Desktop & Mobile)
+      if (termsWrapper) {
         const wrapperRect = termsWrapper.getBoundingClientRect();
         const wrapperTop = wrapperRect.top + scrollTop;
         const wrapperHeight = wrapperRect.height;
         const totalScrollable = wrapperHeight - windowHeight + 100;
 
         let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
-        progressFill.style.width = `${percentage.toFixed(0)}%`;
-        if (readPercentText) readPercentText.textContent = `${percentage.toFixed(0)}%`;
+        const formattedPercent = `${percentage.toFixed(0)}%`;
+
+        if (progressFill) progressFill.style.width = formattedPercent;
+        if (readPercentText) readPercentText.textContent = formattedPercent;
+        if (mobileProgressFill) mobileProgressFill.style.width = formattedPercent;
+        if (mobileReadPercentText) mobileReadPercentText.textContent = formattedPercent;
+        if (fabPercentText) fabPercentText.textContent = formattedPercent;
       }
 
       // Highlight Active Nav Item based on center viewport position
@@ -998,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       termsNavItems.forEach((item, index) => {
-        if (index === activeIndex) {
+        if (index === activeIndex || index % termsCards.length === activeIndex) {
           item.classList.add('active');
         } else {
           item.classList.remove('active');
