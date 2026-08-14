@@ -757,29 +757,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Contact Form Submission Handler
-  // Automatic Background Email Dispatcher (via Web3Forms API Endpoint)
+  // Automatic Background Email Dispatcher (via FormSubmit AJAX to mar.miju.dev@gmail.com)
   async function sendEmailNotification(payload) {
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://formsubmit.co/ajax/mar.miju.dev@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          access_key: "b0b8c66e-9316-419c-8a16-16013a5a1f68", // Direct Web3Forms key delivering to mar.miju.dev@gmail.com
           name: payload.name,
           email: payload.email,
           category: payload.category,
           message: payload.message,
-          subject: `🚀 New Project Inquiry: ${payload.name} [${payload.category}]`,
-          from_name: "Shuddho Portfolio Contact Form"
+          _subject: `🚀 New Project Inquiry: ${payload.name} [${payload.category}]`,
+          _template: "table",
+          _captcha: "false"
         })
       });
-      return await res.json();
+      const data = await res.json();
+      return data;
     } catch (error) {
-      console.warn('Background email dispatch note:', error);
-      return { success: true };
+      console.warn('FormSubmit dispatch note:', error);
+      return { success: false };
     }
   }
 
