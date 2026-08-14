@@ -375,6 +375,9 @@ ul {
    justify-content: space-between;
    padding: 24px 20px;
    box-shadow: -10px 0 40px rgba(15, 23, 42, 0.15);
+   box-sizing: border-box;
+   overflow-x: hidden;
+   overflow-y: auto;
 }
 
 .mobile-drawer.open {
@@ -387,6 +390,7 @@ ul {
    justify-content: space-between;
    padding-bottom: 20px;
    border-bottom: 1px dotted #f1f5f9;
+   box-sizing: border-box;
 }
 
 .drawer-close-btn {
@@ -411,13 +415,17 @@ ul {
 .drawer-nav {
    margin: 24px 0;
    flex: 1;
+   overflow-x: hidden;
    overflow-y: auto;
+   box-sizing: border-box;
 }
 
 .drawer-list {
    display: flex;
    flex-direction: column;
    gap: 6px;
+   box-sizing: border-box;
+   width: 100%;
 }
 
 .drawer-link {
@@ -428,18 +436,19 @@ ul {
    color: #475569;
    border-radius: 12px;
    transition: var(--transition-smooth);
+   box-sizing: border-box;
 }
 
 .drawer-link:hover,
 .drawer-link.active {
    background-color: #eff6ff;
    color: var(--color-brand-blue);
-   transform: translateX(4px);
 }
 
 .drawer-footer {
    padding-top: 16px;
    border-top: 1px dotted #f1f5f9;
+   box-sizing: border-box;
 }
 
 .btn-drawer-cta {
@@ -447,6 +456,7 @@ ul {
    justify-content: center;
    padding: 12px 20px;
    font-size: 0.95rem;
+   box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -3477,6 +3487,7 @@ body {
    width: 300px;
    max-width: 85vw;
    height: 100vh;
+   overflow-x: hidden;
    overflow-y: auto;
    background: #ffffff;
    border-radius: 0 24px 24px 0;
