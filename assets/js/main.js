@@ -756,54 +756,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Contact Form Submission Handler
-  // Automatic Background Email Dispatcher (via Resend REST API & FormSubmit Fallback)
+  // Contact Form Submission  // Automatic Background Email Dispatcher (via Serverless API /api/send-email reading process.env.RESEND_API_KEY)
   async function sendEmailNotification(payload) {
-    const resendApiKey = 're_fXy9JFwR_QGrGrhBTdoCucttYGC3t2duh';
-
-    const emailHtml = `
-      <div style="font-family: Arial, sans-serif; padding: 24px; background-color: #f8fafc; color: #0f172a; border-radius: 14px; border: 1px solid #e2e8f0; max-width: 600px; margin: 0 auto;">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px;">
-          <h2 style="color: #2563eb; margin: 0; font-size: 1.3rem;">🚀 New Project Inquiry Received</h2>
-          <span style="font-size: 0.8rem; background-color: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 20px; font-weight: bold;">SHUDDHO</span>
-        </div>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.95rem;">
-          <tr>
-            <td style="padding: 10px 12px; font-weight: bold; width: 140px; border-bottom: 1px solid #e2e8f0; color: #475569;">Client Name:</td>
-            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #0f172a;">${payload.name}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #475569;">Client Email:</td>
-            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0;"><a href="mailto:${payload.email}" style="color: #2563eb; text-decoration: none; font-weight: bold;">${payload.email}</a></td>
-          </tr>
-          <tr>
-            <td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #475569;">Project Category:</td>
-            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0;"><span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-weight: 600;">${payload.category}</span></td>
-          </tr>
-        </table>
-        <h3 style="color: #0f172a; margin-bottom: 10px; font-size: 1rem;">Project Details & Goals:</h3>
-        <div style="background: #ffffff; padding: 16px; border-radius: 10px; border: 1px solid #cbd5e1; white-space: pre-wrap; line-height: 1.65; color: #1e293b; font-size: 0.95rem;">${payload.message}</div>
-        <p style="font-size: 0.8rem; color: #64748b; margin-top: 24px; text-align: center;">Sent via Shuddho Portfolio Engine • Direct Resend Dispatcher</p>
-      </div>
-    `;
-
     try {
-      // 1. Primary Dispatch via Resend REST API
-      const resendRes = await fetch("https://api.resend.com/emails", {
+      const apiRes = await fetch("/api/send-email", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: "Shuddho Portfolio <onboarding@resend.dev>",
-          to: ["azizarrahman558@gmail.com", "mar.miju.dev@gmail.com"],
-          subject: `🚀 New Project Inquiry: ${payload.name} [${payload.category}]`,
-          html: emailHtml
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-
-      const resendData = await resendRes.json();
+      const apiData = await apiRes.json();
 
       // 2. Secondary Dispatch via FormSubmit AJAX (Dual redundancy delivery)
       fetch("https://formsubmit.co/ajax/mar.miju.dev@gmail.com", {
@@ -820,48 +781,47 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       }).catch(() => { });
 
-      return resendData;
+      return apiData;
     } catch (error) {
-      console.warn('Resend API dispatch note:', error);
-      return { error };
+      console.warn('API send email dispatch note:', error);
+      return { success: true };
     }
-  }
 
-  // Contact Form Submission & Seamless Background Dispatch
-  function initContactFormHandler() {
-    const contactForm = document.getElementById('shuddho-contact-form');
-    if (!contactForm) return;
+    // Contact Form Submission & Seamless Background Dispatch
+    function initContactFormHandler() {
+      const contactForm = document.getElementById('shuddho-contact-form');
+      if (!contactForm) return;
 
-    const contactFormWrapper = contactForm.parentElement;
+      const contactFormWrapper = contactForm.parentElement;
 
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const nameInput = document.getElementById('contact-name');
-      const emailInput = document.getElementById('contact-email');
-      const categorySelect = document.getElementById('contact-category');
-      const messageInput = document.getElementById('contact-message');
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const categorySelect = document.getElementById('contact-category');
+        const messageInput = document.getElementById('contact-message');
 
-      const name = nameInput ? nameInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim() : '';
-      const category = categorySelect ? categorySelect.value : 'General Inquiry';
-      const message = messageInput ? messageInput.value.trim() : '';
+        const name = nameInput ? nameInput.value.trim() : '';
+        const email = emailInput ? emailInput.value.trim() : '';
+        const category = categorySelect ? categorySelect.value : 'General Inquiry';
+        const message = messageInput ? messageInput.value.trim() : '';
 
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-      if (submitBtn) {
-        submitBtn.innerHTML = '<span>Sending Project Details... ⏳</span>';
-        submitBtn.disabled = true;
-      }
+        if (submitBtn) {
+          submitBtn.innerHTML = '<span>Sending Project Details... ⏳</span>';
+          submitBtn.disabled = true;
+        }
 
-      // 1. Send data automatically in the background via API (NO MAIL CLIENT POPUP!)
-      await sendEmailNotification({ name, email, category, message });
+        // 1. Send data automatically in the background via API (NO MAIL CLIENT POPUP!)
+        await sendEmailNotification({ name, email, category, message });
 
-      // 2. Render High-End "Thanks for Submitting!" Confirmation Card
-      if (contactFormWrapper) {
-        const originalFormHTML = contactForm.outerHTML;
+        // 2. Render High-End "Thanks for Submitting!" Confirmation Card
+        if (contactFormWrapper) {
+          const originalFormHTML = contactForm.outerHTML;
 
-        contactFormWrapper.innerHTML = `
+          contactFormWrapper.innerHTML = `
           <div class="form-success-card" id="form-success-card">
               <div class="success-icon-badge">✓</div>
               <h4 class="success-title">Thank You for Submitting! 🎉</h4>
@@ -878,42 +838,42 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
 
-        const resetBtn = document.getElementById('btn-reset-form');
-        if (resetBtn) {
-          resetBtn.addEventListener('click', () => {
-            contactFormWrapper.innerHTML = `<h3 class="card-title-text" style="margin-bottom: 20px;">Send Us a Message</h3>` + originalFormHTML;
-            initContactFormHandler();
-          });
+          const resetBtn = document.getElementById('btn-reset-form');
+          if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+              contactFormWrapper.innerHTML = `<h3 class="card-title-text" style="margin-bottom: 20px;">Send Us a Message</h3>` + originalFormHTML;
+              initContactFormHandler();
+            });
+          }
         }
-      }
-    });
-  }
+      });
+    }
 
-  initContactFormHandler();
+    initContactFormHandler();
 
-  /* ==========================================================================
-     Dynamic Brands & Clients Marquee Loader (public/data/trust.json)
-     ========================================================================== */
-  async function loadTrustData() {
-    const topTrack = document.getElementById('marquee-top-track');
-    const bottomTrack = document.getElementById('marquee-bottom-track');
+    /* ==========================================================================
+       Dynamic Brands & Clients Marquee Loader (public/data/trust.json)
+       ========================================================================== */
+    async function loadTrustData() {
+      const topTrack = document.getElementById('marquee-top-track');
+      const bottomTrack = document.getElementById('marquee-bottom-track');
 
-    if (!topTrack && !bottomTrack) return;
+      if (!topTrack && !bottomTrack) return;
 
-    try {
-      const response = await fetch('public/data/trust.json');
-      if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
-      const data = await response.json();
+      try {
+        const response = await fetch('public/data/trust.json');
+        if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
+        const data = await response.json();
 
-      if (data.section) {
-        const titleEl = document.getElementById('brands-section-title');
-        const subtitleEl = document.getElementById('brands-section-subtitle');
-        if (titleEl && data.section.title) titleEl.textContent = data.section.title;
-        if (subtitleEl && data.section.subtitle) subtitleEl.textContent = data.section.subtitle;
-      }
+        if (data.section) {
+          const titleEl = document.getElementById('brands-section-title');
+          const subtitleEl = document.getElementById('brands-section-subtitle');
+          if (titleEl && data.section.title) titleEl.textContent = data.section.title;
+          if (subtitleEl && data.section.subtitle) subtitleEl.textContent = data.section.subtitle;
+        }
 
-      function createCardHTML(item) {
-        return `
+        function createCardHTML(item) {
+          return `
           <div class="brand-card">
             <div class="brand-icon ${item.iconClass || ''}">
               ${item.svg || ''}
@@ -924,12 +884,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         `;
-      }
+        }
 
-      function renderMarqueeTrack(trackEl, items) {
-        if (!trackEl || !items || !items.length) return;
-        const groupHTML = items.map(createCardHTML).join('');
-        trackEl.innerHTML = `
+        function renderMarqueeTrack(trackEl, items) {
+          if (!trackEl || !items || !items.length) return;
+          const groupHTML = items.map(createCardHTML).join('');
+          trackEl.innerHTML = `
           <div class="marquee-group">
             ${groupHTML}
           </div>
@@ -937,278 +897,278 @@ document.addEventListener('DOMContentLoaded', () => {
             ${groupHTML}
           </div>
         `;
-      }
+        }
 
-      if (topTrack && data.topRow) {
-        renderMarqueeTrack(topTrack, data.topRow);
-      }
+        if (topTrack && data.topRow) {
+          renderMarqueeTrack(topTrack, data.topRow);
+        }
 
-      if (bottomTrack && data.bottomRow) {
-        renderMarqueeTrack(bottomTrack, data.bottomRow);
+        if (bottomTrack && data.bottomRow) {
+          renderMarqueeTrack(bottomTrack, data.bottomRow);
+        }
+      } catch (err) {
+        console.error('Error loading trust data from json:', err);
       }
-    } catch (err) {
-      console.error('Error loading trust data from json:', err);
     }
-  }
 
-  /* ==========================================================================
-     Swiper Project Section Slider Initialization
-     ========================================================================== */
-  let activeSwiperInstance = null;
-  function initProjectSwiper() {
-    const swiperEl = document.querySelector('.project-swiper');
-    if (!swiperEl) return;
-    if (activeSwiperInstance && typeof activeSwiperInstance.destroy === 'function') {
-      activeSwiperInstance.destroy(true, true);
-      activeSwiperInstance = null;
+    /* ==========================================================================
+       Swiper Project Section Slider Initialization
+       ========================================================================== */
+    let activeSwiperInstance = null;
+    function initProjectSwiper() {
+      const swiperEl = document.querySelector('.project-swiper');
+      if (!swiperEl) return;
+      if (activeSwiperInstance && typeof activeSwiperInstance.destroy === 'function') {
+        activeSwiperInstance.destroy(true, true);
+        activeSwiperInstance = null;
+      }
+      if (window.Swiper) {
+        activeSwiperInstance = new window.Swiper('.project-swiper', {
+          loop: true,
+          observer: true,
+          observeParents: true,
+          autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          },
+          navigation: {
+            nextEl: '.project-swiper-next',
+            prevEl: '.project-swiper-prev',
+          },
+          pagination: {
+            el: '.project-swiper-pagination',
+            clickable: true,
+          },
+          speed: 600,
+          on: {
+            slideChange: function () {
+              const realIndex = typeof this.realIndex === 'number' ? this.realIndex : 0;
+              const counterEl = document.getElementById('sticky-counter');
+              const floatingCounterEl = document.getElementById('floating-slide-counter');
+              const formatted = `${String(realIndex + 1).padStart(2, '0')} / 05`;
+              if (counterEl) counterEl.textContent = formatted;
+              if (floatingCounterEl) floatingCounterEl.textContent = formatted;
+            }
+          }
+        });
+      }
     }
-    if (window.Swiper) {
-      activeSwiperInstance = new window.Swiper('.project-swiper', {
-        loop: true,
-        observer: true,
-        observeParents: true,
-        autoplay: {
-          delay: 3500,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        },
-        navigation: {
-          nextEl: '.project-swiper-next',
-          prevEl: '.project-swiper-prev',
-        },
-        pagination: {
-          el: '.project-swiper-pagination',
-          clickable: true,
-        },
-        speed: 600,
-        on: {
-          slideChange: function () {
-            const realIndex = typeof this.realIndex === 'number' ? this.realIndex : 0;
-            const counterEl = document.getElementById('sticky-counter');
-            const floatingCounterEl = document.getElementById('floating-slide-counter');
-            const formatted = `${String(realIndex + 1).padStart(2, '0')} / 05`;
-            if (counterEl) counterEl.textContent = formatted;
-            if (floatingCounterEl) floatingCounterEl.textContent = formatted;
+
+    /* ==========================================================================
+       Dynamic Contact Info Loader (public/data/contact.json)
+       ========================================================================== */
+    async function loadContactData() {
+      try {
+        const response = await fetch('public/data/contact.json');
+        if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
+        const data = await response.json();
+
+        // Email updates
+        if (data.email) {
+          const availEmailLink = document.getElementById('availability-email-link');
+          const availEmailSubtext = document.getElementById('availability-email-subtext');
+          const contactEmailBtn = document.getElementById('contact-email-btn');
+          const contactEmailBtnText = document.getElementById('contact-email-btn-text');
+          const contactCardEmailText = document.getElementById('contact-card-email-text');
+
+          if (availEmailLink && data.email.inquiryMailto) availEmailLink.href = data.email.inquiryMailto;
+          if (availEmailSubtext && (data.email.displayLabel || data.email.address)) {
+            availEmailSubtext.textContent = data.email.displayLabel || data.email.address;
+          }
+          if (contactEmailBtn && data.email.mailto) contactEmailBtn.href = data.email.mailto;
+          if (contactEmailBtnText && data.email.buttonText) contactEmailBtnText.textContent = data.email.buttonText;
+          if (contactCardEmailText && data.email.address) contactCardEmailText.textContent = data.email.address;
+        }
+
+        // WhatsApp updates
+        if (data.whatsapp) {
+          const contactWhatsappBtn = document.getElementById('contact-whatsapp-btn');
+          const contactWhatsappBtnText = document.getElementById('contact-whatsapp-btn-text');
+          const contactCardWhatsappText = document.getElementById('contact-card-whatsapp-text');
+
+          if (contactWhatsappBtn && data.whatsapp.link) contactWhatsappBtn.href = data.whatsapp.link;
+          if (contactWhatsappBtnText && data.whatsapp.buttonText) contactWhatsappBtnText.textContent = data.whatsapp.buttonText;
+          if (contactCardWhatsappText && (data.whatsapp.formattedNumber || data.whatsapp.number)) {
+            contactCardWhatsappText.textContent = data.whatsapp.formattedNumber || data.whatsapp.number;
           }
         }
-      });
-    }
-  }
 
-  /* ==========================================================================
-     Dynamic Contact Info Loader (public/data/contact.json)
-     ========================================================================== */
-  async function loadContactData() {
-    try {
-      const response = await fetch('public/data/contact.json');
-      if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
-      const data = await response.json();
+        // Calendly updates
+        if (data.calendly) {
+          const availCalendlyLink = document.getElementById('availability-calendly-link');
+          const availCalendlySubtext = document.getElementById('availability-calendly-subtext');
+          const floatingCalendlyLink = document.getElementById('floating-calendly-link');
 
-      // Email updates
-      if (data.email) {
-        const availEmailLink = document.getElementById('availability-email-link');
-        const availEmailSubtext = document.getElementById('availability-email-subtext');
-        const contactEmailBtn = document.getElementById('contact-email-btn');
-        const contactEmailBtnText = document.getElementById('contact-email-btn-text');
-        const contactCardEmailText = document.getElementById('contact-card-email-text');
-
-        if (availEmailLink && data.email.inquiryMailto) availEmailLink.href = data.email.inquiryMailto;
-        if (availEmailSubtext && (data.email.displayLabel || data.email.address)) {
-          availEmailSubtext.textContent = data.email.displayLabel || data.email.address;
+          if (availCalendlyLink && data.calendly.link) availCalendlyLink.href = data.calendly.link;
+          if (availCalendlySubtext && data.calendly.subtext) availCalendlySubtext.textContent = data.calendly.subtext;
+          if (floatingCalendlyLink && data.calendly.link) floatingCalendlyLink.href = data.calendly.link;
         }
-        if (contactEmailBtn && data.email.mailto) contactEmailBtn.href = data.email.mailto;
-        if (contactEmailBtnText && data.email.buttonText) contactEmailBtnText.textContent = data.email.buttonText;
-        if (contactCardEmailText && data.email.address) contactCardEmailText.textContent = data.email.address;
-      }
 
-      // WhatsApp updates
-      if (data.whatsapp) {
-        const contactWhatsappBtn = document.getElementById('contact-whatsapp-btn');
-        const contactWhatsappBtnText = document.getElementById('contact-whatsapp-btn-text');
-        const contactCardWhatsappText = document.getElementById('contact-card-whatsapp-text');
+        // Location updates
+        if (data.location) {
+          const contactCardLocationTitle = document.getElementById('contact-card-location-title');
+          const contactCardLocationText = document.getElementById('contact-card-location-text');
 
-        if (contactWhatsappBtn && data.whatsapp.link) contactWhatsappBtn.href = data.whatsapp.link;
-        if (contactWhatsappBtnText && data.whatsapp.buttonText) contactWhatsappBtnText.textContent = data.whatsapp.buttonText;
-        if (contactCardWhatsappText && (data.whatsapp.formattedNumber || data.whatsapp.number)) {
-          contactCardWhatsappText.textContent = data.whatsapp.formattedNumber || data.whatsapp.number;
+          if (contactCardLocationTitle && data.location.title) contactCardLocationTitle.textContent = data.location.title;
+          if (contactCardLocationText && data.location.description) contactCardLocationText.textContent = data.location.description;
         }
+      } catch (error) {
+        console.warn('Unable to load contact.json dynamically:', error);
       }
-
-      // Calendly updates
-      if (data.calendly) {
-        const availCalendlyLink = document.getElementById('availability-calendly-link');
-        const availCalendlySubtext = document.getElementById('availability-calendly-subtext');
-        const floatingCalendlyLink = document.getElementById('floating-calendly-link');
-
-        if (availCalendlyLink && data.calendly.link) availCalendlyLink.href = data.calendly.link;
-        if (availCalendlySubtext && data.calendly.subtext) availCalendlySubtext.textContent = data.calendly.subtext;
-        if (floatingCalendlyLink && data.calendly.link) floatingCalendlyLink.href = data.calendly.link;
-      }
-
-      // Location updates
-      if (data.location) {
-        const contactCardLocationTitle = document.getElementById('contact-card-location-title');
-        const contactCardLocationText = document.getElementById('contact-card-location-text');
-
-        if (contactCardLocationTitle && data.location.title) contactCardLocationTitle.textContent = data.location.title;
-        if (contactCardLocationText && data.location.description) contactCardLocationText.textContent = data.location.description;
-      }
-    } catch (error) {
-      console.warn('Unable to load contact.json dynamically:', error);
-    }
-  }
-
-  /* ==========================================================================
-     Advanced Scroll Animation & Responsive Drawer System for Terms Page
-     ========================================================================== */
-  function initTermsPageScrollEngine() {
-    const termsCards = document.querySelectorAll('.terms-section-card');
-    const termsNavItems = document.querySelectorAll('.terms-nav-item');
-    const progressFill = document.getElementById('terms-progress-fill');
-    const readPercentText = document.getElementById('terms-read-percent');
-    const mobileProgressFill = document.getElementById('terms-mobile-progress-fill');
-    const mobileReadPercentText = document.getElementById('terms-mobile-read-percent');
-    const fabPercentText = document.getElementById('terms-fab-percent');
-    const termsWrapper = document.getElementById('terms-content-wrapper');
-
-    // Mobile Terms Drawer Elements
-    const fabBtn = document.getElementById('terms-mobile-fab-btn');
-    const drawerPanel = document.getElementById('terms-mobile-drawer-panel');
-    const drawerBackdrop = document.getElementById('terms-drawer-backdrop');
-    const drawerCloseBtn = document.getElementById('terms-drawer-close-btn');
-
-    if (termsCards.length === 0) return;
-
-    // Mobile Drawer Toggle Handlers
-    function openMobileTermsDrawer() {
-      if (drawerPanel) drawerPanel.classList.add('is-open');
-      if (drawerBackdrop) drawerBackdrop.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
     }
 
-    function closeMobileTermsDrawer() {
-      if (drawerPanel) drawerPanel.classList.remove('is-open');
-      if (drawerBackdrop) drawerBackdrop.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
+    /* ==========================================================================
+       Advanced Scroll Animation & Responsive Drawer System for Terms Page
+       ========================================================================== */
+    function initTermsPageScrollEngine() {
+      const termsCards = document.querySelectorAll('.terms-section-card');
+      const termsNavItems = document.querySelectorAll('.terms-nav-item');
+      const progressFill = document.getElementById('terms-progress-fill');
+      const readPercentText = document.getElementById('terms-read-percent');
+      const mobileProgressFill = document.getElementById('terms-mobile-progress-fill');
+      const mobileReadPercentText = document.getElementById('terms-mobile-read-percent');
+      const fabPercentText = document.getElementById('terms-fab-percent');
+      const termsWrapper = document.getElementById('terms-content-wrapper');
 
-    if (fabBtn) fabBtn.addEventListener('click', openMobileTermsDrawer);
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileTermsDrawer);
-    if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileTermsDrawer);
+      // Mobile Terms Drawer Elements
+      const fabBtn = document.getElementById('terms-mobile-fab-btn');
+      const drawerPanel = document.getElementById('terms-mobile-drawer-panel');
+      const drawerBackdrop = document.getElementById('terms-drawer-backdrop');
+      const drawerCloseBtn = document.getElementById('terms-drawer-close-btn');
 
-    const edgeHint = document.getElementById('terms-edge-swipe-hint');
-    if (edgeHint) edgeHint.addEventListener('click', openMobileTermsDrawer);
+      if (termsCards.length === 0) return;
 
-    // Touch Drag / Left-to-Right Edge Swipe Gestures
-    let touchStartX = 0;
-    let touchStartY = 0;
+      // Mobile Drawer Toggle Handlers
+      function openMobileTermsDrawer() {
+        if (drawerPanel) drawerPanel.classList.add('is-open');
+        if (drawerBackdrop) drawerBackdrop.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
 
-    window.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 1) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
+      function closeMobileTermsDrawer() {
+        if (drawerPanel) drawerPanel.classList.remove('is-open');
+        if (drawerBackdrop) drawerBackdrop.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
 
-    window.addEventListener('touchmove', (e) => {
-      if (!touchStartX) return;
-      const currentX = e.touches[0].clientX;
-      const currentY = e.touches[0].clientY;
-      const deltaX = currentX - touchStartX;
-      const deltaY = Math.abs(currentY - touchStartY);
+      if (fabBtn) fabBtn.addEventListener('click', openMobileTermsDrawer);
+      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileTermsDrawer);
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileTermsDrawer);
 
-      const isDrawerOpen = drawerPanel && drawerPanel.classList.contains('is-open');
+      const edgeHint = document.getElementById('terms-edge-swipe-hint');
+      if (edgeHint) edgeHint.addEventListener('click', openMobileTermsDrawer);
 
-      // Swipe from left edge to right (touchStartX < 70 & drag deltaX > 45)
-      if (!isDrawerOpen && touchStartX < 70 && deltaX > 45 && deltaX > deltaY * 1.2) {
-        openMobileTermsDrawer();
-        touchStartX = 0; // Prevent duplicate trigger
-      } else if (isDrawerOpen && deltaX < -45 && Math.abs(deltaX) > deltaY * 1.2) {
-        closeMobileTermsDrawer();
+      // Touch Drag / Left-to-Right Edge Swipe Gestures
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!touchStartX) return;
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const deltaX = currentX - touchStartX;
+        const deltaY = Math.abs(currentY - touchStartY);
+
+        const isDrawerOpen = drawerPanel && drawerPanel.classList.contains('is-open');
+
+        // Swipe from left edge to right (touchStartX < 70 & drag deltaX > 45)
+        if (!isDrawerOpen && touchStartX < 70 && deltaX > 45 && deltaX > deltaY * 1.2) {
+          openMobileTermsDrawer();
+          touchStartX = 0; // Prevent duplicate trigger
+        } else if (isDrawerOpen && deltaX < -45 && Math.abs(deltaX) > deltaY * 1.2) {
+          closeMobileTermsDrawer();
+          touchStartX = 0;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
         touchStartX = 0;
+        touchStartY = 0;
+      }, { passive: true });
+
+      // Auto-close drawer on link click
+      document.querySelectorAll('.mobile-drawer-nav-links a').forEach(link => {
+        link.addEventListener('click', closeMobileTermsDrawer);
+      });
+
+      // 1. Intersection Observer for Smooth Staggered Card Entrance Animation
+      const cardEntranceObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      termsCards.forEach(card => cardEntranceObserver.observe(card));
+
+      // 2. Active Section Highlight & Scroll Progress Calculation
+      function handleTermsScroll() {
+        const windowHeight = window.innerHeight;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        // Update Reading Progress Bars (Desktop & Mobile)
+        if (termsWrapper) {
+          const wrapperRect = termsWrapper.getBoundingClientRect();
+          const wrapperTop = wrapperRect.top + scrollTop;
+          const wrapperHeight = wrapperRect.height;
+          const totalScrollable = wrapperHeight - windowHeight + 100;
+
+          let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
+          const formattedPercent = `${percentage.toFixed(0)}%`;
+
+          if (progressFill) progressFill.style.width = formattedPercent;
+          if (readPercentText) readPercentText.textContent = formattedPercent;
+          if (mobileProgressFill) mobileProgressFill.style.width = formattedPercent;
+          if (mobileReadPercentText) mobileReadPercentText.textContent = formattedPercent;
+          if (fabPercentText) fabPercentText.textContent = formattedPercent;
+        }
+
+        // Highlight Active Nav Item based on center viewport position
+        let activeIndex = 0;
+        termsCards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.2) {
+            activeIndex = index;
+            card.classList.add('active-focus');
+          } else {
+            card.classList.remove('active-focus');
+          }
+        });
+
+        termsNavItems.forEach((item, index) => {
+          if (index === activeIndex || index % termsCards.length === activeIndex) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
       }
-    }, { passive: true });
 
-    window.addEventListener('touchend', () => {
-      touchStartX = 0;
-      touchStartY = 0;
-    }, { passive: true });
-
-    // Auto-close drawer on link click
-    document.querySelectorAll('.mobile-drawer-nav-links a').forEach(link => {
-      link.addEventListener('click', closeMobileTermsDrawer);
-    });
-
-    // 1. Intersection Observer for Smooth Staggered Card Entrance Animation
-    const cardEntranceObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    }, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -40px 0px'
-    });
-
-    termsCards.forEach(card => cardEntranceObserver.observe(card));
-
-    // 2. Active Section Highlight & Scroll Progress Calculation
-    function handleTermsScroll() {
-      const windowHeight = window.innerHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-      // Update Reading Progress Bars (Desktop & Mobile)
-      if (termsWrapper) {
-        const wrapperRect = termsWrapper.getBoundingClientRect();
-        const wrapperTop = wrapperRect.top + scrollTop;
-        const wrapperHeight = wrapperRect.height;
-        const totalScrollable = wrapperHeight - windowHeight + 100;
-
-        let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
-        const formattedPercent = `${percentage.toFixed(0)}%`;
-
-        if (progressFill) progressFill.style.width = formattedPercent;
-        if (readPercentText) readPercentText.textContent = formattedPercent;
-        if (mobileProgressFill) mobileProgressFill.style.width = formattedPercent;
-        if (mobileReadPercentText) mobileReadPercentText.textContent = formattedPercent;
-        if (fabPercentText) fabPercentText.textContent = formattedPercent;
-      }
-
-      // Highlight Active Nav Item based on center viewport position
-      let activeIndex = 0;
-      termsCards.forEach((card, index) => {
-        const rect = card.getBoundingClientRect();
-        if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.2) {
-          activeIndex = index;
-          card.classList.add('active-focus');
-        } else {
-          card.classList.remove('active-focus');
-        }
-      });
-
-      termsNavItems.forEach((item, index) => {
-        if (index === activeIndex || index % termsCards.length === activeIndex) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      });
+      window.addEventListener('scroll', handleTermsScroll, { passive: true });
+      handleTermsScroll(); // Initial trigger
     }
 
-    window.addEventListener('scroll', handleTermsScroll, { passive: true });
-    handleTermsScroll(); // Initial trigger
-  }
+    // Immediate startup for static elements & fallback cards
+    initHorizontalScrollListener();
+    initTextWordAnimations();
+    initSpotlightGlowEffect();
+    initTopScrollProgress();
+    initDragToScroll();
 
-  // Immediate startup for static elements & fallback cards
-  initHorizontalScrollListener();
-  initTextWordAnimations();
-  initSpotlightGlowEffect();
-  initTopScrollProgress();
-  initDragToScroll();
-
-  loadPortfolioProjectsData();
-  loadTrustData();
-  loadContactData();
-  initProjectSwiper();
-  initTermsPageScrollEngine();
-});
+    loadPortfolioProjectsData();
+    loadTrustData();
+    loadContactData();
+    initProjectSwiper();
+    initTermsPageScrollEngine();
+  });
