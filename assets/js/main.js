@@ -818,7 +818,7 @@ document.addEventListener('DOMContentLoaded', () => {
           _template: "table",
           _captcha: "false"
         })
-      }).catch(() => {});
+      }).catch(() => { });
 
       return resendData;
     } catch (error) {

@@ -2029,9 +2029,9 @@ ul {
 }
 
 .contact-card-box {
-   background-color: #ffffff;
-   border: 1px solid var(--color-border);
-   border-radius: 28px;
+   /* background-color: #ffffff; */
+   /* border: 1px solid var(--color-border); */
+   /* border-radius: 28px; */
    padding: 40px;
    /* box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.06); */
 }
