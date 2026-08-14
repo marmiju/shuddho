@@ -715,17 +715,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Availability Section Expansion on "Check Availability & Work Together" click
+  // Toggle Availability Section Expansion smoothly on "Check Availability & Work Together" click
   if (btnViewAll && carouselContainer) {
     btnViewAll.addEventListener('click', () => {
-      if (carouselContainer.style.display === 'none' || !carouselContainer.style.display) {
-        carouselContainer.style.display = 'block';
-        carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const spanText = btnViewAll.querySelector('span:first-child');
+      const isExpanded = carouselContainer.classList.contains('is-expanded');
+      const spanText = btnViewAll.querySelector('span:first-child');
+
+      if (!isExpanded) {
+        carouselContainer.classList.add('is-expanded');
+        // Set dynamic max-height to exact scrollHeight for smooth transition
+        const fullHeight = carouselContainer.scrollHeight + 120;
+        carouselContainer.style.maxHeight = `${fullHeight}px`;
+
+        setTimeout(() => {
+          carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+
         if (spanText) spanText.textContent = 'Hide Availability Details';
       } else {
-        carouselContainer.style.display = 'none';
-        const spanText = btnViewAll.querySelector('span:first-child');
+        carouselContainer.style.maxHeight = '0px';
+        carouselContainer.classList.remove('is-expanded');
+
         if (spanText) spanText.textContent = '⚡ Check Availability & Work Together';
       }
     });
