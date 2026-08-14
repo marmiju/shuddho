@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     Dynamic Trusted Brands JSON Loader (public/data/trust.json)
+     Dynamic Trusted Brands JSON Loader (data/trust.json)
      ========================================================================== */
   function createBrandGroupHTML(brands, isClone = false) {
     const cardsHTML = brands.map(brand => `
@@ -216,8 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadTrustBrandsData() {
     try {
-      // Fetch JSON from public/data/trust.json
-      const response = await fetch('public/data/trust.json');
+      // Fetch JSON from data/trust.json
+      const response = await fetch('data/trust.json');
       if (!response.ok) return;
       const data = await response.json();
 
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadPortfolioProjectsData() {
     try {
-      const response = await fetch('public/data/projects.json');
+      const response = await fetch('data/projects.json');
       if (!response.ok) return;
       const data = await response.json();
 
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactFormHandler();
 
     /* ==========================================================================
-       Dynamic Brands & Clients Marquee Loader (public/data/trust.json)
+       Dynamic Brands & Clients Marquee Loader (data/trust.json)
        ========================================================================== */
     async function loadTrustData() {
       const topTrack = document.getElementById('marquee-top-track');
@@ -861,7 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!topTrack && !bottomTrack) return;
 
       try {
-        const response = await fetch('public/data/trust.json');
+        const response = await fetch('data/trust.json');
         if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
         const data = await response.json();
 
@@ -956,11 +956,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       Dynamic Contact Info Loader (public/data/contact.json)
+       Dynamic Contact Info Loader (data/contact.json)
        ========================================================================== */
     async function loadContactData() {
       try {
-        const response = await fetch('public/data/contact.json');
+        const response = await fetch('data/contact.json');
         if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
         const data = await response.json();
 

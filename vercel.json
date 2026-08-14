@@ -1,17 +1,13 @@
 {
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
+  "framework": null,
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
       "source": "/terms",
       "destination": "/terms.html"
-    },
-    {
-      "source": "/data/:path*",
-      "destination": "/public/data/:path*"
     }
   ]
 }
