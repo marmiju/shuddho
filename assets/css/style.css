@@ -3350,3 +3350,93 @@ body {
       padding: 28px 24px;
    }
 }
+
+/* Document Header Card */
+.terms-doc-header-card {
+   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+   border-radius: 24px;
+   padding: 36px 40px;
+   color: #ffffff;
+   box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.25);
+   margin-bottom: 8px;
+}
+
+.doc-meta-row {
+   display: flex;
+   gap: 12px;
+   flex-wrap: wrap;
+   margin-bottom: 16px;
+}
+
+.doc-meta-pill {
+   font-size: 0.72rem;
+   font-weight: 800;
+   color: #38bdf8;
+   background: rgba(56, 189, 248, 0.12);
+   border: 1px solid rgba(56, 189, 248, 0.25);
+   padding: 4px 12px;
+   border-radius: 100px;
+   letter-spacing: 0.06em;
+}
+
+.doc-main-title {
+   font-size: 1.8rem;
+   font-weight: 800;
+   color: #ffffff;
+   margin-bottom: 12px;
+   letter-spacing: -0.025em;
+}
+
+.doc-meta-subtext {
+   font-size: 0.95rem;
+   color: #94a3b8;
+   line-height: 1.65;
+   margin: 0;
+}
+
+.doc-meta-subtext strong {
+   color: #f8fafc;
+}
+
+/* Professional Legal Tables */
+.legal-table-wrapper {
+   overflow-x: auto;
+   margin-top: 20px;
+   border: 1px solid var(--color-border);
+   border-radius: 16px;
+   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+}
+
+.legal-table {
+   width: 100%;
+   border-collapse: collapse;
+   font-size: 0.9rem;
+   text-align: left;
+}
+
+.legal-table th {
+   background-color: #f8fafc;
+   color: var(--color-dark-text);
+   font-weight: 800;
+   padding: 14px 18px;
+   border-bottom: 1px solid var(--color-border);
+   font-size: 0.75rem;
+   letter-spacing: 0.06em;
+   text-transform: uppercase;
+}
+
+.legal-table td {
+   padding: 14px 18px;
+   color: var(--color-body-text);
+   border-bottom: 1px solid #f1f5f9;
+   line-height: 1.55;
+   vertical-align: top;
+}
+
+.legal-table tr:last-child td {
+   border-bottom: none;
+}
+
+.legal-table tr:hover td {
+   background-color: rgba(37, 99, 235, 0.025);
+}
