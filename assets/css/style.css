@@ -1042,35 +1042,51 @@ ul {
 /* Media Queries for Brands Section */
 @media (max-width: 768px) {
    .brands-section {
-      /* margin-top: 16px; */
-      padding: 40px 16px;
-      border-radius: 20px;
+      padding: 32px 0;
+      overflow: hidden;
    }
 
    .brands-header {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
+      padding: 0 12px;
    }
 
    .marquee-fade {
-      width: 60px;
+      width: 24px;
+   }
+
+   .brands-marquee-wrapper {
+      gap: 12px;
+      padding: 4px 0;
+   }
+
+   .marquee-group {
+      gap: 12px;
    }
 
    .brand-card {
-      padding: 10px 16px;
-      min-width: 190px;
+      padding: 10px 14px;
+      min-width: 165px;
+      gap: 10px;
+      border-radius: 14px;
    }
 
    .brand-icon {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+   }
+
+   .brand-name {
+      font-size: 0.85rem;
    }
 
    .track-left-to-right {
-      animation-duration: 25s;
+      animation-duration: 22s;
    }
 
    .track-right-to-left {
-      animation-duration: 25s;
+      animation-duration: 22s;
    }
 }
 
