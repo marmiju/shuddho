@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuddho — Building bold web apps with modern engineering</title>
+    <!-- Modern Typography: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Swiper Slider CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="assets/js/main.js" defer></script>
+</head>
+
+<body>
+    <!-- Top Reading Scroll Progress Bar -->
+    <div class="top-scroll-progress" id="top-scroll-progress"></div>
+
+    <!-- Custom Cursor Pointer Elements -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+    <div class="custom-cursor-circle" id="cursor-circle"></div>
+
+    <!-- Mobile Drawer Backdrop Overlay -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Mobile Navigation Drawer -->
+    <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation Drawer">
+        <div class="drawer-header">
+            <a href="#" class="brand-logo">
+                <span class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                </span>
+                <span class="logo-text">Shuddho<span class="brand-dot">.</span></span>
+            </a>
+            <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Close navigation drawer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="drawer-nav">
+            <ul class="drawer-list">
+                <li class="drawer-item"><a href="#" class="drawer-link active">Home</a></li>
+                <li class="drawer-item"><a href="#about" class="drawer-link">About us</a></li>
+                <li class="drawer-item"><a href="#services" class="drawer-link">Services</a></li>
+                <li class="drawer-item"><a href="#work" class="drawer-link">Work</a></li>
+                <li class="drawer-item"><a href="#stack" class="drawer-link">Tech Stack</a></li>
+                <li class="drawer-item"><a href="#pricing" class="drawer-link">Pricing</a></li>
+                <li class="drawer-item"><a href="#testimonials" class="drawer-link">Reviews</a></li>
+            </ul>
+        </nav>
+
+        <div class="drawer-footer">
+            <a href="#collaborate" class="btn-dark btn-drawer-cta">
+                <span>Let's Collaborate</span>
+                <span class="badge-icon">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </aside>
+    <div class="container">
+        <header class="header">
+            <a href="#" class="brand-logo" id="brand-logo">
+                <span class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                </span>
+                <span class="logo-text">Shuddho<span class="brand-dot">.</span></span>
+            </a>
+
+            <nav class="nav-capsule" aria-label="Main Navigation">
+                <ul class="nav-list" id="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link active">home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link ">About us</a></li>
+                    <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="#work" class="nav-link">Work</a></li>
+                    <li class="nav-item"><a href="#stack" class="nav-link">Tech Stack</a></li>
+                    <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li class="nav-item"><a href="#testimonials" class="nav-link">Reviews</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#collaborate" class="btn-dark btn-collaborate" id="btn-collaborate">
+                    <span>Let's Collaborate</span>
+                    <span class="badge-icon">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- Hamburger Mobile Appbar Toggle Button -->
+                <button class="mobile-toggle-btn" id="mobile-toggle-btn" aria-label="Open mobile menu">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
+            </div>
+
+        </header>
+    </div>
+
+    <!-- Main Outer Wrapper -->
+    <section class="hero-card">
+        <div class="container">
+            <div class="hero-card__inner">
+                <!-- Subtle Ambient Background Glows in Blue Tones -->
+                <div class="ambient-glow glow-blue-primary"></div>
+                <div class="ambient-glow glow-cyan-secondary"></div>
+
+                <!-- Navbar -->
+
+
+                <!-- Hero Main Content (Development Focused) -->
+                <div class="hero-body">
+                    <h1 class="hero-title">
+                        Building bold web apps <br>with modern engineering
+                    </h1>
+                    <p class="hero-description">
+                        At Shuddho, we help ambitious startups and enterprises build scalable web applications, robust
+                        APIs,
+                        and high-performance digital products engineered for success.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#get-started" class="btn-dark btn-get-started" id="btn-get-started">
+                            <span>Get Started</span>
+                            <span class="badge-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </span>
+                        </a>
+
+                        <div class="social-proof">
+                            <div class="avatar-group">
+                                <figure class="avatar-item">
+                                    <img src="assets/images/avatar1.png" alt="Client 1">
+                                </figure>
+                                <figure class="avatar-item">
+                                    <img src="assets/images/avatar2.png" alt="Client 2">
+                                </figure>
+                                <figure class="avatar-item">
+                                    <img src="assets/images/avatar3.png" alt="Client 3">
+                                </figure>
+                                <figure class="avatar-item">
+                                    <img src="assets/images/avatar4.png" alt="Client 4">
+                                </figure>
+                            </div>
+                            <div class="rating-info">
+                                <div class="stars" aria-label="5 out of 5 stars">
+                                    ★★★★★
+                                </div>
+                                <span class="rating-label">Trusted by 20+ clients</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </section>
+    </div>
+    </div>
+
+    <!-- Trusted Brands & Past Clients Parallax Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="brands-section" id="clients">
+            <!-- Subtle Radial Glow Background -->
+            <div class="brands-glow"></div>
+            <div class="brands-header">
+                <!-- <div class="section-badge">
+                    <span class="badge-dot"></span>
+                    <span>PAST CLIENTS & PARTNERS</span>
+                </div> -->
+                <h2 class="brands-title" id="brands-section-title">Trusted by innovative teams & ambitious founders</h2>
+                <p class="brands-subtitle" id="brands-section-subtitle">
+                    Engineered modern web architectures, high-speed applications, and scalable products for top-tier
+                    brands globally.
+                </p>
+            </div>
+
+            <div class="brands-marquee-wrapper">
+                <!-- Edge Gradient Mask Overlays -->
+                <div class="marquee-fade fade-left"></div>
+                <div class="marquee-fade fade-right"></div>
+
+                <!-- Top Row: Left to Right Parallax Animation -->
+                <div class="marquee-row marquee-top">
+                    <div class="marquee-track track-left-to-right" id="marquee-top-track">
+                        <!-- Dynamically populated from public/data/trust.json -->
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Right to Left Parallax Animation -->
+                <div class="marquee-row marquee-bottom">
+                    <div class="marquee-track track-right-to-left" id="marquee-bottom-track">
+                        <!-- Dynamically populated from public/data/trust.json -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <!-- Portfolio Featured Capabilities Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="projects-section" id="work">
+            <div class="projects-glow"></div>
+
+            <div class="projects-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span id="projects-badge-text">WHAT WE BUILD</span>
+                </div>
+                <h2 class="projects-title reveal-word-target" id="projects-main-title">Vortex Athletics — Energetic +
+                    Premium Fitness Brand</h2>
+                <p class="projects-subtitle fade-in-up" id="projects-main-subtitle">
+                    High-performance web architecture, energetic brand identity, and scalable product platform built for
+                    Vortex Athletics.
+                </p>
+            </div>
+
+            <!-- Sticky Split Layout Showcase Container -->
+            <div class="projects-split-container">
+                <!-- Sticky Left Content Sidebar -->
+                <div class="projects-sticky-left" id="projects-sticky-left">
+                    <div class="sticky-card-box">
+                        <div class="sticky-header-title">
+                            <div class="brand-icon" id="sticky-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                            </div>
+                            <h3 class="sticky-title" id="sticky-title">Vortex Athletics</h3>
+                        </div>
+                        <p class="sticky-description" id="sticky-description">
+                            Energetic + premium web platform engineered for Vortex Athletics. Built with ultra-fast page
+                            load performance, high-contrast athletic typography, dynamic product catalog showcases, and
+                            responsive fitness brand architecture.
+                        </p>
+                        <div class="sticky-metric-badge" id="sticky-metric-badge">
+                            <span class="metric-icon">⚡</span>
+                            <span id="sticky-metric-text">⚡ Live Project • 5 High-Res Sections</span>
+                        </div>
+                        <div class="sticky-actions">
+                            <a href="https://marmiju.github.io/VERTEX-athletics/" target="_blank" rel="noopener"
+                                class="btn-dark btn-project" id="sticky-cta-btn">
+                                <span>Visit Live Web App</span>
+                                <span class="badge-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                                        <polyline points="7 7 17 7 17 17"></polyline>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Swiper Project Section Slider -->
+                <div class="projects-scroll-right" id="projects-scroll-right">
+                    <div class="project-scroll-item active swiper-project-card" data-project-id="vortex-athletics"
+                        data-index="0">
+                        <!-- Top Right Floating Slide Counter Badge -->
+                        <div class="floating-slide-counter" id="floating-slide-counter">01 / 05</div>
+
+                        <div class="swiper project-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="project-image-box">
+                                        <img src="assets/images/vertex-sec-1.png" alt="Vortex Athletics Hero Section"
+                                            class="project-scroll-img">
+                                        <div class="image-overlay-title">01 / 05 — Hero Sanctuary & Keycard Access</div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="project-image-box">
+                                        <img src="assets/images/vertex-sec-2.png" alt="Vortex AI Fitness Engine"
+                                            class="project-scroll-img">
+                                        <div class="image-overlay-title">02 / 05 — AI-Optimized TDEE & Nutrition Engine
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="project-image-box">
+                                        <img src="assets/images/vertex-sec-3.png" alt="Vortex Built for Athletes"
+                                            class="project-scroll-img">
+                                        <div class="image-overlay-title">03 / 05 — Built for Unstoppable Athletes</div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="project-image-box">
+                                        <img src="assets/images/vertex-sec-4.png" alt="Vortex Live Timetable"
+                                            class="project-scroll-img">
+                                        <div class="image-overlay-title">04 / 05 — Live Weekly Class Timetable</div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="project-image-box">
+                                        <img src="assets/images/vertex-sec-5.png" alt="Vortex Athlete Stories"
+                                            class="project-scroll-img">
+                                        <div class="image-overlay-title">05 / 05 — Community Stories & Bloopers</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hover Slide Navigation Arrows -->
+                            <div class="swiper-button-prev project-swiper-prev"></div>
+                            <div class="swiper-button-next project-swiper-next"></div>
+
+                            <!-- Swiper Pagination Bullets -->
+                            <div class="swiper-pagination project-swiper-pagination"></div>
+                        </div>
+                    </div>
+                    <div class="project-scroll-item" data-project-id="ironpeak-fitness" data-index="1">
+                        <div class="project-image-box">
+                            <img src="assets/images/project-ironpeak.png" alt="IronPeak Gym & Fitness Preview"
+                                class="project-scroll-img">
+                            <div class="image-overlay-title">IronPeak Gym & Fitness</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All Capabilities & Active Builds CTA Trigger -->
+            <div class="projects-cta-wrapper">
+                <button class="btn-dark btn-view-all-projects" id="btn-view-all-projects">
+                    <span>View Currently Building — Active Team Builds</span>
+                    <span class="badge-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Currently Building Interactive Carousel (Revealed on View All) -->
+            <div class="projects-carousel-container" id="projects-carousel-container" style="display: none;">
+                <div class="carousel-header">
+                    <div class="carousel-heading-group">
+                        <h3 class="carousel-title">Currently Building — Active Team Builds</h3>
+                        <p class="carousel-subtitle">Explore real internal projects, API engines, and prototypes
+                            currently in development by the Shuddho team.</p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn btn-prev" id="carousel-prev-btn" aria-label="Previous Slide">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <span class="carousel-counter" id="carousel-counter">01 / 04</span>
+                        <button class="carousel-btn btn-next" id="carousel-next-btn" aria-label="Next Slide">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="carousel-track-wrapper">
+                    <div class="carousel-track" id="carousel-track">
+                        <!-- Populated dynamically by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Us Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="shuddho-section" id="about">
+            <div class="shuddho-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>ABOUT SHUDDHO</span>
+                </div>
+                <h2 class="projects-title reveal-word-target">Engineered for Modern Digital Execution</h2>
+                <p class="projects-subtitle fade-in-up">
+                    At Shuddho, we turn business requirements into practical digital experiences. We are a software
+                    development team focused on clean architecture, high-performance web applications, and direct client
+                    collaboration.
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <div class="shuddho-card" style="height: 100%;">
+                        <div class="card-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M12 2v20M2 12h20" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title-text">Our Development Mindset</h3>
+                        <p class="card-desc-text">
+                            We don't build generic templates or over-engineer simple problems. We focus on writing
+                            clean, modular, and maintainable software that delivers measurable results for founders,
+                            small businesses, and growing enterprises.
+                        </p>
+                        <div class="philosophy-quote-box">
+                            <div class="philosophy-quote-title">DEVELOPER WORKFLOW PHILOSOPHY</div>
+                            <div class="philosophy-quote-text">01 Discover → 02 Plan → 03 Build → 04 Launch & Support
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="shuddho-card">
+                        <div class="card-icon-box">⚡</div>
+                        <h4 class="card-title-text" style="font-size: 1.05rem;">Performance First</h4>
+                        <p class="card-desc-text" style="font-size: 0.88rem; margin-bottom: 0;">Optimized asset loading,
+                            clean DOM rendering, and responsive UI across desktop, tablet, and mobile devices.</p>
+                    </div>
+
+                    <div class="shuddho-card">
+                        <div class="card-icon-box">🛠️</div>
+                        <h4 class="card-title-text" style="font-size: 1.05rem;">Clean Architecture</h4>
+                        <p class="card-desc-text" style="font-size: 0.88rem; margin-bottom: 0;">Modular codebase,
+                            documented APIs, and scalable data structures built to accommodate future feature expansion.
+                        </p>
+                    </div>
+
+                    <div class="shuddho-card">
+                        <div class="card-icon-box">💬</div>
+                        <h4 class="card-title-text" style="font-size: 1.05rem;">Direct Communication</h4>
+                        <p class="card-desc-text" style="font-size: 0.88rem; margin-bottom: 0;">Work directly with the
+                            developers building your solution—no middle managers or miscommunicated requirements.</p>
+                    </div>
+
+                    <div class="shuddho-card">
+                        <div class="card-icon-box">🎯</div>
+                        <h4 class="card-title-text" style="font-size: 1.05rem;">Business Goal Aligned</h4>
+                        <p class="card-desc-text" style="font-size: 0.88rem; margin-bottom: 0;">Focusing on metrics that
+                            matter: site speed, lead conversion, operational efficiency, and system reliability.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Services Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="shuddho-section" id="services">
+            <div class="shuddho-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>OUR SERVICES</span>
+                </div>
+                <h2 class="projects-title reveal-word-target">End-to-End Software & Web Development</h2>
+                <p class="projects-subtitle fade-in-up">
+                    Pragmatic digital solutions tailored to solve specific operational, conversion, and growth
+                    challenges.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                            <polyline points="2 17 12 22 22 17" />
+                            <polyline points="2 12 17 22 22 12" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">Custom Web Applications</h3>
+                    <p class="card-desc-text">Interactive web portals, admin control panels, and custom SaaS tools
+                        engineered around complex business data and workflows.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Manual spreadsheets & disconnected software.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Custom web app, user authentication, database integration.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">E-Commerce Platforms</h3>
+                    <p class="card-desc-text">Conversion-focused Shopify store setups, WooCommerce custom setups, and
+                        custom shopping cart checkout engines.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Generic templates & slow checkout funnels.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Customized online store, product catalog, payment setup.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">Modern Business Websites</h3>
+                    <p class="card-desc-text">Ultra-fast, responsive corporate websites designed to convert visitors
+                        into clients with built-in SEO and lead capture.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Outdated sites that fail to generate inquiries.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Responsive HTML5/CSS3/JS site, clean code, SEO setup.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <rect x="2" y="2" width="20" height="8" rx="2" />
+                            <rect x="2" y="14" width="20" height="8" rx="2" />
+                            <line x1="6" y1="6" x2="6.01" y2="6" />
+                            <line x1="6" y1="18" x2="6.01" y2="18" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">Backend & REST APIs</h3>
+                    <p class="card-desc-text">Secure REST API endpoints, JWT user authentication, database schemas
+                        (Postgres, MySQL, MongoDB), and server integration.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Lack of backend support for custom mobile or web apps.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Tested REST endpoints, API docs, database setup.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">Workflow & AI Automation</h3>
+                    <p class="card-desc-text">Connecting third-party services via webhooks, automated data collectors,
+                        custom scrapers, and AI API scripts.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Hours spent on repetitive manual data entry tasks.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Automated script / tool, execution documentation.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <path
+                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title-text">Bug Fixes & Maintenance</h3>
+                    <p class="card-desc-text">Diagnostic auditing, CSS layout repairs, JavaScript error fixes, page
+                        speed optimization, and technical site updates.</p>
+                    <div class="service-meta-grid">
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Problem Solved</div>
+                            <div class="service-meta-val">Sluggish load speed & mobile layout glitches.</div>
+                        </div>
+                        <div class="service-meta-item">
+                            <div class="service-meta-label">Client Receives</div>
+                            <div class="service-meta-val">Diagnostic report, fixed source code, improved speed.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Tech Stack Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="shuddho-section" id="stack">
+            <div class="shuddho-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>TECHNOLOGY STACK</span>
+                </div>
+                <h2 class="projects-title reveal-word-target">Technologies We Engineer With</h2>
+                <p class="projects-subtitle fade-in-up">
+                    A practical, transparent breakdown of the programming languages, frameworks, and developer tools
+                    Shuddho utilizes.
+                </p>
+            </div>
+
+            <div class="grid-4">
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">HTML5 & CSS3</h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Frontend Structure</span>
+                    </div>
+                    <span class="tech-level-pill level-experienced">Experienced</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">JavaScript (ES6+)
+                        </h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">App Logic &
+                            Interactivity</span>
+                    </div>
+                    <span class="tech-level-pill level-experienced">Experienced</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">Node.js & Express
+                        </h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Backend & REST APIs</span>
+                    </div>
+                    <span class="tech-level-pill level-experienced">Experienced</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">Python</h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Automation & AI Tools</span>
+                    </div>
+                    <span class="tech-level-pill level-comfortable">Comfortable</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">MySQL & Postgres
+                        </h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Relational Databases</span>
+                    </div>
+                    <span class="tech-level-pill level-comfortable">Comfortable</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">MongoDB</h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">NoSQL Document Store</span>
+                    </div>
+                    <span class="tech-level-pill level-comfortable">Comfortable</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">Git & GitHub</h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Version Control</span>
+                    </div>
+                    <span class="tech-level-pill level-experienced">Experienced</span>
+                </div>
+
+                <div class="shuddho-card"
+                    style="padding: 20px 24px; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 1rem; color: var(--color-dark-text);">Docker & Vercel
+                        </h4>
+                        <span style="font-size: 0.78rem; color: var(--color-body-text);">Deployment & Containers</span>
+                    </div>
+                    <span class="tech-level-pill level-working-knowledge">Working Knowledge</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pricing / Engagement Models Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="shuddho-section" id="pricing">
+            <div class="shuddho-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>COLLABORATION MODELS</span>
+                </div>
+                <h2 class="projects-title reveal-word-target">Flexible Engagement Structures</h2>
+                <p class="projects-subtitle fade-in-up">
+                    Clear, transparent collaboration options designed to fit your technical scope and project goals.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="shuddho-card pricing-card-box">
+                    <h3 class="card-title-text">Project-Based Build</h3>
+                    <p class="card-desc-text">Fixed-scope development for business websites, landing pages, or custom
+                        web tools with clearly defined milestones.</p>
+                    <div style="margin-top: auto;">
+                        <a href="#collaborate" class="btn-dark btn-project"
+                            style="width: 100%; justify-content: center;">
+                            <span>Discuss Project Scope</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="shuddho-card pricing-card-box featured-pricing">
+                    <span class="pricing-tag-pill">RECOMMENDED</span>
+                    <h3 class="card-title-text">Monthly Retainer</h3>
+                    <p class="card-desc-text">Dedicated development support for growing startups requiring continuous
+                        feature additions, maintenance, and API enhancements.</p>
+                    <div style="margin-top: auto;">
+                        <a href="#collaborate" class="btn-dark btn-project"
+                            style="width: 100%; justify-content: center; background-color: var(--color-brand-blue);">
+                            <span>Start Monthly Retainer</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="shuddho-card pricing-card-box">
+                    <h3 class="card-title-text">API & Integration</h3>
+                    <p class="card-desc-text">Focused engineering sprint for custom REST API creation, database
+                        architecture setup, or business process automation scripts.</p>
+                    <div style="margin-top: auto;">
+                        <a href="#collaborate" class="btn-dark btn-project"
+                            style="width: 100%; justify-content: center;">
+                            <span>Request API Consultation</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Testimonials / Why Work With Us Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <section class="shuddho-section" id="testimonials">
+            <div class="shuddho-header">
+                <div class="section-badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>WHY WORK WITH SHUDDHO</span>
+                </div>
+                <h2 class="projects-title reveal-word-target">Built on Trust & Pragmatic Engineering</h2>
+                <p class="projects-subtitle fade-in-up">
+                    Authentic team principles that ensure your project is built with care, speed, and clear
+                    communication.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="shuddho-card">
+                    <div class="card-icon-box">💬</div>
+                    <h4 class="card-title-text">Direct Developer Access</h4>
+                    <p class="card-desc-text" style="margin-bottom: 0;">You communicate directly with the developers
+                        engineering your software—ensuring fast responses and zero lost requirements.</p>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">🧹</div>
+                    <h4 class="card-title-text">Clean & Documented Code</h4>
+                    <p class="card-desc-text" style="margin-bottom: 0;">Well-structured, commented code built according
+                        to modern standards, making future updates seamless and hassle-free.</p>
+                </div>
+
+                <div class="shuddho-card">
+                    <div class="card-icon-box">📱</div>
+                    <h4 class="card-title-text">Mobile-First Testing</h4>
+                    <p class="card-desc-text" style="margin-bottom: 0;">Every interface is thoroughly tested across
+                        multiple mobile and tablet screen sizes to guarantee flawless responsiveness.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact & Collaboration Section -->
+    <div class="separator"></div>
+    <div class="container">
+        <div class="shuddho-section collaborate-section" id="collaborate">
+            <div class="grid-2" style="align-items: start; background-color: white;">
+                <div>
+                    <div class="section-badge fade-in-up">
+                        <span class="badge-dot"></span>
+                        <span>START A CONVERSATION</span>
+                    </div>
+                    <h2 class="projects-title reveal-word-target" style="text-align: left; font-size: 2.4rem;">Have an
+                        idea? Let's build it.</h2>
+                    <p class="projects-subtitle fade-in-up" style="text-align: left; margin-bottom: 24px;">
+                        Tell us what you're trying to build, what problem you're facing, or what system you want to
+                        improve. We'll help you figure out the right technical solution.
+                    </p>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+                        <a href="mailto:shuddho.dev@gmail.com" class="btn-dark btn-collaborate">
+                            <span>Email Us Directly</span>
+                        </a>
+                        <a href="https://wa.me/1234567890" target="_blank" rel="noopener"
+                            class="btn-dark btn-collaborate" style="background-color: #0284c7;">
+                            <span>WhatsApp Message</span>
+                        </a>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">✉</div>
+                        <div>
+                            <div
+                                style="font-size: 0.75rem; font-weight: 800; color: var(--color-brand-blue); text-transform: uppercase;">
+                                Direct Email</div>
+                            <div style="font-weight: 700; color: var(--color-dark-text);">shuddho.dev@gmail.com</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">📍</div>
+                        <div>
+                            <div
+                                style="font-size: 0.75rem; font-weight: 800; color: var(--color-brand-blue); text-transform: uppercase;">
+                                Availability & Location</div>
+                            <div style="font-weight: 700; color: var(--color-dark-text);">Available Globally for Remote
+                                Projects</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Contact Form -->
+                <div class="contact-card-box">
+                    <h3 class="card-title-text" style="margin-bottom: 20px;">Send Us a Message</h3>
+                    <form id="shuddho-contact-form">
+                        <div class="form-group-item">
+                            <label class="form-label-text" for="contact-name">Your Name *</label>
+                            <input type="text" id="contact-name" class="form-input-ctrl" placeholder="e.g. Alex Johnson"
+                                required>
+                        </div>
+
+                        <div class="form-group-item">
+                            <label class="form-label-text" for="contact-email">Your Email *</label>
+                            <input type="email" id="contact-email" class="form-input-ctrl"
+                                placeholder="alex@company.com" required>
+                        </div>
+
+                        <div class="form-group-item">
+                            <label class="form-label-text" for="contact-category">Project Category</label>
+                            <select id="contact-category" class="form-select-ctrl">
+                                <option value="website">Business Website</option>
+                                <option value="webapp">Custom Web Application</option>
+                                <option value="ecommerce">E-Commerce Store</option>
+                                <option value="api">REST API & Backend</option>
+                                <option value="automation">Workflow / AI Automation</option>
+                                <option value="maintenance">Bug Fix & Performance Tuning</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-item">
+                            <label class="form-label-text" for="contact-message">Project Details & Goals *</label>
+                            <textarea id="contact-message" class="form-textarea-ctrl"
+                                placeholder="Tell us about your project requirements, timeline, or goals..."
+                                required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-dark btn-collaborate"
+                            style=" justify-content: center; margin-top: 8px;">
+                            <span>Submit Project Inquiry</span>
+                            <span class="badge-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.8">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="shuddho-footer-v2">
+        <!-- Top Legal & Copyright Header Bar -->
+        <div class="footer-top-bar">
+            <a href="#terms" class="footer-legal-link">Terms & Conditions</a>
+            <div class="footer-copyright-text">&copy; 2026, Shuddho LLC, All Rights Reserved.</div>
+            <a href="#privacy" class="footer-legal-link">Privacy Policy</a>
+        </div>
+
+        <!-- Center Massive Brand Display -->
+        <div class="blur blur-1"></div>
+        <div class="blur blur-2"></div>
+        <div class="blur blur-3"></div>
+        <div class="blur blur-4"></div>
+        <div class="blur blur-5"></div>
+        <div class="blur blur-6"></div>
+        <div class="blur blur-7"></div>
+        <div class="blur blur-8"></div>
+        <div class="blur blur-9"></div>
+        <div class="blur blur-10"></div>
+        <div class="blur blur-11"></div>
+        <div class="footer-brand-display">
+            <h1 class="footer-brand-title">shuddho</h1>
+        </div>
+    </footer>
+
+    <div class="calendly-floating-badge-wrapper" id="calendly-floating-badge">
+        <a href="https://calendly.com/marmiju/59min?back=1&month=2026-08" target="_blank" rel="noopener noreferrer"
+            class="calendly-badge-btn" aria-label="Book a Call on Calendly">
+            <span class="badge-icon-cal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </span>
+            <span class="badge-text-cal">Book a Call</span>
+        </a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+{
+  "section": {
+    "badge": "FEATURED CLIENT PROJECTS",
+    "title": "Featured Client Showcase & Digital Platforms",
+    "subtitle": "Explore the custom web applications and high-performance digital platforms Shuddho has engineered for client brands."
+  },
+  "capabilities": [
+    {
+      "id": "vortex-athletics",
+      "name": "Vortex Athletics",
+      "url": "https://marmiju.github.io/VERTEX-athletics/",
+      "category": "Energetic + Premium Fitness Brand",
+      "metricLabel": "⚡ Live Project • Premium Brand Platform",
+      "iconClass": "icon-vortex",
+      "image": "assets/images/vertex-sec-1.png",
+      "images": [
+        "assets/images/vertex-sec-1.png",
+        "assets/images/vertex-sec-2.png",
+        "assets/images/vertex-sec-3.png",
+        "assets/images/vertex-sec-4.png",
+        "assets/images/vertex-sec-5.png"
+      ],
+      "sections": [
+        "01 / 05 — Hero Sanctuary & Keycard Access",
+        "02 / 05 — AI-Optimized TDEE & Nutrition Engine",
+        "03 / 05 — Built for Unstoppable Athletes",
+        "04 / 05 — Live Weekly Class Timetable",
+        "05 / 05 — Athlete Community Bloopers & Stories"
+      ],
+      "svg": "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg>",
+      "description": "Energetic + premium web platform engineered for Vortex Athletics. Built with ultra-fast page load performance, high-contrast athletic typography, dynamic product catalog showcases, and responsive fitness brand architecture."
+    },
+    {
+      "id": "ironpeak-fitness",
+      "name": "IronPeak Gym & Fitness",
+      "url": "https://marmiju.github.io/IronPack/",
+      "category": "Strong + Memorable Bodybuilding Gym",
+      "metricLabel": "⚡ Live Project • Heavy Built Sanctuary",
+      "iconClass": "icon-ironpeak",
+      "image": "assets/images/project-ironpeak.png",
+      "svg": "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 5v14M18 5v14M3 9h18M3 15h18\"/></svg>",
+      "description": "Powerful, bold bodybuilding and strength sanctuary web platform engineered for IronPeak. Built with industrial strength aesthetics, membership reservation flows, and high-energy workout programs."
+    }
+  ],
+  "currentlyBuilding": []
+}
