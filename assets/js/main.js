@@ -757,15 +757,58 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Contact Form Submission Handler
-  // Automatic Background Email Dispatcher (via FormSubmit AJAX to mar.miju.dev@gmail.com)
+  // Automatic Background Email Dispatcher (via Resend REST API & FormSubmit Fallback)
   async function sendEmailNotification(payload) {
+    const resendApiKey = 're_fXy9JFwR_QGrGrhBTdoCucttYGC3t2duh';
+
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; padding: 24px; background-color: #f8fafc; color: #0f172a; border-radius: 14px; border: 1px solid #e2e8f0; max-width: 600px; margin: 0 auto;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px;">
+          <h2 style="color: #2563eb; margin: 0; font-size: 1.3rem;">🚀 New Project Inquiry Received</h2>
+          <span style="font-size: 0.8rem; background-color: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 20px; font-weight: bold;">SHUDDHO</span>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.95rem;">
+          <tr>
+            <td style="padding: 10px 12px; font-weight: bold; width: 140px; border-bottom: 1px solid #e2e8f0; color: #475569;">Client Name:</td>
+            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #0f172a;">${payload.name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #475569;">Client Email:</td>
+            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0;"><a href="mailto:${payload.email}" style="color: #2563eb; text-decoration: none; font-weight: bold;">${payload.email}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #e2e8f0; color: #475569;">Project Category:</td>
+            <td style="padding: 10px 12px; border-bottom: 1px solid #e2e8f0;"><span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-weight: 600;">${payload.category}</span></td>
+          </tr>
+        </table>
+        <h3 style="color: #0f172a; margin-bottom: 10px; font-size: 1rem;">Project Details & Goals:</h3>
+        <div style="background: #ffffff; padding: 16px; border-radius: 10px; border: 1px solid #cbd5e1; white-space: pre-wrap; line-height: 1.65; color: #1e293b; font-size: 0.95rem;">${payload.message}</div>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 24px; text-align: center;">Sent via Shuddho Portfolio Engine • Direct Resend Dispatcher</p>
+      </div>
+    `;
+
     try {
-      const res = await fetch("https://formsubmit.co/ajax/mar.miju.dev@gmail.com", {
+      // 1. Primary Dispatch via Resend REST API
+      const resendRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Authorization": `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json"
         },
+        body: JSON.stringify({
+          from: "Shuddho Portfolio <onboarding@resend.dev>",
+          to: ["azizarrahman558@gmail.com", "mar.miju.dev@gmail.com"],
+          subject: `🚀 New Project Inquiry: ${payload.name} [${payload.category}]`,
+          html: emailHtml
+        })
+      });
+
+      const resendData = await resendRes.json();
+
+      // 2. Secondary Dispatch via FormSubmit AJAX (Dual redundancy delivery)
+      fetch("https://formsubmit.co/ajax/mar.miju.dev@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
           name: payload.name,
           email: payload.email,
@@ -775,12 +818,12 @@ document.addEventListener('DOMContentLoaded', () => {
           _template: "table",
           _captcha: "false"
         })
-      });
-      const data = await res.json();
-      return data;
+      }).catch(() => {});
+
+      return resendData;
     } catch (error) {
-      console.warn('FormSubmit dispatch note:', error);
-      return { success: false };
+      console.warn('Resend API dispatch note:', error);
+      return { error };
     }
   }
 
@@ -825,7 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p class="success-desc">
                   We have successfully received your project details for <strong>${name}</strong> (<em>${email}</em>).
                   An email notification with your project requirements has been dispatched to <strong>mar.miju.dev@gmail.com</strong>.
-                  Our engineering team will review your project and respond within 24 hours.
+                  Our engineering team will review your project and respond shortly.
               </p>
               <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
                   <button type="button" class="btn-dark btn-collaborate" id="btn-reset-form" style="padding: 10px 22px; font-size: 0.88rem;">
