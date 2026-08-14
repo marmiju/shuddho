@@ -3087,7 +3087,7 @@ body {
 }
 
 /* ==========================================================================
-   Terms & Conditions Advanced Layout & Scroll Animation System
+   Terms & Conditions Advanced Layout & Responsive Fixes
    ========================================================================== */
 
 .terms-grid-layout {
@@ -3096,7 +3096,9 @@ body {
    gap: 40px;
    align-items: start;
    max-width: 1200px;
+   width: 100%;
    margin: 0 auto;
+   box-sizing: border-box;
 }
 
 /* Left Sticky Navigation & Progress Sidebar */
@@ -3108,13 +3110,8 @@ body {
 }
 
 .terms-sidebar-card {
-   /* background: rgba(255, 255, 255, 0.85); */
-   /* backdrop-filter: blur(16px); */
    -webkit-backdrop-filter: blur(16px);
-   /* border: 1px solid var(--color-border); */
-   /* border-radius: 24px; */
    padding: 24px;
-   /* box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.06); */
    display: flex;
    flex-direction: column;
    gap: 16px;
@@ -3232,18 +3229,17 @@ body {
 /* Right Terms Content Wrapper & Card Animations */
 .terms-content-wrapper {
    width: 100%;
+   max-width: 100%;
    display: flex;
    flex-direction: column;
    gap: 24px;
+   box-sizing: border-box;
+   overflow: hidden;
 }
 
 .terms-section-card {
    position: relative;
-   /* background: #ffffff; */
-   /* border: 1px solid var(--color-border); */
-   /* border-radius: 24px; */
-   padding: 36px 40px;
-   /* box-shadow: 0 4px 20px -6px rgba(15, 23, 42, 0.04); */
+   padding: 32px 36px;
    opacity: 0;
    transform: translateY(36px) scale(0.97);
    filter: blur(4px);
@@ -3252,6 +3248,10 @@ body {
       filter 0.7s ease,
       border-color 0.35s ease,
       box-shadow 0.35s ease;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+   overflow: hidden;
 }
 
 .terms-section-card.animate-in {
@@ -3289,6 +3289,8 @@ body {
    color: var(--color-dark-text);
    margin-bottom: 14px;
    letter-spacing: -0.025em;
+   overflow-wrap: break-word;
+   word-break: break-word;
 }
 
 .terms-paragraph {
@@ -3296,6 +3298,8 @@ body {
    color: var(--color-body-text);
    line-height: 1.7;
    margin: 0;
+   overflow-wrap: break-word;
+   word-break: break-word;
 }
 
 .terms-contact-list {
@@ -3310,6 +3314,8 @@ body {
 .terms-contact-list li {
    font-size: 0.95rem;
    color: var(--color-body-text);
+   overflow-wrap: break-word;
+   word-break: break-word;
 }
 
 .terms-link {
@@ -3323,45 +3329,26 @@ body {
    color: #1d4ed8;
 }
 
-/* Responsive Rules for Terms Layout */
-@media (max-width: 992px) {
-   .terms-grid-layout {
-      grid-template-columns: 1fr;
-      gap: 32px;
-   }
-
-   .terms-sidebar-sticky {
-      position: static;
-      top: 0;
-      width: 100%;
-   }
-
-   .terms-nav-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 6px;
-   }
-
-   .terms-section-card {
-      padding: 28px 24px;
-   }
-}
-
 /* Document Header Card */
 .terms-doc-header-card {
    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
    border-radius: 20px;
-   padding: 36px 40px;
+   padding: 32px 36px;
    color: #ffffff;
    box-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.2);
    margin-bottom: 8px;
+   width: 100%;
+   max-width: 100%;
+   box-sizing: border-box;
+   overflow: hidden;
 }
 
 .doc-meta-row {
    display: flex;
-   gap: 12px;
+   gap: 10px;
    flex-wrap: wrap;
    margin-bottom: 16px;
+   max-width: 100%;
 }
 
 .doc-meta-pill {
@@ -3372,7 +3359,11 @@ body {
    border: 1px solid rgba(56, 189, 248, 0.25);
    padding: 4px 12px;
    border-radius: 100px;
-   letter-spacing: 0.06em;
+   letter-spacing: 0.04em;
+   max-width: 100%;
+   box-sizing: border-box;
+   overflow-wrap: anywhere;
+   word-break: break-word;
 }
 
 .doc-main-title {
@@ -3381,6 +3372,8 @@ body {
    color: #ffffff;
    margin-bottom: 12px;
    letter-spacing: -0.025em;
+   overflow-wrap: break-word;
+   word-break: break-word;
 }
 
 .doc-meta-subtext {
@@ -3388,6 +3381,8 @@ body {
    color: #94a3b8;
    line-height: 1.65;
    margin: 0;
+   overflow-wrap: break-word;
+   word-break: break-word;
 }
 
 .doc-meta-subtext strong {
@@ -3396,17 +3391,23 @@ body {
 
 /* Professional Legal Tables */
 .legal-table-wrapper {
+   display: block;
+   width: 100%;
+   max-width: 100%;
    overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
    margin-top: 20px;
    border: 1px solid var(--color-border);
    border-radius: 14px;
    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+   box-sizing: border-box;
 }
 
 .legal-table {
    width: 100%;
+   min-width: 520px;
    border-collapse: collapse;
-   font-size: 0.9rem;
+   font-size: 0.88rem;
    text-align: left;
 }
 
@@ -3507,6 +3508,7 @@ body {
    z-index: 1001;
    transform: translateY(100%);
    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+   box-sizing: border-box;
 }
 
 .terms-mobile-drawer-panel.is-open {
@@ -3517,7 +3519,7 @@ body {
 @media (max-width: 992px) {
    .terms-grid-layout {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 20px;
    }
 
    .terms-sidebar-sticky {
@@ -3529,22 +3531,62 @@ body {
    }
 
    .terms-doc-header-card {
-      padding: 28px 24px;
-      border-radius: 20px;
+      padding: 24px 20px;
+      border-radius: 16px;
    }
 
    .terms-section-card {
-      padding: 24px 20px;
-      border-radius: 18px;
+      padding: 20px 0;
    }
 
    .doc-main-title {
-      font-size: 1.45rem;
+      font-size: 1.4rem;
+   }
+
+   .terms-heading {
+      font-size: 1.18rem;
+      padding-right: 44px;
+   }
+
+   .card-step-badge {
+      top: 18px;
+      right: 12px;
+      font-size: 0.75rem;
+      padding: 2px 8px;
    }
 
    .legal-table th,
    .legal-table td {
       padding: 10px 12px;
       font-size: 0.82rem;
+   }
+}
+
+@media (max-width: 576px) {
+   .terms-doc-header-card {
+      padding: 20px 14px;
+   }
+
+   /* .terms-section-card {
+      padding: 16px 12px;
+   } */
+
+   .doc-meta-pill {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+   }
+
+   .doc-main-title {
+      font-size: 1.25rem;
+   }
+
+   .terms-heading {
+      font-size: 1.08rem;
+   }
+
+   .legal-table th,
+   .legal-table td {
+      padding: 10px 10px;
+      font-size: 0.78rem;
    }
 }
