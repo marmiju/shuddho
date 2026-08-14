@@ -1151,10 +1151,7 @@ ul {
 
 .sticky-card-box {
    background-color: var(--color-card-bg);
-   border: 1px solid var(--color-border);
-   border-radius: 24px;
    padding: 32px;
-   box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.08);
    display: flex;
    flex-direction: column;
    gap: 20px;
@@ -1238,8 +1235,8 @@ ul {
 .project-scroll-item:hover,
 .project-scroll-item.active {
    transform: scale(1.015);
-   border-color: rgba(37, 99, 235, 0.4);
-   box-shadow: 0 20px 48px -12px rgba(37, 99, 235, 0.18);
+   /* border-color: rgba(37, 99, 235, 0.4);
+   box-shadow: 0 20px 48px -12px rgba(37, 99, 235, 0.18); */
 }
 
 .project-image-box {
@@ -1250,7 +1247,7 @@ ul {
    background-color: #0f172a;
 }
 
-.project-scroll-img {
+/* .project-scroll-img {
    width: 100%;
    height: auto;
    display: block;
@@ -1259,13 +1256,13 @@ ul {
    left: 0;
    transform: translateY(0);
    transition: transform 6.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
-}
+} */
 
-.project-scroll-item:hover .project-scroll-img,
+/* .project-scroll-item:hover .project-scroll-img,
 .project-image-box:hover .project-scroll-img {
    transform: translateY(calc(-100% + 520px));
    filter: brightness(1.04);
-}
+} */
 
 .image-overlay-title {
    position: absolute;
@@ -1296,17 +1293,239 @@ ul {
 }
 
 /* ==========================================================================
-   Full Showcase Interactive Carousel Slider
+   Availability & Collaboration Powerful Hooks Section
    ========================================================================== */
 
-.projects-carousel-container {
+.projects-carousel-container.availability-container {
    position: relative;
    z-index: 5;
-   margin-top: 40px;
-   padding: 40px 32px;
-   background-color: var(--color-card-bg);
-   border: 1px solid var(--color-border);
-   box-shadow: 0 20px 50px -15px rgba(15, 23, 42, 0.08);
+   margin-top: 48px;
+   padding: 48px 40px;
+   background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   border-radius: 28px;
+   box-shadow: 0 24px 60px -15px rgba(15, 23, 42, 0.4);
+   color: #ffffff;
+   overflow: hidden;
+}
+
+.projects-carousel-container.availability-container::before {
+   content: '';
+   position: absolute;
+   top: -120px;
+   right: -120px;
+   width: 320px;
+   height: 320px;
+   background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, rgba(14, 165, 233, 0.08) 60%, transparent 80%);
+   border-radius: 50%;
+   filter: blur(60px);
+   pointer-events: none;
+}
+
+.availability-header-badge {
+   display: inline-flex;
+   align-items: center;
+   gap: 10px;
+   padding: 8px 18px;
+   background: rgba(16, 185, 129, 0.12);
+   border: 1px solid rgba(16, 185, 129, 0.3);
+   border-radius: 100px;
+   margin-bottom: 24px;
+}
+
+.availability-pulse-dot {
+   width: 8px;
+   height: 8px;
+   background-color: #10b981;
+   border-radius: 50%;
+   box-shadow: 0 0 12px #10b981;
+   animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+   0%, 100% { transform: scale(1); opacity: 1; }
+   50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.availability-badge-text {
+   font-size: 0.8rem;
+   font-weight: 700;
+   color: #34d399;
+   letter-spacing: 0.06em;
+   text-transform: uppercase;
+}
+
+.availability-main-hook {
+   margin-bottom: 40px;
+   max-width: 840px;
+}
+
+.availability-title {
+   font-size: clamp(1.8rem, 3vw, 2.5rem);
+   font-weight: 800;
+   color: #ffffff;
+   letter-spacing: -0.03em;
+   line-height: 1.2;
+   margin-bottom: 16px;
+}
+
+.availability-subtitle {
+   font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+   color: #94a3b8;
+   line-height: 1.65;
+}
+
+.availability-hooks-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: 24px;
+   margin-bottom: 40px;
+}
+
+.hook-card {
+   background: rgba(255, 255, 255, 0.03);
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   border-radius: 20px;
+   padding: 28px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hook-card:hover {
+   transform: translateY(-6px);
+   background: rgba(255, 255, 255, 0.06);
+   border-color: rgba(37, 99, 235, 0.4);
+   box-shadow: 0 16px 36px -10px rgba(37, 99, 235, 0.25);
+}
+
+.hook-card-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 20px;
+}
+
+.hook-icon-box {
+   width: 44px;
+   height: 44px;
+   border-radius: 12px;
+   background: rgba(37, 99, 235, 0.15);
+   border: 1px solid rgba(37, 99, 235, 0.3);
+   color: #60a5fa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.hook-tag-pill {
+   font-size: 0.75rem;
+   font-weight: 700;
+   color: #60a5fa;
+   background: rgba(37, 99, 235, 0.1);
+   border: 1px solid rgba(37, 99, 235, 0.2);
+   padding: 4px 12px;
+   border-radius: 100px;
+   letter-spacing: 0.03em;
+}
+
+.hook-card-title {
+   font-size: 1.25rem;
+   font-weight: 700;
+   color: #ffffff;
+   margin-bottom: 10px;
+   letter-spacing: -0.02em;
+}
+
+.hook-card-desc {
+   font-size: 0.92rem;
+   color: #94a3b8;
+   line-height: 1.6;
+   margin-bottom: 20px;
+}
+
+.hook-metric-footer {
+   padding-top: 14px;
+   border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.metric-highlight {
+   font-size: 0.85rem;
+   font-weight: 700;
+   color: #38bdf8;
+   letter-spacing: 0.02em;
+}
+
+.availability-cta-box {
+   background: rgba(255, 255, 255, 0.04);
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   border-radius: 20px;
+   padding: 28px 32px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-wrap: wrap;
+   gap: 24px;
+}
+
+.cta-box-title {
+   font-size: 1.3rem;
+   font-weight: 800;
+   color: #ffffff;
+   margin-bottom: 4px;
+}
+
+.cta-box-desc {
+   font-size: 0.92rem;
+   color: #94a3b8;
+}
+
+.availability-cta-actions {
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   flex-wrap: wrap;
+}
+
+.btn-primary-cta {
+   padding: 14px 28px;
+   font-size: 0.95rem;
+   font-weight: 700;
+   background: var(--color-brand-blue);
+   color: #ffffff;
+   border-radius: 12px;
+   border: none;
+   display: inline-flex;
+   align-items: center;
+   gap: 10px;
+   transition: all 0.3s ease;
+   text-decoration: none;
+}
+
+.btn-primary-cta:hover {
+   background: #1d4ed8;
+   transform: translateY(-2px);
+   box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+   color: #ffffff;
+}
+
+.btn-secondary-cta {
+   padding: 14px 24px;
+   font-size: 0.95rem;
+   font-weight: 600;
+   color: #e2e8f0;
+   background: rgba(255, 255, 255, 0.06);
+   border: 1px solid rgba(255, 255, 255, 0.15);
+   border-radius: 12px;
+   transition: all 0.3s ease;
+   text-decoration: none;
+}
+
+.btn-secondary-cta:hover {
+   background: rgba(255, 255, 255, 0.12);
+   color: #ffffff;
+   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .carousel-header {
@@ -1385,13 +1604,13 @@ ul {
    overflow: hidden;
    display: flex;
    flex-direction: column;
-   box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+   /* box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04); */
    transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .carousel-card:hover {
    transform: translateY(-6px);
-   box-shadow: 0 16px 36px -8px rgba(37, 99, 235, 0.14);
+   /* box-shadow: 0 16px 36px -8px rgba(37, 99, 235, 0.14); */
 }
 
 .carousel-img-box {
@@ -1662,7 +1881,7 @@ ul {
    color: #ffffff;
    background-color: var(--color-brand-blue);
    border-color: var(--color-brand-blue);
-   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+   /* box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); */
 }
 
 /* Tech Card Badge Levels */
@@ -1697,7 +1916,7 @@ ul {
 
 .pricing-card-box.featured-pricing {
    border-color: var(--color-brand-blue);
-   box-shadow: 0 16px 40px -10px rgba(37, 99, 235, 0.2);
+   /* box-shadow: 0 16px 40px -10px rgba(37, 99, 235, 0.2); */
 }
 
 .pricing-tag-pill {
@@ -1725,7 +1944,7 @@ ul {
    border: 1px solid var(--color-border);
    border-radius: 28px;
    padding: 40px;
-   box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.06);
+   /* box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.06); */
 }
 
 .form-group-item {
@@ -1761,7 +1980,7 @@ ul {
 .form-textarea-ctrl:focus {
    border-color: var(--color-brand-blue);
    background-color: #ffffff;
-   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+   /* box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); */
 }
 
 .form-textarea-ctrl {
@@ -1903,7 +2122,7 @@ ul {
    border: 1px solid var(--color-border);
    border-radius: 28px;
    padding: 28px;
-   box-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.08);
+   /* box-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.08); */
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -1914,7 +2133,7 @@ ul {
 .horizontal-project-card:hover {
    transform: translateY(-8px);
    border-color: var(--color-brand-blue);
-   box-shadow: 0 24px 48px -12px rgba(37, 99, 235, 0.18);
+   /* box-shadow: 0 24px 48px -12px rgba(37, 99, 235, 0.18); */
 }
 
 .horizontal-card-img-wrapper {

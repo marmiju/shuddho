@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="swiper-slide">
                     <div class="project-image-box">
                       <img src="${imgSrc}" alt="${project.name} Section ${slideIdx + 1}" class="project-scroll-img">
-                      <div class="image-overlay-title">${labelText}</div>
+                     
                     </div>
                   </div>
                 `;
@@ -715,17 +715,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Carousel Expansion on "View All Capabilities & Builds" click
+  // Toggle Availability Section Expansion on "Check Availability & Work Together" click
   if (btnViewAll && carouselContainer) {
     btnViewAll.addEventListener('click', () => {
       if (carouselContainer.style.display === 'none' || !carouselContainer.style.display) {
         carouselContainer.style.display = 'block';
         carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        btnViewAll.querySelector('span:first-child').textContent = 'Hide Currently Building Carousel';
-        updateCarouselPosition();
+        const spanText = btnViewAll.querySelector('span:first-child');
+        if (spanText) spanText.textContent = 'Hide Availability Details';
       } else {
         carouselContainer.style.display = 'none';
-        btnViewAll.querySelector('span:first-child').textContent = 'View Currently Building — Active Team Builds';
+        const spanText = btnViewAll.querySelector('span:first-child');
+        if (spanText) spanText.textContent = '⚡ Check Availability & Work Together';
       }
     });
   }
