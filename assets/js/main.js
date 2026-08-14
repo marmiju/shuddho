@@ -942,6 +942,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ==========================================================================
+     Advanced Scroll Animation & Reading Progress System for Terms Page
+     ========================================================================== */
+  function initTermsPageScrollEngine() {
+    const termsCards = document.querySelectorAll('.terms-section-card');
+    const termsNavItems = document.querySelectorAll('.terms-nav-item');
+    const progressFill = document.getElementById('terms-progress-fill');
+    const readPercentText = document.getElementById('terms-read-percent');
+    const termsWrapper = document.getElementById('terms-content-wrapper');
+
+    if (termsCards.length === 0) return;
+
+    // 1. Intersection Observer for Smooth Staggered Card Entrance Animation
+    const cardEntranceObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    termsCards.forEach(card => cardEntranceObserver.observe(card));
+
+    // 2. Active Section Highlight & Scroll Progress Calculation
+    function handleTermsScroll() {
+      const windowHeight = window.innerHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      // Update Reading Progress Bar
+      if (termsWrapper && progressFill) {
+        const wrapperRect = termsWrapper.getBoundingClientRect();
+        const wrapperTop = wrapperRect.top + scrollTop;
+        const wrapperHeight = wrapperRect.height;
+        const totalScrollable = wrapperHeight - windowHeight + 100;
+
+        let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
+        progressFill.style.width = `${percentage.toFixed(0)}%`;
+        if (readPercentText) readPercentText.textContent = `${percentage.toFixed(0)}%`;
+      }
+
+      // Highlight Active Nav Item based on center viewport position
+      let activeIndex = 0;
+      termsCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.2) {
+          activeIndex = index;
+          card.classList.add('active-focus');
+        } else {
+          card.classList.remove('active-focus');
+        }
+      });
+
+      termsNavItems.forEach((item, index) => {
+        if (index === activeIndex) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', handleTermsScroll, { passive: true });
+    handleTermsScroll(); // Initial trigger
+  }
+
   // Immediate startup for static elements & fallback cards
   initHorizontalScrollListener();
   initTextWordAnimations();
@@ -953,4 +1021,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadTrustData();
   loadContactData();
   initProjectSwiper();
+  initTermsPageScrollEngine();
 });
