@@ -727,9 +727,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const fullHeight = carouselContainer.scrollHeight + 120;
         carouselContainer.style.maxHeight = `${fullHeight}px`;
 
-        setTimeout(() => {
-          carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
+        // setTimeout(() => {
+        //   carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // }, 300);
 
         if (spanText) spanText.textContent = 'Hide Availability Details';
       } else {
