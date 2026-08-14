@@ -839,6 +839,8 @@ ul {
    display: flex;
    overflow: hidden;
    user-select: none;
+   position: relative;
+   transform: translateX(0) !important;
 }
 
 .marquee-track {
@@ -850,12 +852,12 @@ ul {
 
 /* Top Row: Left to Right */
 .track-left-to-right {
-   animation: marqueeLeftToRight 35s linear infinite;
+   animation: marqueeLeftToRight 50s linear infinite;
 }
 
 /* Bottom Row: Right to Left */
 .track-right-to-left {
-   animation: marqueeRightToLeft 35s linear infinite;
+   animation: marqueeRightToLeft 50s linear infinite;
 }
 
 /* Pause/slow down marquee on hover for interactive feel */
@@ -1082,11 +1084,11 @@ ul {
    }
 
    .track-left-to-right {
-      animation-duration: 22s;
+      animation-duration: 70s;
    }
 
    .track-right-to-left {
-      animation-duration: 22s;
+      animation-duration: 70s;
    }
 }
 
@@ -1808,6 +1810,10 @@ ul {
    display: grid;
    grid-template-columns: repeat(2, 1fr);
    gap: 32px;
+}
+
+.collaborate-section .grid-2 {
+   gap: 24px;
 }
 
 /* Single-Line Border Grid Layouts */
@@ -3635,4 +3641,64 @@ body {
       padding: 10px 10px;
       font-size: 0.78rem;
    }
+}
+
+/* Form Submission Success Confirmation Card */
+.form-success-card {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   padding: 36px 24px;
+   background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
+   border: 1.5px solid #86efac;
+   border-radius: 20px;
+   box-shadow: 0 12px 32px -8px rgba(16, 185, 129, 0.15);
+   animation: fadeInUp 0.4s ease-out;
+}
+
+.success-icon-badge {
+   width: 56px;
+   height: 56px;
+   border-radius: 50%;
+   background: #10b981;
+   color: #ffffff;
+   font-size: 1.6rem;
+   font-weight: 800;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 16px;
+   box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.success-title {
+   font-size: 1.4rem;
+   font-weight: 800;
+   color: #065f46;
+   margin-bottom: 10px;
+}
+
+.success-desc {
+   font-size: 0.95rem;
+   color: #1e293b;
+   line-height: 1.6;
+   margin-bottom: 24px;
+   max-width: 440px;
+}
+
+.btn-outline-reset {
+   padding: 10px 20px;
+   border: 1px solid var(--color-border);
+   background: #ffffff;
+   color: var(--color-dark-text);
+   font-weight: 700;
+   border-radius: var(--radius-pill);
+   cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.btn-outline-reset:hover {
+   background: var(--color-dark-text);
+   color: #ffffff;
 }
