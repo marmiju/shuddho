@@ -1,57 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(function () {
   /* ==========================================================================
      Mobile Appbar & Slide-Out Drawer Navigation
      ========================================================================== */
-  const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
-  const drawerCloseBtn = document.getElementById('drawer-close-btn');
-  const mobileDrawer = document.getElementById('mobile-drawer');
-  const drawerOverlay = document.getElementById('drawer-overlay');
-  const drawerLinks = document.querySelectorAll('.drawer-link');
+  const $mobileToggleBtn = $('#mobile-toggle-btn');
+  const $drawerCloseBtn = $('#drawer-close-btn');
+  const $mobileDrawer = $('#mobile-drawer');
+  const $drawerOverlay = $('#drawer-overlay');
+  const $drawerLinks = $('.drawer-link');
+  const $body = $('body');
 
   function openDrawer() {
-    if (!mobileDrawer || !drawerOverlay) return;
-    mobileDrawer.classList.add('open');
-    drawerOverlay.classList.add('active');
-    if (mobileToggleBtn) mobileToggleBtn.classList.add('active');
-    document.body.classList.add('drawer-open');
+    if (!$mobileDrawer.length || !$drawerOverlay.length) return;
+    $mobileDrawer.addClass('open');
+    $drawerOverlay.addClass('active');
+    $mobileToggleBtn.addClass('active');
+    $body.addClass('drawer-open');
   }
 
   function closeDrawer() {
-    if (!mobileDrawer || !drawerOverlay) return;
-    mobileDrawer.classList.remove('open');
-    drawerOverlay.classList.remove('active');
-    if (mobileToggleBtn) mobileToggleBtn.classList.remove('active');
-    document.body.classList.remove('drawer-open');
+    if (!$mobileDrawer.length || !$drawerOverlay.length) return;
+    $mobileDrawer.removeClass('open');
+    $drawerOverlay.removeClass('active');
+    $mobileToggleBtn.removeClass('active');
+    $body.removeClass('drawer-open');
   }
 
-  if (mobileToggleBtn) {
-    mobileToggleBtn.addEventListener('click', () => {
-      if (mobileDrawer.classList.contains('open')) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
-    });
-  }
-
-  if (drawerCloseBtn) {
-    drawerCloseBtn.addEventListener('click', closeDrawer);
-  }
-
-  if (drawerOverlay) {
-    drawerOverlay.addEventListener('click', closeDrawer);
-  }
-
-  drawerLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      drawerLinks.forEach(item => item.classList.remove('active'));
-      link.classList.add('active');
+  $mobileToggleBtn.on('click', function () {
+    if ($mobileDrawer.hasClass('open')) {
       closeDrawer();
-    });
+    } else {
+      openDrawer();
+    }
   });
 
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('open')) {
+  $drawerCloseBtn.on('click', closeDrawer);
+  $drawerOverlay.on('click', closeDrawer);
+
+  $drawerLinks.on('click', function () {
+    $drawerLinks.removeClass('active');
+    $(this).addClass('active');
+    closeDrawer();
+  });
+
+  $(window).on('keydown', function (e) {
+    if (e.key === 'Escape' && $mobileDrawer.hasClass('open')) {
       closeDrawer();
     }
   });
@@ -59,34 +51,33 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ==========================================================================
      Custom Pointer & Color Inversion Effect (Text Content Focus)
      ========================================================================== */
-  const cursorDot = document.getElementById('cursor-dot');
-  const cursorCircle = document.getElementById('cursor-circle');
+  const $cursorDot = $('#cursor-dot');
+  const $cursorCircle = $('#cursor-circle');
 
-  if (cursorDot && cursorCircle && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  if ($cursorDot.length && $cursorCircle.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     let mouseX = -100;
     let mouseY = -100;
     let circleX = -100;
     let circleY = -100;
     let isMoving = false;
 
-    window.addEventListener('mousemove', (e) => {
+    $(window).on('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
       // Move the inner dot pointer
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
+      $cursorDot.css({ left: mouseX + 'px', top: mouseY + 'px' });
 
       if (!isMoving) {
-        cursorDot.classList.add('visible');
-        cursorCircle.classList.add('visible');
+        $cursorDot.addClass('visible');
+        $cursorCircle.addClass('visible');
         isMoving = true;
       }
     });
 
-    window.addEventListener('mouseleave', () => {
-      cursorDot.classList.remove('visible');
-      cursorCircle.classList.remove('visible');
+    $(window).on('mouseleave', function () {
+      $cursorDot.removeClass('visible');
+      $cursorCircle.removeClass('visible');
       isMoving = false;
     });
 
@@ -95,103 +86,95 @@ document.addEventListener('DOMContentLoaded', () => {
       circleX += (mouseX - circleX) * 0.22;
       circleY += (mouseY - circleY) * 0.22;
 
-      cursorCircle.style.left = `${circleX}px`;
-      cursorCircle.style.top = `${circleY}px`;
+      $cursorCircle.css({ left: circleX + 'px', top: circleY + 'px' });
 
       requestAnimationFrame(animateCursor);
     }
     requestAnimationFrame(animateCursor);
 
     // Target ONLY text content (headings, paragraphs, labels)
-    const textContentElements = document.querySelectorAll('h1, h2, h3, h4, p, .hero-title, .hero-description, .rating-label, .brands-title, .brands-subtitle, .brand-name');
-
-    textContentElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        cursorCircle.classList.add('hover-active');
-        cursorDot.classList.add('hover-active');
-      });
-
-      element.addEventListener('mouseleave', () => {
-        cursorCircle.classList.remove('hover-active');
-        cursorDot.classList.remove('hover-active');
-      });
+    $(document).on('mouseenter', 'h1, h2, h3, h4, p, .hero-title, .hero-description, .rating-label, .brands-title, .brands-subtitle, .brand-name', function () {
+      $cursorCircle.addClass('hover-active');
+      $cursorDot.addClass('hover-active');
+    }).on('mouseleave', 'h1, h2, h3, h4, p, .hero-title, .hero-description, .rating-label, .brands-title, .brands-subtitle, .brand-name', function () {
+      $cursorCircle.removeClass('hover-active');
+      $cursorDot.removeClass('hover-active');
     });
   }
 
   /* ==========================================================================
      Desktop Nav Capsule Interactive Tab Switching
      ========================================================================== */
-  const navLinks = document.querySelectorAll('.nav-link');
+  const $navLinks = $('.nav-link');
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.forEach(item => item.classList.remove('active'));
-      link.classList.add('active');
-    });
+  $navLinks.on('click', function () {
+    $navLinks.removeClass('active');
+    $(this).addClass('active');
   });
 
   /* ==========================================================================
      Entrance Animations
      ========================================================================== */
-  const heroTitle = document.querySelector('.hero-title');
-  const heroDesc = document.querySelector('.hero-description');
-  const heroActions = document.querySelector('.hero-actions');
-  const header = document.querySelector('.header');
-  const brandsSection = document.querySelector('.brands-section');
+  const $heroTitle = $('.hero-title');
+  const $heroDesc = $('.hero-description');
+  const $heroActions = $('.hero-actions');
+  const $header = $('.header');
+  const $brandsSection = $('.brands-section');
 
-  const animElements = [header, heroTitle, heroDesc, heroActions, brandsSection];
+  const animElements = [$header, $heroTitle, $heroDesc, $heroActions, $brandsSection];
 
-  animElements.forEach((el, index) => {
-    if (!el) return;
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(16px)';
-    el.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+  animElements.forEach(($el, index) => {
+    if (!$el || !$el.length) return;
+    $el.css({
+      opacity: '0',
+      transform: 'translateY(16px)',
+      transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)'
+    });
 
     setTimeout(() => {
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
+      $el.css({
+        opacity: '1',
+        transform: 'translateY(0)'
+      });
     }, 100 + index * 120);
   });
 
   /* ==========================================================================
      Parallax Scroll Displacement for Dual Marquee Rows
      ========================================================================== */
-  const marqueeTopRow = document.querySelector('.marquee-top');
-  const marqueeBottomRow = document.querySelector('.marquee-bottom');
+  const $marqueeTopRow = $('.marquee-top');
+  const $marqueeBottomRow = $('.marquee-bottom');
 
-  if (brandsSection && marqueeTopRow && marqueeBottomRow) {
-    let lastScrollY = window.scrollY;
+  if ($brandsSection.length && $marqueeTopRow.length && $marqueeBottomRow.length) {
     let ticking = false;
 
     function updateParallaxMarquee() {
-      const rect = brandsSection.getBoundingClientRect();
+      const sectionEl = $brandsSection.get(0);
+      if (!sectionEl) return;
+      const rect = sectionEl.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Check if section is anywhere near the viewport
       if (rect.top < windowHeight && rect.bottom > 0) {
-        // Calculate normalized scroll progress through section
         const scrolledDistance = windowHeight - rect.top;
-        const parallaxFactor = 0.18; // Smooth parallax sensitivity coefficient
+        const parallaxFactor = 0.18;
 
-        // Top row shifts rightward (+), Bottom row shifts leftward (-)
         const topShift = scrolledDistance * parallaxFactor;
         const bottomShift = -scrolledDistance * parallaxFactor;
 
-        marqueeTopRow.style.transform = `translate3d(${topShift}px, 0, 0)`;
-        marqueeBottomRow.style.transform = `translate3d(${bottomShift}px, 0, 0)`;
+        $marqueeTopRow.css('transform', `translate3d(${topShift}px, 0, 0)`);
+        $marqueeBottomRow.css('transform', `translate3d(${bottomShift}px, 0, 0)`);
       }
 
       ticking = false;
     }
 
-    window.addEventListener('scroll', () => {
+    $(window).on('scroll', function () {
       if (!ticking) {
         window.requestAnimationFrame(updateParallaxMarquee);
         ticking = true;
       }
-    }, { passive: true });
+    });
 
-    // Initial trigger
     updateParallaxMarquee();
   }
 
@@ -214,52 +197,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return `<div class="marquee-group"${isClone ? ' aria-hidden="true"' : ''}>${cardsHTML}</div>`;
   }
 
-  async function loadTrustBrandsData() {
-    try {
-      // Fetch JSON from data/trust.json
-      const response = await fetch('data/trust.json');
-      if (!response.ok) return;
-      const data = await response.json();
+  function loadTrustBrandsData() {
+    $.getJSON('data/trust.json')
+      .done(function (data) {
+        if (data.section) {
+          if (data.section.title) $('.brands-title').text(data.section.title);
+          if (data.section.subtitle) $('.brands-subtitle').text(data.section.subtitle);
+          if (data.section.badge) $('.section-badge span:last-child').text(data.section.badge);
+        }
 
-      // Update header text from JSON if present
-      if (data.section) {
-        const titleEl = document.querySelector('.brands-title');
-        const subtitleEl = document.querySelector('.brands-subtitle');
-        const badgeTextEl = document.querySelector('.section-badge span:last-child');
+        const $topTrack = $('#marquee-top-track');
+        const $bottomTrack = $('#marquee-bottom-track');
 
-        if (titleEl && data.section.title) titleEl.textContent = data.section.title;
-        if (subtitleEl && data.section.subtitle) subtitleEl.textContent = data.section.subtitle;
-        if (badgeTextEl && data.section.badge) badgeTextEl.textContent = data.section.badge;
-      }
+        if ($topTrack.length && Array.isArray(data.topRow)) {
+          $topTrack.html(createBrandGroupHTML(data.topRow, false) + createBrandGroupHTML(data.topRow, true));
+        }
 
-      const topTrack = document.getElementById('marquee-top-track');
-      const bottomTrack = document.getElementById('marquee-bottom-track');
-
-      if (topTrack && Array.isArray(data.topRow)) {
-        topTrack.innerHTML = createBrandGroupHTML(data.topRow, false) + createBrandGroupHTML(data.topRow, true);
-      }
-
-      if (bottomTrack && Array.isArray(data.bottomRow)) {
-        bottomTrack.innerHTML = createBrandGroupHTML(data.bottomRow, false) + createBrandGroupHTML(data.bottomRow, true);
-      }
-
-      // Re-attach custom cursor hover listeners to dynamically inserted elements
-      if (cursorDot && cursorCircle && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        const dynamicTexts = document.querySelectorAll('.brand-name, .brands-title, .brands-subtitle');
-        dynamicTexts.forEach(element => {
-          element.addEventListener('mouseenter', () => {
-            cursorCircle.classList.add('hover-active');
-            cursorDot.classList.add('hover-active');
-          });
-          element.addEventListener('mouseleave', () => {
-            cursorCircle.classList.remove('hover-active');
-            cursorDot.classList.remove('hover-active');
-          });
-        });
-      }
-    } catch (error) {
-      console.warn('Unable to load dynamic trust.json, using static HTML fallback:', error);
-    }
+        if ($bottomTrack.length && Array.isArray(data.bottomRow)) {
+          $bottomTrack.html(createBrandGroupHTML(data.bottomRow, false) + createBrandGroupHTML(data.bottomRow, true));
+        }
+      })
+      .fail(function (error) {
+        console.warn('Unable to load dynamic trust.json, using static HTML fallback:', error);
+      });
   }
 
   loadTrustBrandsData();
@@ -272,23 +232,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStickyIndex = -1;
 
   // Elements for Sticky Left Sidebar
-  const stickyCardBox = document.querySelector('.sticky-card-box');
-  const stickyCategory = document.getElementById('sticky-category');
-  const stickyCounter = document.getElementById('sticky-counter');
-  const stickyIcon = document.getElementById('sticky-icon');
-  const stickyTitle = document.getElementById('sticky-title');
-  const stickyDescription = document.getElementById('sticky-description');
-  const stickyMetricText = document.getElementById('sticky-metric-text');
-  const stickyCtaBtn = document.getElementById('sticky-cta-btn');
-  const projectsScrollRight = document.getElementById('projects-scroll-right');
+  const $stickyCardBox = $('.sticky-card-box');
+  const $stickyCategory = $('#sticky-category');
+  const $stickyCounter = $('#sticky-counter');
+  const $stickyIcon = $('#sticky-icon');
+  const $stickyTitle = $('#sticky-title');
+  const $stickyDescription = $('#sticky-description');
+  const $stickyMetricText = $('#sticky-metric-text');
+  const $stickyCtaBtn = $('#sticky-cta-btn');
+  const $projectsScrollRight = $('#projects-scroll-right');
 
   // Carousel Elements
-  const btnViewAll = document.getElementById('btn-view-all-projects');
-  const carouselContainer = document.getElementById('projects-carousel-container');
-  const carouselTrack = document.getElementById('carousel-track');
-  const carouselPrevBtn = document.getElementById('carousel-prev-btn');
-  const carouselNextBtn = document.getElementById('carousel-next-btn');
-  const carouselCounter = document.getElementById('carousel-counter');
+  const $btnViewAll = $('#btn-view-all-projects');
+  const $carouselContainer = $('#projects-carousel-container');
+  const $carouselTrack = $('#carousel-track');
+  const $carouselPrevBtn = $('#carousel-prev-btn');
+  const $carouselNextBtn = $('#carousel-next-btn');
+  const $carouselCounter = $('#carousel-counter');
 
   let currentCarouselIndex = 0;
 
@@ -296,58 +256,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!project || currentStickyIndex === index) return;
     currentStickyIndex = index;
 
-    if (stickyCardBox) {
-      stickyCardBox.style.opacity = '0.4';
-      stickyCardBox.style.transform = 'translateY(4px)';
+    if ($stickyCardBox.length) {
+      $stickyCardBox.css({
+        opacity: '0.4',
+        transform: 'translateY(4px)'
+      });
     }
 
     setTimeout(() => {
-      if (stickyCategory) stickyCategory.textContent = project.category;
-      if (stickyCounter) stickyCounter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
-      if (stickyIcon) {
-        stickyIcon.className = `brand-icon ${project.iconClass || ''}`;
-        stickyIcon.innerHTML = project.svg;
+      if ($stickyCategory.length) $stickyCategory.text(project.category);
+      if ($stickyCounter.length) $stickyCounter.text(`${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`);
+      if ($stickyIcon.length) {
+        $stickyIcon.attr('class', `brand-icon ${project.iconClass || ''}`).html(project.svg);
       }
-      if (stickyTitle) stickyTitle.textContent = project.name;
-      if (stickyDescription) stickyDescription.textContent = project.description;
-      if (stickyMetricText) stickyMetricText.textContent = project.metricLabel || (project.thousandsCount ? `${project.thousandsCount}K+ Visitors` : '⚡ High Performance');
-      if (stickyCtaBtn) {
+      if ($stickyTitle.length) $stickyTitle.text(project.name);
+      if ($stickyDescription.length) $stickyDescription.text(project.description);
+      if ($stickyMetricText.length) $stickyMetricText.text(project.metricLabel || (project.thousandsCount ? `${project.thousandsCount}K+ Visitors` : '⚡ High Performance'));
+      if ($stickyCtaBtn.length) {
         const isExternal = project.url && project.url.startsWith('http');
-        stickyCtaBtn.href = project.url || '#collaborate';
-        stickyCtaBtn.target = isExternal ? '_blank' : '_self';
-        stickyCtaBtn.rel = isExternal ? 'noopener' : '';
-        const ctaSpan = stickyCtaBtn.querySelector('span:first-child');
-        if (ctaSpan) ctaSpan.textContent = isExternal ? 'Visit Live Project' : 'Discuss Solution';
+        $stickyCtaBtn.attr({
+          href: project.url || '#collaborate',
+          target: isExternal ? '_blank' : '_self',
+          rel: isExternal ? 'noopener' : ''
+        });
+        $stickyCtaBtn.find('span:first-child').text(isExternal ? 'Visit Live Project' : 'Discuss Solution');
       }
 
-      if (stickyCardBox) {
-        stickyCardBox.style.opacity = '1';
-        stickyCardBox.style.transform = 'translateY(0)';
+      if ($stickyCardBox.length) {
+        $stickyCardBox.css({
+          opacity: '1',
+          transform: 'translateY(0)'
+        });
       }
     }, 120);
   }
 
   function initProjectScrollObserver() {
-    const scrollItems = document.querySelectorAll('.project-scroll-item');
-    if (scrollItems.length === 0) return;
+    const $scrollItems = $('.project-scroll-item');
+    if (!$scrollItems.length) return;
 
-    // IntersectionObserver for smooth active card detection
     const observerOptions = {
       root: null,
-      rootMargin: '-15% 0px -35% 0px', // Active focus band in upper-center viewport
+      rootMargin: '-15% 0px -35% 0px',
       threshold: [0.1, 0.4, 0.7]
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const idx = parseInt(entry.target.getAttribute('data-index'), 10);
-          scrollItems.forEach((item, i) => {
-            if (i === idx) {
-              item.classList.add('active');
-            } else {
-              item.classList.remove('active');
-            }
+          const idx = parseInt($(entry.target).attr('data-index'), 10);
+          $scrollItems.each(function (i) {
+            $(this).toggleClass('active', i === idx);
           });
           if (featuredProjects[idx]) {
             updateStickySidebar(featuredProjects[idx], idx, featuredProjects.length);
@@ -356,12 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, observerOptions);
 
-    scrollItems.forEach(item => observer.observe(item));
+    $scrollItems.each(function () {
+      observer.observe(this);
+    });
 
-    // Click to activate & smooth scroll
-    scrollItems.forEach((item, idx) => {
-      item.addEventListener('click', () => {
-        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $scrollItems.each(function (idx) {
+      $(this).on('click', function () {
+        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
         if (featuredProjects[idx]) {
           updateStickySidebar(featuredProjects[idx], idx, featuredProjects.length);
         }
@@ -372,9 +332,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let carouselItemsData = [];
 
   function renderCarouselCards(projects) {
-    if (!carouselTrack) return;
+    if (!$carouselTrack.length) return;
     carouselItemsData = projects;
-    carouselTrack.innerHTML = projects.map((project, idx) => {
+    $carouselTrack.html(projects.map((project, idx) => {
       const isExternal = project.url && project.url.startsWith('http');
       const btnText = isExternal ? 'Visit Live Web App' : 'Discuss Solution';
       const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
@@ -412,209 +372,183 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-    }).join('');
+    }).join(''));
   }
 
   function updateCarouselPosition() {
-    if (!carouselTrack || carouselItemsData.length === 0) return;
-    const cardEl = carouselTrack.querySelector('.carousel-card');
-    const cardWidth = cardEl ? cardEl.offsetWidth + 32 : 472;
+    if (!$carouselTrack.length || carouselItemsData.length === 0) return;
+    const $cardEl = $carouselTrack.find('.carousel-card').first();
+    const cardWidth = $cardEl.length ? $cardEl.outerWidth(true) : 472;
     const maxIndex = carouselItemsData.length - 1;
 
     if (currentCarouselIndex < 0) currentCarouselIndex = 0;
     if (currentCarouselIndex > maxIndex) currentCarouselIndex = maxIndex;
 
-    carouselTrack.style.transform = `translateX(-${currentCarouselIndex * cardWidth}px)`;
+    $carouselTrack.css('transform', `translateX(-${currentCarouselIndex * cardWidth}px)`);
 
-    if (carouselCounter) {
-      carouselCounter.textContent = `${String(currentCarouselIndex + 1).padStart(2, '0')} / ${String(carouselItemsData.length).padStart(2, '0')}`;
+    if ($carouselCounter.length) {
+      $carouselCounter.text(`${String(currentCarouselIndex + 1).padStart(2, '0')} / ${String(carouselItemsData.length).padStart(2, '0')}`);
     }
   }
 
-  async function loadPortfolioProjectsData() {
-    try {
-      const response = await fetch('data/projects.json');
-      if (!response.ok) return;
-      const data = await response.json();
+  function loadPortfolioProjectsData() {
+    $.getJSON('data/projects.json')
+      .done(function (data) {
+        if (data.section) {
+          if (data.section.title) $('#projects-main-title').text(data.section.title);
+          if (data.section.subtitle) $('#projects-main-subtitle').text(data.section.subtitle);
+          if (data.section.badge) $('#projects-badge-text').text(data.section.badge);
+        }
 
-      if (data.section) {
-        const titleEl = document.getElementById('projects-main-title');
-        const subtitleEl = document.getElementById('projects-main-subtitle');
-        const badgeEl = document.getElementById('projects-badge-text');
+        const capabilityList = data.capabilities || data.projects || [];
+        if (Array.isArray(capabilityList) && capabilityList.length > 0) {
+          allProjectsData = capabilityList;
+          featuredProjects = allProjectsData;
 
-        if (titleEl && data.section.title) titleEl.textContent = data.section.title;
-        if (subtitleEl && data.section.subtitle) subtitleEl.textContent = data.section.subtitle;
-        if (badgeEl && data.section.badge) badgeEl.textContent = data.section.badge;
-      }
-
-      const capabilityList = data.capabilities || data.projects || [];
-      if (Array.isArray(capabilityList) && capabilityList.length > 0) {
-        allProjectsData = capabilityList;
-        featuredProjects = allProjectsData;
-
-        // Render Right Scrolling Mockup Items
-        if (projectsScrollRight) {
-          projectsScrollRight.innerHTML = featuredProjects.map((project, idx) => {
-            if (project.images && Array.isArray(project.images) && project.images.length > 0) {
-              const slidesHTML = project.images.map((imgSrc, slideIdx) => {
-                const labelText = (project.sections && project.sections[slideIdx])
-                  ? project.sections[slideIdx]
-                  : `${String(slideIdx + 1).padStart(2, '0')} / ${String(project.images.length).padStart(2, '0')} — ${project.name}`;
-                return `
+          if ($projectsScrollRight.length) {
+            $projectsScrollRight.html(featuredProjects.map((project, idx) => {
+              if (project.images && Array.isArray(project.images) && project.images.length > 0) {
+                const slidesHTML = project.images.map((imgSrc, slideIdx) => `
                   <div class="swiper-slide">
                     <div class="project-image-box">
                       <img src="${imgSrc}" alt="${project.name} Section ${slideIdx + 1}" class="project-scroll-img">
-                     
+                    </div>
+                  </div>
+                `).join('');
+
+                return `
+                  <div class="project-scroll-item ${idx === 0 ? 'active' : ''} swiper-project-card" data-project-id="${project.id}" data-index="${idx}">
+                    <div class="floating-slide-counter">01 / ${String(project.images.length).padStart(2, '0')}</div>
+                    <div class="swiper project-swiper">
+                      <div class="swiper-wrapper">
+                        ${slidesHTML}
+                      </div>
+                      <div class="swiper-button-prev project-swiper-prev"></div>
+                      <div class="swiper-button-next project-swiper-next"></div>
+                      <div class="swiper-pagination project-swiper-pagination"></div>
                     </div>
                   </div>
                 `;
-              }).join('');
-
-              return `
-                <div class="project-scroll-item ${idx === 0 ? 'active' : ''} swiper-project-card" data-project-id="${project.id}" data-index="${idx}">
-                  <div class="floating-slide-counter" id="floating-slide-counter">01 / ${String(project.images.length).padStart(2, '0')}</div>
-                  <div class="swiper project-swiper">
-                    <div class="swiper-wrapper">
-                      ${slidesHTML}
+              } else {
+                return `
+                  <div class="project-scroll-item ${idx === 0 ? 'active' : ''}" data-project-id="${project.id}" data-index="${idx}">
+                    <div class="project-image-box">
+                      <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
+                      <div class="image-overlay-title">${project.name}</div>
                     </div>
-                    <div class="swiper-button-prev project-swiper-prev"></div>
-                    <div class="swiper-button-next project-swiper-next"></div>
-                    <div class="swiper-pagination project-swiper-pagination"></div>
                   </div>
-                </div>
-              `;
-            } else {
-              return `
-                <div class="project-scroll-item ${idx === 0 ? 'active' : ''}" data-project-id="${project.id}" data-index="${idx}">
-                  <div class="project-image-box">
-                    <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
-                    <div class="image-overlay-title">${project.name}</div>
-                  </div>
-                </div>
-              `;
-            }
-          }).join('');
+                `;
+              }
+            }).join(''));
 
-          initProjectSwiper();
+            initProjectSwiper();
+          }
+
+          const carouselItems = (data.currentlyBuilding && data.currentlyBuilding.length > 0) ? data.currentlyBuilding : allProjectsData;
+          renderCarouselCards(carouselItems);
+
+          const horizontalItems = [...(data.currentlyBuilding || []), ...(data.capabilities || [])];
+          renderHorizontalTrack(horizontalItems);
+          initHorizontalScrollListener();
+          initCategoryFilterPills(horizontalItems);
+          initDragToScroll();
+
+          updateStickySidebar(featuredProjects[0], 0, featuredProjects.length);
+
+          initProjectScrollObserver();
+          initTextWordAnimations();
+          initSpotlightGlowEffect();
+          initTopScrollProgress();
         }
-
-        // Render Carousel Cards (Active Team Builds or all items)
-        const carouselItems = (data.currentlyBuilding && data.currentlyBuilding.length > 0) ? data.currentlyBuilding : allProjectsData;
-        renderCarouselCards(carouselItems);
-
-        // Render Horizontal Scroll Track (All builds & capabilities combined)
-        const horizontalItems = [...(data.currentlyBuilding || []), ...(data.capabilities || [])];
-        renderHorizontalTrack(horizontalItems);
-        initHorizontalScrollListener();
-        initCategoryFilterPills(horizontalItems);
-        initDragToScroll();
-
-        // Initialize Sticky Sidebar immediately with First Capability
-        updateStickySidebar(featuredProjects[0], 0, featuredProjects.length);
-
-        // Initialize IntersectionObserver scroll listeners, spotlight glow & top progress
-        initProjectScrollObserver();
-        initTextWordAnimations();
-        initSpotlightGlowEffect();
-        initTopScrollProgress();
-      }
-    } catch (error) {
-      console.warn('Unable to load projects.json dynamically:', error);
-    }
+      })
+      .fail(function (error) {
+        console.warn('Unable to load projects.json dynamically:', error);
+      });
   }
 
   function initTopScrollProgress() {
-    const bar = document.getElementById('top-scroll-progress');
-    if (!bar) return;
+    const $bar = $('#top-scroll-progress');
+    if (!$bar.length) return;
 
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      bar.style.width = `${progress}%`;
-    }, { passive: true });
+    $(window).on('scroll', function () {
+      const scrollTop = $(window).scrollTop();
+      const docHeight = $(document).height() - $(window).height();
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      $bar.css('width', progress + '%');
+    });
   }
 
   function initSpotlightGlowEffect() {
-    document.querySelectorAll('.shuddho-card, .horizontal-project-card, .carousel-card').forEach(card => {
-      card.classList.add('spotlight-card');
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
+    $('.shuddho-card, .horizontal-project-card, .carousel-card').each(function () {
+      const $card = $(this);
+      $card.addClass('spotlight-card');
+      $card.on('mousemove', function (e) {
+        const offset = $card.offset();
+        const x = e.pageX - offset.left;
+        const y = e.pageY - offset.top;
+        this.style.setProperty('--mouse-x', x + 'px');
+        this.style.setProperty('--mouse-y', y + 'px');
       });
     });
   }
 
   function initDragToScroll() {
-    const container = document.querySelector('.horizontal-track-container');
-    if (!container) return;
+    const $container = $('.horizontal-track-container');
+    if (!$container.length) return;
 
     let isDown = false;
     let startX;
     let scrollLeft;
 
-    container.addEventListener('mousedown', (e) => {
+    $container.on('mousedown', function (e) {
       isDown = true;
-      container.classList.add('dragging');
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-    });
-
-    container.addEventListener('mouseleave', () => {
+      $container.addClass('dragging');
+      startX = e.pageX - $container.offset().left;
+      scrollLeft = $container.scrollLeft();
+    }).on('mouseleave mouseup', function () {
       isDown = false;
-      container.classList.remove('dragging');
-    });
-
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('dragging');
-    });
-
-    container.addEventListener('mousemove', (e) => {
+      $container.removeClass('dragging');
+    }).on('mousemove', function (e) {
       if (!isDown) return;
       e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
+      const x = e.pageX - $container.offset().left;
       const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
+      $container.scrollLeft(scrollLeft - walk);
     });
   }
 
   function initCategoryFilterPills(allHorizontalItems) {
-    const filterBtns = document.querySelectorAll('.category-filter-btn');
-    if (filterBtns.length === 0) return;
+    const $filterBtns = $('.category-filter-btn');
+    if (!$filterBtns.length) return;
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    $filterBtns.on('click', function () {
+      $filterBtns.removeClass('active');
+      const $btn = $(this);
+      $btn.addClass('active');
 
-        const cat = btn.getAttribute('data-category');
-        let filtered = allHorizontalItems;
+      const cat = $btn.attr('data-category');
+      let filtered = allHorizontalItems;
 
-        if (cat === 'live') {
-          filtered = allHorizontalItems.filter(item => item.url && item.url.startsWith('http'));
-        } else if (cat === 'webapps') {
-          filtered = allHorizontalItems.filter(item => item.id.includes('web') || (item.category && item.category.toLowerCase().includes('web')));
-        } else if (cat === 'ecommerce') {
-          filtered = allHorizontalItems.filter(item => item.id.includes('ecommerce') || item.id.includes('shopify') || (item.category && item.category.toLowerCase().includes('commerce')));
-        } else if (cat === 'api') {
-          filtered = allHorizontalItems.filter(item => item.id.includes('api') || item.id.includes('backend') || item.id.includes('automation') || (item.category && item.category.toLowerCase().includes('api')));
-        }
+      if (cat === 'live') {
+        filtered = allHorizontalItems.filter(item => item.url && item.url.startsWith('http'));
+      } else if (cat === 'webapps') {
+        filtered = allHorizontalItems.filter(item => item.id.includes('web') || (item.category && item.category.toLowerCase().includes('web')));
+      } else if (cat === 'ecommerce') {
+        filtered = allHorizontalItems.filter(item => item.id.includes('ecommerce') || item.id.includes('shopify') || (item.category && item.category.toLowerCase().includes('commerce')));
+      } else if (cat === 'api') {
+        filtered = allHorizontalItems.filter(item => item.id.includes('api') || item.id.includes('backend') || item.id.includes('automation') || (item.category && item.category.toLowerCase().includes('api')));
+      }
 
-        renderHorizontalTrack(filtered.length > 0 ? filtered : allHorizontalItems);
-        initSpotlightGlowEffect();
-      });
+      renderHorizontalTrack(filtered.length > 0 ? filtered : allHorizontalItems);
+      initSpotlightGlowEffect();
     });
   }
 
   function renderHorizontalTrack(projects) {
-    const track = document.getElementById('horizontal-projects-track');
-    if (!track) return;
+    const $track = $('#horizontal-projects-track');
+    if (!$track.length) return;
 
-    track.innerHTML = projects.map((project) => {
+    $track.html(projects.map((project) => {
       const isExternal = project.url && project.url.startsWith('http');
       const btnText = isExternal ? 'Visit Live Web App' : 'Discuss Solution';
       const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
@@ -647,130 +581,117 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
       `;
-    }).join('');
+    }).join(''));
   }
 
   function initHorizontalScrollListener() {
-    const section = document.querySelector('.horizontal-scroll-section');
-    const track = document.getElementById('horizontal-projects-track');
-    const progressBar = document.getElementById('horizontal-scroll-progress');
-    if (!section || !track) return;
+    const $section = $('.horizontal-scroll-section');
+    const $track = $('#horizontal-projects-track');
+    const $progressBar = $('#horizontal-scroll-progress');
+    if (!$section.length || !$track.length) return;
 
     function onScroll() {
-      if (window.innerWidth <= 768) return; // Native swipe scroll on mobile
+      if ($(window).width() <= 768) return;
 
-      const rect = section.getBoundingClientRect();
-      const sectionHeight = section.offsetHeight;
-      const windowHeight = window.innerHeight;
+      const sectionEl = $section.get(0);
+      const trackEl = $track.get(0);
+      const rect = sectionEl.getBoundingClientRect();
+      const sectionHeight = sectionEl.offsetHeight;
+      const windowHeight = $(window).height();
 
       const scrollableDistance = sectionHeight - windowHeight;
       const scrolled = -rect.top;
 
-      let progress = scrolled / scrollableDistance;
+      let progress = scrollableDistance > 0 ? scrolled / scrollableDistance : 0;
       progress = Math.max(0, Math.min(1, progress));
 
-      const maxTranslate = Math.max(0, track.scrollWidth - window.innerWidth + 120);
+      const maxTranslate = Math.max(0, trackEl.scrollWidth - $(window).width() + 120);
       const translateX = progress * maxTranslate;
 
-      track.style.transform = `translateX(-${translateX}px)`;
-      if (progressBar) {
-        progressBar.style.width = `${progress * 100}%`;
+      $track.css('transform', `translateX(-${translateX}px)`);
+      if ($progressBar.length) {
+        $progressBar.css('width', (progress * 100) + '%');
       }
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    $(window).on('scroll resize', onScroll);
     onScroll();
   }
 
   function initTextWordAnimations() {
-    // 1. Process reveal-word-target headings
-    const wordTargets = document.querySelectorAll('.reveal-word-target');
-    wordTargets.forEach(target => {
-      if (target.dataset.wordRevealed) return;
-      target.dataset.wordRevealed = 'true';
-      const text = target.textContent.trim();
+    const $wordTargets = $('.reveal-word-target');
+    $wordTargets.each(function () {
+      const $target = $(this);
+      if ($target.data('wordRevealed')) return;
+      $target.data('wordRevealed', true);
+      const text = $.trim($target.text());
       const words = text.split(/\s+/);
-      target.innerHTML = words.map((word, idx) => `
+      $target.html(words.map((word, idx) => `
         <span class="reveal-text-container">
           <span class="reveal-word" style="transition-delay: ${idx * 0.05}s">${word}</span>
         </span>
-      `).join(' ');
+      `).join(' '));
     });
 
-    // 2. IntersectionObserver for reveal-word and fade-in-up elements
     const animObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-
-          const words = entry.target.querySelectorAll('.reveal-word');
-          words.forEach(w => w.classList.add('is-visible'));
+          const $target = $(entry.target);
+          $target.addClass('is-visible');
+          $target.find('.reveal-word').addClass('is-visible');
         }
       });
     }, { threshold: 0.15 });
 
-    document.querySelectorAll('.fade-in-up, .reveal-word-target, .shuddho-card, .section-badge').forEach(el => {
-      animObserver.observe(el);
+    $('.fade-in-up, .reveal-word-target, .shuddho-card, .section-badge').each(function () {
+      animObserver.observe(this);
     });
   }
 
-  // Toggle Availability Section Expansion smoothly on "Check Availability & Work Together" click
-  if (btnViewAll && carouselContainer) {
-    btnViewAll.addEventListener('click', () => {
-      const isExpanded = carouselContainer.classList.contains('is-expanded');
-      const spanText = btnViewAll.querySelector('span:first-child');
+  if ($btnViewAll.length && $carouselContainer.length) {
+    $btnViewAll.on('click', function () {
+      const isExpanded = $carouselContainer.hasClass('is-expanded');
+      const $spanText = $btnViewAll.find('span:first-child');
 
       if (!isExpanded) {
-        carouselContainer.classList.add('is-expanded');
-        // Set dynamic max-height to exact scrollHeight for smooth transition
-        const fullHeight = carouselContainer.scrollHeight + 120;
-        carouselContainer.style.maxHeight = `${fullHeight}px`;
-
-        // setTimeout(() => {
-        //   carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // }, 300);
-
-        if (spanText) spanText.textContent = 'Hide Availability Details';
+        $carouselContainer.addClass('is-expanded');
+        const fullHeight = $carouselContainer.get(0).scrollHeight + 120;
+        $carouselContainer.css('max-height', fullHeight + 'px');
+        if ($spanText.length) $spanText.text('Hide Availability Details');
       } else {
-        carouselContainer.style.maxHeight = '0px';
-        carouselContainer.classList.remove('is-expanded');
-
-        if (spanText) spanText.textContent = '⚡ Check Availability & Work Together';
+        $carouselContainer.css('max-height', '0px').removeClass('is-expanded');
+        if ($spanText.length) $spanText.text('⚡ Check Availability & Work Together');
       }
     });
   }
 
-  // Carousel Prev/Next Buttons
-  if (carouselPrevBtn) {
-    carouselPrevBtn.addEventListener('click', () => {
+  if ($carouselPrevBtn.length) {
+    $carouselPrevBtn.on('click', function () {
       currentCarouselIndex--;
       updateCarouselPosition();
     });
   }
 
-  if (carouselNextBtn) {
-    carouselNextBtn.addEventListener('click', () => {
+  if ($carouselNextBtn.length) {
+    $carouselNextBtn.on('click', function () {
       currentCarouselIndex++;
       updateCarouselPosition();
     });
   }
 
-  // Contact Form Submission  // Automatic Background Email Dispatcher (via Serverless API /api/send-email reading process.env.RESEND_API_KEY)
-  async function sendEmailNotification(payload) {
-    try {
-      const apiRes = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const apiData = await apiRes.json();
-
-      // 2. Secondary Dispatch via FormSubmit AJAX (Dual redundancy delivery)
-      fetch("https://formsubmit.co/ajax/mar.miju.dev@gmail.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
+  function sendEmailNotification(payload) {
+    return $.ajax({
+      url: "/api/send-email",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(payload)
+    }).then(function (apiData) {
+      $.ajax({
+        url: "https://formsubmit.co/ajax/mar.miju.dev@gmail.com",
+        type: "POST",
+        contentType: "application/json",
+        headers: { "Accept": "application/json" },
+        data: JSON.stringify({
           name: payload.name,
           email: payload.email,
           category: payload.category,
@@ -779,397 +700,378 @@ document.addEventListener('DOMContentLoaded', () => {
           _template: "table",
           _captcha: "false"
         })
-      }).catch(() => { });
+      }).fail(function () { });
 
       return apiData;
-    } catch (error) {
+    }).fail(function (error) {
       console.warn('API send email dispatch note:', error);
       return { success: true };
-    }
+    });
+  }
 
-    // Contact Form Submission & Seamless Background Dispatch
-    function initContactFormHandler() {
-      const contactForm = document.getElementById('shuddho-contact-form');
-      if (!contactForm) return;
+  function initContactFormHandler() {
+    const $contactForm = $('#shuddho-contact-form');
+    if (!$contactForm.length) return;
 
-      const contactFormWrapper = contactForm.parentElement;
+    const $contactFormWrapper = $contactForm.parent();
 
-      contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    $contactForm.on('submit', function (e) {
+      e.preventDefault();
 
-        const nameInput = document.getElementById('contact-name');
-        const emailInput = document.getElementById('contact-email');
-        const categorySelect = document.getElementById('contact-category');
-        const messageInput = document.getElementById('contact-message');
+      const name = $.trim($('#contact-name').val() || '');
+      const email = $.trim($('#contact-email').val() || '');
+      const category = $('#contact-category').val() || 'General Inquiry';
+      const message = $.trim($('#contact-message').val() || '');
 
-        const name = nameInput ? nameInput.value.trim() : '';
-        const email = emailInput ? emailInput.value.trim() : '';
-        const category = categorySelect ? categorySelect.value : 'General Inquiry';
-        const message = messageInput ? messageInput.value.trim() : '';
+      const $submitBtn = $contactForm.find('button[type="submit"]');
 
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
+      if ($submitBtn.length) {
+        $submitBtn.html('<span>Sending Project Details... ⏳</span>').prop('disabled', true);
+      }
 
-        if (submitBtn) {
-          submitBtn.innerHTML = '<span>Sending Project Details... ⏳</span>';
-          submitBtn.disabled = true;
-        }
+      sendEmailNotification({ name, email, category, message }).always(function () {
+        if ($contactFormWrapper.length) {
+          const originalFormHTML = $contactForm.get(0).outerHTML;
 
-        // 1. Send data automatically in the background via API (NO MAIL CLIENT POPUP!)
-        await sendEmailNotification({ name, email, category, message });
+          $contactFormWrapper.html(`
+            <div class="form-success-card" id="form-success-card">
+                <div class="success-icon-badge">✓</div>
+                <h4 class="success-title">Thank You for Submitting! 🎉</h4>
+                <p class="success-desc">
+                    We have successfully received your project details for <strong>${name}</strong> (<em>${email}</em>).
+                    An email notification with your project requirements has been dispatched to <strong>mar.miju.dev@gmail.com</strong>.
+                    Our engineering team will review your project and respond shortly.
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                    <button type="button" class="btn-dark btn-collaborate" id="btn-reset-form" style="padding: 10px 22px; font-size: 0.88rem;">
+                        <span>Submit Another Inquiry</span>
+                    </button>
+                </div>
+            </div>
+          `);
 
-        // 2. Render High-End "Thanks for Submitting!" Confirmation Card
-        if (contactFormWrapper) {
-          const originalFormHTML = contactForm.outerHTML;
-
-          contactFormWrapper.innerHTML = `
-          <div class="form-success-card" id="form-success-card">
-              <div class="success-icon-badge">✓</div>
-              <h4 class="success-title">Thank You for Submitting! 🎉</h4>
-              <p class="success-desc">
-                  We have successfully received your project details for <strong>${name}</strong> (<em>${email}</em>).
-                  An email notification with your project requirements has been dispatched to <strong>mar.miju.dev@gmail.com</strong>.
-                  Our engineering team will review your project and respond shortly.
-              </p>
-              <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
-                  <button type="button" class="btn-dark btn-collaborate" id="btn-reset-form" style="padding: 10px 22px; font-size: 0.88rem;">
-                      <span>Submit Another Inquiry</span>
-                  </button>
-              </div>
-          </div>
-        `;
-
-          const resetBtn = document.getElementById('btn-reset-form');
-          if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-              contactFormWrapper.innerHTML = `<h3 class="card-title-text" style="margin-bottom: 20px;">Send Us a Message</h3>` + originalFormHTML;
-              initContactFormHandler();
-            });
-          }
+          $('#btn-reset-form').on('click', function () {
+            $contactFormWrapper.html(`<h3 class="card-title-text" style="margin-bottom: 20px;">Send Us a Message</h3>` + originalFormHTML);
+            initContactFormHandler();
+          });
         }
       });
-    }
+    });
+  }
 
-    initContactFormHandler();
+  initContactFormHandler();
 
-    /* ==========================================================================
-       Dynamic Brands & Clients Marquee Loader (data/trust.json)
-       ========================================================================== */
-    async function loadTrustData() {
-      const topTrack = document.getElementById('marquee-top-track');
-      const bottomTrack = document.getElementById('marquee-bottom-track');
+  function loadTrustData() {
+    const $topTrack = $('#marquee-top-track');
+    const $bottomTrack = $('#marquee-bottom-track');
 
-      if (!topTrack && !bottomTrack) return;
+    if (!$topTrack.length && !$bottomTrack.length) return;
 
-      try {
-        const response = await fetch('data/trust.json');
-        if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
-        const data = await response.json();
-
+    $.getJSON('data/trust.json')
+      .done(function (data) {
         if (data.section) {
-          const titleEl = document.getElementById('brands-section-title');
-          const subtitleEl = document.getElementById('brands-section-subtitle');
-          if (titleEl && data.section.title) titleEl.textContent = data.section.title;
-          if (subtitleEl && data.section.subtitle) subtitleEl.textContent = data.section.subtitle;
+          if (data.section.title) $('#brands-section-title').text(data.section.title);
+          if (data.section.subtitle) $('#brands-section-subtitle').text(data.section.subtitle);
         }
 
         function createCardHTML(item) {
           return `
-          <div class="brand-card">
-            <div class="brand-icon ${item.iconClass || ''}">
-              ${item.svg || ''}
+            <div class="brand-card">
+              <div class="brand-icon ${item.iconClass || ''}">
+                ${item.svg || ''}
+              </div>
+              <div class="brand-info">
+                <h3 class="brand-name">${item.name || ''}</h3>
+                <span class="brand-tag">${item.tag || ''}</span>
+              </div>
             </div>
-            <div class="brand-info">
-              <h3 class="brand-name">${item.name || ''}</h3>
-              <span class="brand-tag">${item.tag || ''}</span>
-            </div>
-          </div>
-        `;
+          `;
         }
 
-        function renderMarqueeTrack(trackEl, items) {
-          if (!trackEl || !items || !items.length) return;
+        function renderMarqueeTrack($trackEl, items) {
+          if (!$trackEl.length || !items || !items.length) return;
           const groupHTML = items.map(createCardHTML).join('');
-          trackEl.innerHTML = `
-          <div class="marquee-group">
-            ${groupHTML}
-          </div>
-          <div class="marquee-group" aria-hidden="true">
-            ${groupHTML}
-          </div>
-        `;
+          $trackEl.html(`
+            <div class="marquee-group">
+              ${groupHTML}
+            </div>
+            <div class="marquee-group" aria-hidden="true">
+              ${groupHTML}
+            </div>
+          `);
         }
 
-        if (topTrack && data.topRow) {
-          renderMarqueeTrack(topTrack, data.topRow);
+        if ($topTrack.length && data.topRow) {
+          renderMarqueeTrack($topTrack, data.topRow);
         }
 
-        if (bottomTrack && data.bottomRow) {
-          renderMarqueeTrack(bottomTrack, data.bottomRow);
+        if ($bottomTrack.length && data.bottomRow) {
+          renderMarqueeTrack($bottomTrack, data.bottomRow);
         }
-      } catch (err) {
+      })
+      .fail(function (err) {
         console.error('Error loading trust data from json:', err);
-      }
-    }
-
-    /* ==========================================================================
-       Swiper Project Section Slider Initialization
-       ========================================================================== */
-    let activeSwiperInstance = null;
-    function initProjectSwiper() {
-      const swiperEl = document.querySelector('.project-swiper');
-      if (!swiperEl) return;
-      if (activeSwiperInstance && typeof activeSwiperInstance.destroy === 'function') {
-        activeSwiperInstance.destroy(true, true);
-        activeSwiperInstance = null;
-      }
-      if (window.Swiper) {
-        activeSwiperInstance = new window.Swiper('.project-swiper', {
-          loop: true,
-          observer: true,
-          observeParents: true,
-          autoplay: {
-            delay: 3500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          },
-          navigation: {
-            nextEl: '.project-swiper-next',
-            prevEl: '.project-swiper-prev',
-          },
-          pagination: {
-            el: '.project-swiper-pagination',
-            clickable: true,
-          },
-          speed: 600,
-          on: {
-            slideChange: function () {
-              const realIndex = typeof this.realIndex === 'number' ? this.realIndex : 0;
-              const counterEl = document.getElementById('sticky-counter');
-              const floatingCounterEl = document.getElementById('floating-slide-counter');
-              const formatted = `${String(realIndex + 1).padStart(2, '0')} / 05`;
-              if (counterEl) counterEl.textContent = formatted;
-              if (floatingCounterEl) floatingCounterEl.textContent = formatted;
-            }
-          }
-        });
-      }
-    }
-
-    /* ==========================================================================
-       Dynamic Contact Info Loader (data/contact.json)
-       ========================================================================== */
-    async function loadContactData() {
-      try {
-        const response = await fetch('data/contact.json');
-        if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
-        const data = await response.json();
-
-        // Email updates
-        if (data.email) {
-          const availEmailLink = document.getElementById('availability-email-link');
-          const availEmailSubtext = document.getElementById('availability-email-subtext');
-          const contactEmailBtn = document.getElementById('contact-email-btn');
-          const contactEmailBtnText = document.getElementById('contact-email-btn-text');
-          const contactCardEmailText = document.getElementById('contact-card-email-text');
-
-          if (availEmailLink && data.email.inquiryMailto) availEmailLink.href = data.email.inquiryMailto;
-          if (availEmailSubtext && (data.email.displayLabel || data.email.address)) {
-            availEmailSubtext.textContent = data.email.displayLabel || data.email.address;
-          }
-          if (contactEmailBtn && data.email.mailto) contactEmailBtn.href = data.email.mailto;
-          if (contactEmailBtnText && data.email.buttonText) contactEmailBtnText.textContent = data.email.buttonText;
-          if (contactCardEmailText && data.email.address) contactCardEmailText.textContent = data.email.address;
-        }
-
-        // WhatsApp updates
-        if (data.whatsapp) {
-          const contactWhatsappBtn = document.getElementById('contact-whatsapp-btn');
-          const contactWhatsappBtnText = document.getElementById('contact-whatsapp-btn-text');
-          const contactCardWhatsappText = document.getElementById('contact-card-whatsapp-text');
-
-          if (contactWhatsappBtn && data.whatsapp.link) contactWhatsappBtn.href = data.whatsapp.link;
-          if (contactWhatsappBtnText && data.whatsapp.buttonText) contactWhatsappBtnText.textContent = data.whatsapp.buttonText;
-          if (contactCardWhatsappText && (data.whatsapp.formattedNumber || data.whatsapp.number)) {
-            contactCardWhatsappText.textContent = data.whatsapp.formattedNumber || data.whatsapp.number;
-          }
-        }
-
-        // Calendly updates
-        if (data.calendly) {
-          const availCalendlyLink = document.getElementById('availability-calendly-link');
-          const availCalendlySubtext = document.getElementById('availability-calendly-subtext');
-          const floatingCalendlyLink = document.getElementById('floating-calendly-link');
-
-          if (availCalendlyLink && data.calendly.link) availCalendlyLink.href = data.calendly.link;
-          if (availCalendlySubtext && data.calendly.subtext) availCalendlySubtext.textContent = data.calendly.subtext;
-          if (floatingCalendlyLink && data.calendly.link) floatingCalendlyLink.href = data.calendly.link;
-        }
-
-        // Location updates
-        if (data.location) {
-          const contactCardLocationTitle = document.getElementById('contact-card-location-title');
-          const contactCardLocationText = document.getElementById('contact-card-location-text');
-
-          if (contactCardLocationTitle && data.location.title) contactCardLocationTitle.textContent = data.location.title;
-          if (contactCardLocationText && data.location.description) contactCardLocationText.textContent = data.location.description;
-        }
-      } catch (error) {
-        console.warn('Unable to load contact.json dynamically:', error);
-      }
-    }
-
-    /* ==========================================================================
-       Advanced Scroll Animation & Responsive Drawer System for Terms Page
-       ========================================================================== */
-    function initTermsPageScrollEngine() {
-      const termsCards = document.querySelectorAll('.terms-section-card');
-      const termsNavItems = document.querySelectorAll('.terms-nav-item');
-      const progressFill = document.getElementById('terms-progress-fill');
-      const readPercentText = document.getElementById('terms-read-percent');
-      const mobileProgressFill = document.getElementById('terms-mobile-progress-fill');
-      const mobileReadPercentText = document.getElementById('terms-mobile-read-percent');
-      const fabPercentText = document.getElementById('terms-fab-percent');
-      const termsWrapper = document.getElementById('terms-content-wrapper');
-
-      // Mobile Terms Drawer Elements
-      const fabBtn = document.getElementById('terms-mobile-fab-btn');
-      const drawerPanel = document.getElementById('terms-mobile-drawer-panel');
-      const drawerBackdrop = document.getElementById('terms-drawer-backdrop');
-      const drawerCloseBtn = document.getElementById('terms-drawer-close-btn');
-
-      if (termsCards.length === 0) return;
-
-      // Mobile Drawer Toggle Handlers
-      function openMobileTermsDrawer() {
-        if (drawerPanel) drawerPanel.classList.add('is-open');
-        if (drawerBackdrop) drawerBackdrop.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeMobileTermsDrawer() {
-        if (drawerPanel) drawerPanel.classList.remove('is-open');
-        if (drawerBackdrop) drawerBackdrop.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-
-      if (fabBtn) fabBtn.addEventListener('click', openMobileTermsDrawer);
-      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileTermsDrawer);
-      if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileTermsDrawer);
-
-      const edgeHint = document.getElementById('terms-edge-swipe-hint');
-      if (edgeHint) edgeHint.addEventListener('click', openMobileTermsDrawer);
-
-      // Touch Drag / Left-to-Right Edge Swipe Gestures
-      let touchStartX = 0;
-      let touchStartY = 0;
-
-      window.addEventListener('touchstart', (e) => {
-        if (e.touches.length > 1) return;
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-      }, { passive: true });
-
-      window.addEventListener('touchmove', (e) => {
-        if (!touchStartX) return;
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const deltaX = currentX - touchStartX;
-        const deltaY = Math.abs(currentY - touchStartY);
-
-        const isDrawerOpen = drawerPanel && drawerPanel.classList.contains('is-open');
-
-        // Swipe from left edge to right (touchStartX < 70 & drag deltaX > 45)
-        if (!isDrawerOpen && touchStartX < 70 && deltaX > 45 && deltaX > deltaY * 1.2) {
-          openMobileTermsDrawer();
-          touchStartX = 0; // Prevent duplicate trigger
-        } else if (isDrawerOpen && deltaX < -45 && Math.abs(deltaX) > deltaY * 1.2) {
-          closeMobileTermsDrawer();
-          touchStartX = 0;
-        }
-      }, { passive: true });
-
-      window.addEventListener('touchend', () => {
-        touchStartX = 0;
-        touchStartY = 0;
-      }, { passive: true });
-
-      // Auto-close drawer on link click
-      document.querySelectorAll('.mobile-drawer-nav-links a').forEach(link => {
-        link.addEventListener('click', closeMobileTermsDrawer);
       });
-
-      // 1. Intersection Observer for Smooth Staggered Card Entrance Animation
-      const cardEntranceObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-          }
-        });
-      }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
-      });
-
-      termsCards.forEach(card => cardEntranceObserver.observe(card));
-
-      // 2. Active Section Highlight & Scroll Progress Calculation
-      function handleTermsScroll() {
-        const windowHeight = window.innerHeight;
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-        // Update Reading Progress Bars (Desktop & Mobile)
-        if (termsWrapper) {
-          const wrapperRect = termsWrapper.getBoundingClientRect();
-          const wrapperTop = wrapperRect.top + scrollTop;
-          const wrapperHeight = wrapperRect.height;
-          const totalScrollable = wrapperHeight - windowHeight + 100;
-
-          let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
-          const formattedPercent = `${percentage.toFixed(0)}%`;
-
-          if (progressFill) progressFill.style.width = formattedPercent;
-          if (readPercentText) readPercentText.textContent = formattedPercent;
-          if (mobileProgressFill) mobileProgressFill.style.width = formattedPercent;
-          if (mobileReadPercentText) mobileReadPercentText.textContent = formattedPercent;
-          if (fabPercentText) fabPercentText.textContent = formattedPercent;
-        }
-
-        // Highlight Active Nav Item based on center viewport position
-        let activeIndex = 0;
-        termsCards.forEach((card, index) => {
-          const rect = card.getBoundingClientRect();
-          if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.2) {
-            activeIndex = index;
-            card.classList.add('active-focus');
-          } else {
-            card.classList.remove('active-focus');
-          }
-        });
-
-        termsNavItems.forEach((item, index) => {
-          if (index === activeIndex || index % termsCards.length === activeIndex) {
-            item.classList.add('active');
-          } else {
-            item.classList.remove('active');
-          }
-        });
-      }
-
-      window.addEventListener('scroll', handleTermsScroll, { passive: true });
-      handleTermsScroll(); // Initial trigger
-    }
-
-    // Immediate startup for static elements & fallback cards
-    initHorizontalScrollListener();
-    initTextWordAnimations();
-    initSpotlightGlowEffect();
-    initTopScrollProgress();
-    initDragToScroll();
-
-    loadPortfolioProjectsData();
-    loadTrustData();
-    loadContactData();
-    initProjectSwiper();
-    initTermsPageScrollEngine();
   }
+
+  let activeSwiperInstances = [];
+  function initProjectSwiper() {
+    if (!window.Swiper) {
+      setTimeout(initProjectSwiper, 150);
+      return;
+    }
+
+    if (Array.isArray(activeSwiperInstances) && activeSwiperInstances.length > 0) {
+      activeSwiperInstances.forEach(instance => {
+        if (instance && typeof instance.destroy === 'function') {
+          try {
+            instance.destroy(true, true);
+          } catch (e) { }
+        }
+      });
+      activeSwiperInstances = [];
+    }
+
+    const $swiperElements = $('.project-swiper');
+    if (!$swiperElements.length) return;
+
+    $swiperElements.each(function () {
+      const swiperEl = this;
+      const $swiperEl = $(swiperEl);
+      const $parentCard = $swiperEl.closest('.swiper-project-card');
+      const prevBtn = $parentCard.length ? $parentCard.find('.project-swiper-prev').get(0) : $swiperEl.find('.project-swiper-prev').get(0);
+      const nextBtn = $parentCard.length ? $parentCard.find('.project-swiper-next').get(0) : $swiperEl.find('.project-swiper-next').get(0);
+      const paginationEl = $parentCard.length ? $parentCard.find('.project-swiper-pagination').get(0) : $swiperEl.find('.project-swiper-pagination').get(0);
+      const $floatingCounterEl = $parentCard.length ? $parentCard.find('.floating-slide-counter') : $('#floating-slide-counter');
+
+      const $slides = $swiperEl.find('.swiper-slide:not(.swiper-slide-duplicate)');
+      const totalSlidesCount = $slides.length > 0 ? $slides.length : 5;
+
+      const updateCounter = (swiperInstance) => {
+        const realIndex = typeof swiperInstance.realIndex === 'number' ? swiperInstance.realIndex : 0;
+        const total = swiperInstance.slides ? (swiperInstance.slides.length - (swiperInstance.params.loop ? 2 : 0)) : totalSlidesCount;
+        const countToUse = total > 0 ? total : totalSlidesCount;
+        const formatted = `${String(realIndex + 1).padStart(2, '0')} / ${String(countToUse).padStart(2, '0')}`;
+        const $counterEl = $('#sticky-counter');
+        if ($counterEl.length && $parentCard.hasClass('active')) {
+          $counterEl.text(formatted);
+        }
+        if ($floatingCounterEl.length) {
+          $floatingCounterEl.text(formatted);
+        }
+      };
+
+      const instance = new window.Swiper(swiperEl, {
+        loop: totalSlidesCount > 1,
+        observer: true,
+        observeParents: true,
+        resizeObserver: true,
+        autoplay: totalSlidesCount > 1 ? {
+          delay: 3500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        } : false,
+        navigation: {
+          nextEl: nextBtn,
+          prevEl: prevBtn,
+        },
+        pagination: {
+          el: paginationEl,
+          clickable: true,
+        },
+        speed: 600,
+        on: {
+          init: function () {
+            updateCounter(this);
+          },
+          slideChange: function () {
+            updateCounter(this);
+          }
+        }
+      });
+
+      activeSwiperInstances.push(instance);
+    });
+  }
+
+  function loadContactData() {
+    $.getJSON('data/contact.json')
+      .done(function (data) {
+        if (data.email) {
+          if (data.email.inquiryMailto) $('#availability-email-link').attr('href', data.email.inquiryMailto);
+          if (data.email.displayLabel || data.email.address) {
+            $('#availability-email-subtext').text(data.email.displayLabel || data.email.address);
+          }
+          if (data.email.mailto) $('#contact-email-btn').attr('href', data.email.mailto);
+          if (data.email.buttonText) $('#contact-email-btn-text').text(data.email.buttonText);
+          if (data.email.address) $('#contact-card-email-text').text(data.email.address);
+        }
+
+        if (data.whatsapp) {
+          if (data.whatsapp.link) $('#contact-whatsapp-btn').attr('href', data.whatsapp.link);
+          if (data.whatsapp.buttonText) $('#contact-whatsapp-btn-text').text(data.whatsapp.buttonText);
+          if (data.whatsapp.formattedNumber || data.whatsapp.number) {
+            $('#contact-card-whatsapp-text').text(data.whatsapp.formattedNumber || data.whatsapp.number);
+          }
+        }
+
+        if (data.calendly) {
+          if (data.calendly.link) $('#availability-calendly-link').attr('href', data.calendly.link);
+          if (data.calendly.subtext) $('#availability-calendly-subtext').text(data.calendly.subtext);
+          if (data.calendly.link) $('#floating-calendly-link').attr('href', data.calendly.link);
+        }
+
+        if (data.location) {
+          if (data.location.title) $('#contact-card-location-title').text(data.location.title);
+          if (data.location.description) $('#contact-card-location-text').text(data.location.description);
+        }
+      })
+      .fail(function (error) {
+        console.warn('Unable to load contact.json dynamically:', error);
+      });
+  }
+
+  function initTermsPageScrollEngine() {
+    const $termsCards = $('.terms-section-card');
+    const $termsNavItems = $('.terms-nav-item');
+    const $progressFill = $('#terms-progress-fill');
+    const $readPercentText = $('#terms-read-percent');
+    const $mobileProgressFill = $('#terms-mobile-progress-fill');
+    const $mobileReadPercentText = $('#terms-mobile-read-percent');
+    const $fabPercentText = $('#terms-fab-percent');
+    const $termsWrapper = $('#terms-content-wrapper');
+
+    const $fabBtn = $('#terms-mobile-fab-btn');
+    const $drawerPanel = $('#terms-mobile-drawer-panel');
+    const $drawerBackdrop = $('#terms-drawer-backdrop');
+    const $drawerCloseBtn = $('#terms-drawer-close-btn');
+
+    if (!$termsCards.length) return;
+
+    function openMobileTermsDrawer() {
+      if ($drawerPanel.length) $drawerPanel.addClass('is-open');
+      if ($drawerBackdrop.length) $drawerBackdrop.addClass('is-open');
+      $body.css('overflow', 'hidden');
+    }
+
+    function closeMobileTermsDrawer() {
+      if ($drawerPanel.length) $drawerPanel.removeClass('is-open');
+      if ($drawerBackdrop.length) $drawerBackdrop.removeClass('is-open');
+      $body.css('overflow', '');
+    }
+
+    $fabBtn.on('click', openMobileTermsDrawer);
+    $drawerCloseBtn.on('click', closeMobileTermsDrawer);
+    $drawerBackdrop.on('click', closeMobileTermsDrawer);
+
+    $('#terms-edge-swipe-hint').on('click', openMobileTermsDrawer);
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    $(window).on('touchstart', function (e) {
+      const touches = e.originalEvent.touches || e.touches;
+      if (touches.length > 1) return;
+      touchStartX = touches[0].clientX;
+      touchStartY = touches[0].clientY;
+    });
+
+    $(window).on('touchmove', function (e) {
+      if (!touchStartX) return;
+      const touches = e.originalEvent.touches || e.touches;
+      const currentX = touches[0].clientX;
+      const currentY = touches[0].clientY;
+      const deltaX = currentX - touchStartX;
+      const deltaY = Math.abs(currentY - touchStartY);
+
+      const isDrawerOpen = $drawerPanel.hasClass('is-open');
+
+      if (!isDrawerOpen && touchStartX < 70 && deltaX > 45 && deltaX > deltaY * 1.2) {
+        openMobileTermsDrawer();
+        touchStartX = 0;
+      } else if (isDrawerOpen && deltaX < -45 && Math.abs(deltaX) > deltaY * 1.2) {
+        closeMobileTermsDrawer();
+        touchStartX = 0;
+      }
+    });
+
+    $(window).on('touchend', function () {
+      touchStartX = 0;
+      touchStartY = 0;
+    });
+
+    $('.mobile-drawer-nav-links a').on('click', closeMobileTermsDrawer);
+
+    const cardEntranceObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          $(entry.target).addClass('animate-in');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    $termsCards.each(function () {
+      cardEntranceObserver.observe(this);
+    });
+
+    function handleTermsScroll() {
+      const windowHeight = $(window).height();
+      const scrollTop = $(window).scrollTop();
+
+      if ($termsWrapper.length) {
+        const wrapperEl = $termsWrapper.get(0);
+        const wrapperRect = wrapperEl.getBoundingClientRect();
+        const wrapperTop = wrapperRect.top + scrollTop;
+        const wrapperHeight = wrapperRect.height;
+        const totalScrollable = wrapperHeight - windowHeight + 100;
+
+        let percentage = Math.min(100, Math.max(0, ((scrollTop - wrapperTop + 200) / totalScrollable) * 100));
+        const formattedPercent = `${percentage.toFixed(0)}%`;
+
+        if ($progressFill.length) $progressFill.css('width', formattedPercent);
+        if ($readPercentText.length) $readPercentText.text(formattedPercent);
+        if ($mobileProgressFill.length) $mobileProgressFill.css('width', formattedPercent);
+        if ($mobileReadPercentText.length) $mobileReadPercentText.text(formattedPercent);
+        if ($fabPercentText.length) $fabPercentText.text(formattedPercent);
+      }
+
+      let activeIndex = 0;
+      $termsCards.each(function (index) {
+        const rect = this.getBoundingClientRect();
+        if (rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.2) {
+          activeIndex = index;
+          $(this).addClass('active-focus');
+        } else {
+          $(this).removeClass('active-focus');
+        }
+      });
+
+      $termsNavItems.each(function (index) {
+        if (index === activeIndex || index % $termsCards.length === activeIndex) {
+          $(this).addClass('active');
+        } else {
+          $(this).removeClass('active');
+        }
+      });
+    }
+
+    $(window).on('scroll', handleTermsScroll);
+    handleTermsScroll();
+  }
+
+  // Immediate startup for static elements & fallback cards
+  initHorizontalScrollListener();
+  initTextWordAnimations();
+  initSpotlightGlowEffect();
+  initTopScrollProgress();
+  initDragToScroll();
+
+  loadPortfolioProjectsData();
+  loadTrustData();
+  loadContactData();
+  initProjectSwiper();
+  initTermsPageScrollEngine();
 });
