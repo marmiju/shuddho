@@ -1171,4 +1171,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loadContactData();
     initProjectSwiper();
     initTermsPageScrollEngine();
-  });
+  }
+});
