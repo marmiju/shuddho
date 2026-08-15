@@ -1,5 +1,65 @@
 $(function () {
   /* ==========================================================================
+     Lenis Smooth Momentum Scroll Engine & Global Synchronization
+     ========================================================================== */
+  let lenis = null;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+      infinite: false
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Forward Lenis scroll ticks to window scroll events for seamless component sync
+    lenis.on('scroll', () => {
+      $(window).trigger('scroll');
+    });
+  }
+
+  // Smooth anchor navigation using Lenis
+  $(document).on('click', 'a[href^="#"]', function (e) {
+    const href = $(this).attr('href');
+    if (!href) return;
+
+    if (href === '#') {
+      e.preventDefault();
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    const $target = $(href);
+    if ($target.length) {
+      e.preventDefault();
+      const headerOffset = 85;
+      if (lenis) {
+        lenis.scrollTo($target.get(0), {
+          offset: -headerOffset,
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      } else {
+        const targetPos = $target.offset().top - headerOffset;
+        window.scrollTo({ top: targetPos, behavior: 'smooth' });
+      }
+    }
+  });
+
+  /* ==========================================================================
      Mobile Appbar & Slide-Out Drawer Navigation
      ========================================================================== */
   const $mobileToggleBtn = $('#mobile-toggle-btn');
@@ -458,7 +518,7 @@ $(function () {
           initProjectScrollObserver();
           initTextWordAnimations();
           initSpotlightGlowEffect();
-          initTopScrollProgress();
+          initEnhancedScrollTracker();
         }
       })
       .fail(function (error) {
@@ -466,15 +526,137 @@ $(function () {
       });
   }
 
-  function initTopScrollProgress() {
-    const $bar = $('#top-scroll-progress');
-    if (!$bar.length) return;
+  function initEnhancedScrollTracker() {
+    const $topProgress = $('#top-scroll-progress');
+    const $scrollTopBtn = $('#scroll-to-top-btn');
+    const $progressCircle = $('#scroll-progress-circle');
+    const pathLength = 113.097;
 
-    $(window).on('scroll', function () {
+    const $sections = $('section[id], footer[id], header[id]');
+    const $allNavLinks = $('.nav-link, .drawer-link');
+
+    const $header = $('.header');
+
+    function updateTracker() {
       const scrollTop = $(window).scrollTop();
       const docHeight = $(document).height() - $(window).height();
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      $bar.css('width', progress + '%');
+      const scrollPercent = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+
+      // 0. Update sticky scaled header on scroll
+      if ($header.length) {
+        if (scrollTop > 25) {
+          $header.addClass('scrolled');
+        } else {
+          $header.removeClass('scrolled');
+        }
+      }
+
+      // 1. Update top reading progress bar
+      if ($topProgress.length) {
+        $topProgress.css('width', (scrollPercent * 100) + '%');
+      }
+
+      // 2. Update floating back to top button visibility & circular ring fill
+      if ($scrollTopBtn.length) {
+        if (scrollTop > 350) {
+          $scrollTopBtn.addClass('visible');
+        } else {
+          $scrollTopBtn.removeClass('visible');
+        }
+
+        if ($progressCircle.length) {
+          const strokeOffset = pathLength - (scrollPercent * pathLength);
+          $progressCircle.css('strokeDashoffset', strokeOffset);
+        }
+      }
+
+      // 3. Update active nav pill based on section in view
+      const windowHeight = $(window).height();
+      const scrollCheckPos = scrollTop + (windowHeight * 0.35);
+      let activeSectionId = '';
+
+      if (scrollTop < 180) {
+        activeSectionId = 'home';
+      } else {
+        $sections.each(function () {
+          const $sec = $(this);
+          const top = $sec.offset().top;
+          const height = $sec.outerHeight();
+          const id = $sec.attr('id');
+
+          if (id && scrollCheckPos >= top && scrollCheckPos < top + height) {
+            activeSectionId = id;
+          }
+        });
+      }
+
+      $allNavLinks.each(function () {
+        const $link = $(this);
+        const href = $.trim($link.attr('href'));
+
+        if (activeSectionId === 'home' && (href === '#' || href === 'index.html' || href === '')) {
+          $link.addClass('active');
+        } else if (activeSectionId && activeSectionId !== 'home' && href === '#' + activeSectionId) {
+          $link.addClass('active');
+        } else {
+          $link.removeClass('active');
+        }
+      });
+    }
+
+    $(window).on('scroll', updateTracker);
+    updateTracker();
+
+    if ($scrollTopBtn.length) {
+      $scrollTopBtn.on('click', function () {
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
+  function initScrollRevealObserver() {
+    const revealSelectors = [
+      '.service-card',
+      '.tech-card',
+      '.pricing-card',
+      '.testimonial-card',
+      '.collab-box',
+      '.terms-card',
+      '.stat-box',
+      '.faq-item',
+      '.footer-brand-display'
+    ];
+
+    $(revealSelectors.join(',')).each(function (idx) {
+      const $el = $(this);
+      if (!$el.hasClass('reveal-on-scroll')) {
+        $el.addClass('reveal-on-scroll');
+        const delayClass = 'reveal-delay-' + ((idx % 4) + 1);
+        $el.addClass(delayClass);
+      }
+    });
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.1
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          $(entry.target).addClass('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    $('.reveal-on-scroll').each(function () {
+      revealObserver.observe(this);
     });
   }
 
@@ -657,10 +839,10 @@ $(function () {
         $carouselContainer.addClass('is-expanded');
         const fullHeight = $carouselContainer.get(0).scrollHeight + 120;
         $carouselContainer.css('max-height', fullHeight + 'px');
-        if ($spanText.length) $spanText.text('Hide Availability Details');
+        if ($spanText.length) $spanText.text('Hide Details');
       } else {
         $carouselContainer.css('max-height', '0px').removeClass('is-expanded');
-        if ($spanText.length) $spanText.text('⚡ Check Availability & Work Together');
+        if ($spanText.length) $spanText.text(' Work Together');
       }
     });
   }
@@ -811,6 +993,273 @@ $(function () {
       })
       .fail(function (err) {
         console.error('Error loading trust data from json:', err);
+      });
+  }
+
+  /* ==========================================================================
+     Dynamic Reviews & Testimonials Swiper Carousel System
+     ========================================================================== */
+  let reviewsSwiperInstance = null;
+
+  function loadReviewsData() {
+    const $wrapper = $('#reviews-swiper-wrapper');
+    if (!$wrapper.length) return;
+
+    $.getJSON('data/reviews.json')
+      .done(function (data) {
+        if (data.summary) {
+          if (data.summary.badge) $('#reviews-badge-text').text(data.summary.badge);
+          if (data.summary.title) $('#reviews-title').text(data.summary.title);
+          if (data.summary.subtitle) $('#reviews-subtitle').text(data.summary.subtitle);
+          if (data.summary.averageRating) $('.rating-score-num').text(`${data.summary.averageRating} / 5.0`);
+          if (data.summary.totalReviews) $('.rating-count-label').text(data.summary.totalReviews);
+        }
+
+        if (Array.isArray(data.reviews) && data.reviews.length > 0) {
+          const slidesHTML = data.reviews.map(rev => {
+            const starSVGs = Array(rev.rating || 5).fill(0).map(() => `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            `).join('');
+
+            return `
+              <div class="swiper-slide review-card-slide">
+                <div class="review-card-item spotlight-card">
+                  <div class="review-card-top">
+                    <div class="stars-row">
+                      ${starSVGs}
+                    </div>
+                    ${rev.metric ? `<span class="review-metric-badge">${rev.metric}</span>` : ''}
+                  </div>
+                  <h4 class="review-headline">${rev.headline || 'Exceptional Web Application Work'}</h4>
+                  <p class="review-quote">"${rev.content}"</p>
+                  <div class="review-author-box">
+                    <div class="author-avatar-wrapper">
+                      <img src="${rev.avatar}" alt="${rev.name}" class="author-avatar-img" loading="lazy">
+                      <span class="avatar-status-badge"></span>
+                    </div>
+                    <div class="author-info">
+                      <div class="author-name-row">
+                        <span class="author-name">${rev.name}</span>
+                        ${rev.verified ? `
+                          <span class="verified-shield" title="Verified Client">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                          </span>
+                        ` : ''}
+                      </div>
+                      <span class="author-title">${rev.role}, ${rev.company}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          $wrapper.html(slidesHTML);
+          initSpotlightGlowEffect();
+          initReviewsSwiper();
+        }
+      })
+      .fail(function (error) {
+        console.warn('Unable to load reviews.json, initializing default swiper:', error);
+        initReviewsSwiper();
+      });
+  }
+
+  function initReviewsSwiper() {
+    const $container = $('#reviews-swiper');
+    if (!$container.length || typeof Swiper === 'undefined') return;
+
+    if (reviewsSwiperInstance) {
+      try {
+        reviewsSwiperInstance.destroy(true, true);
+      } catch (e) {}
+    }
+
+    reviewsSwiperInstance = new Swiper('#reviews-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: true,
+      autoHeight: true,
+      speed: 600,
+      autoplay: {
+        delay: 4500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      pagination: {
+        el: '#reviews-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '#reviews-next-btn',
+        prevEl: '#reviews-prev-btn'
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 24
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 24
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 28
+        }
+      }
+    });
+  }
+
+  /* ==========================================================================
+     Dynamic Blogs & Article Insights System
+     ========================================================================== */
+  let allBlogArticles = [];
+
+  function createBlogCardHTML(article) {
+    return `
+      <a href="blog-detail.html?slug=${article.slug}" class="blog-card-item spotlight-card">
+        <div class="blog-card-img-box">
+          <img src="${article.image}" alt="${article.title}" class="blog-card-img" loading="lazy">
+          <span class="blog-category-badge">${article.category}</span>
+        </div>
+        <div class="blog-card-content">
+          <div>
+            <div class="blog-meta-row">
+              <span>📅 ${article.date}</span>
+              <span>•</span>
+              <span>⏱️ ${article.readTime}</span>
+            </div>
+            <h3 class="blog-card-title">${article.title}</h3>
+            <p class="blog-card-excerpt">${article.excerpt}</p>
+          </div>
+          <div class="blog-card-author-footer">
+            <span class="blog-author-name">${article.author}</span>
+            <span class="blog-read-more-link">
+              <span>Read Article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+
+  function renderBlogGrid($container, articles) {
+    if (!$container.length || !articles) return;
+    if (articles.length === 0) {
+      $container.html('<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b; font-weight: 600;">No articles found matching your criteria.</div>');
+      return;
+    }
+    const html = articles.map(createBlogCardHTML).join('');
+    $container.html(html);
+    initSpotlightGlowEffect();
+  }
+
+  function loadBlogsData() {
+    const $homeGrid = $('#blog-articles-grid');
+    const $pageGrid = $('#blog-page-articles-list');
+
+    if (!$homeGrid.length && !$pageGrid.length) return;
+
+    $.getJSON('data/blogs.json')
+      .done(function (data) {
+        if (data.articles && Array.isArray(data.articles)) {
+          allBlogArticles = data.articles;
+
+          // Render top 3 on homepage
+          if ($homeGrid.length) {
+            renderBlogGrid($homeGrid, allBlogArticles.slice(0, 3));
+          }
+
+          // Render all on blog listing page
+          if ($pageGrid.length) {
+            renderBlogGrid($pageGrid, allBlogArticles);
+            initBlogSearchAndFilter();
+          }
+        }
+      })
+      .fail(function (err) {
+        console.warn('Unable to load blogs.json data:', err);
+      });
+  }
+
+  function initBlogSearchAndFilter() {
+    const $searchInput = $('#blog-search-input');
+    const $filterBtns = $('.blog-cat-btn');
+    const $pageGrid = $('#blog-page-articles-list');
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    function filterArticles() {
+      let filtered = allBlogArticles;
+
+      if (currentCategory !== 'all') {
+        filtered = filtered.filter(a => a.category === currentCategory);
+      }
+
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(a =>
+          a.title.toLowerCase().includes(q) ||
+          a.excerpt.toLowerCase().includes(q) ||
+          a.category.toLowerCase().includes(q)
+        );
+      }
+
+      renderBlogGrid($pageGrid, filtered);
+    }
+
+    $filterBtns.on('click', function () {
+      $filterBtns.removeClass('active');
+      $(this).addClass('active');
+      currentCategory = $(this).data('category');
+      filterArticles();
+    });
+
+    if ($searchInput.length) {
+      $searchInput.on('input', function () {
+        searchQuery = $.trim($(this).val());
+        filterArticles();
+      });
+    }
+  }
+
+  function loadSingleArticleData() {
+    const $header = $('#article-header');
+    const $coverBox = $('#article-cover-box');
+    const $bodyContent = $('#article-body-content');
+
+    if (!$header.length) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || 'why-shuddho-is-best';
+
+    $.getJSON('data/blogs.json')
+      .done(function (data) {
+        if (!data.articles) return;
+        const article = data.articles.find(a => a.slug === slug) || data.articles[0];
+        if (!article) return;
+
+        document.title = `${article.title} — Shuddho Insights`;
+
+        $header.html(`
+          <span class="article-category-badge">${article.category}</span>
+          <h1 class="article-main-title">${article.title}</h1>
+          <div class="article-author-line">
+            <span>By ${article.author} (${article.authorRole})</span>
+            <span>•</span>
+            <span>📅 ${article.date}</span>
+            <span>•</span>
+            <span>⏱️ ${article.readTime}</span>
+          </div>
+        `);
+
+        $coverBox.html(`
+          <img src="${article.image}" alt="${article.title}" class="article-cover-img">
+        `);
+
+        $bodyContent.html(article.content);
       });
   }
 
@@ -1062,15 +1511,18 @@ $(function () {
     handleTermsScroll();
   }
 
-  // Immediate startup for static elements & fallback cards
   initHorizontalScrollListener();
   initTextWordAnimations();
   initSpotlightGlowEffect();
-  initTopScrollProgress();
+  initEnhancedScrollTracker();
+  initScrollRevealObserver();
   initDragToScroll();
 
   loadPortfolioProjectsData();
   loadTrustData();
+  loadReviewsData();
+  loadBlogsData();
+  loadSingleArticleData();
   loadContactData();
   initProjectSwiper();
   initTermsPageScrollEngine();

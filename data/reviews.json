@@ -1,0 +1,76 @@
+{
+  "summary": {
+    "badge": "CLIENT REVIEWS & TRUST",
+    "title": "What Founders & Engineering Leaders Say",
+    "subtitle": "Authentic testimonials from founders, CTOs, and product leaders who built high-impact web products with Shuddho.",
+    "averageRating": "4.98",
+    "totalReviews": "48+ Verified Projects"
+  },
+  "reviews": [
+    {
+      "id": "rev-1",
+      "category": "web-apps",
+      "name": "Marcus Vance",
+      "role": "Founder & CEO",
+      "company": "Vortex Athletics",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+      "rating": 5,
+      "verified": true,
+      "metric": "⚡ 3.4x Faster Load Time",
+      "headline": "Transformational Web Engineering",
+      "content": "Shuddho completely revamped our platform's frontend and interactive showcase. The momentum scrolling, micro-interactions, and lightning-fast execution wowed our users and increased conversion by 42% in the first month."
+    },
+    {
+      "id": "rev-2",
+      "category": "performance",
+      "name": "Elena Rostova",
+      "role": "Head of Product",
+      "company": "IronPeak Equipment",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
+      "rating": 5,
+      "verified": true,
+      "metric": "🚀 100k+ Active Users",
+      "headline": "Flawless Performance & Clean Code",
+      "content": "Working with Shuddho felt like having a senior in-house engineering team. Direct developer communication, ultra-clean code structure, and relentless attention to mobile performance made all the difference."
+    },
+    {
+      "id": "rev-3",
+      "category": "ui-ux",
+      "name": "David Sterling",
+      "role": "CTO & Co-Founder",
+      "company": "NEXA Systems",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+      "rating": 5,
+      "verified": true,
+      "metric": "🏆 Delivered 5 Days Ahead of Schedule",
+      "headline": "A Masterclass in Modern UI & Engineering",
+      "content": "The polish and fluid animations Shuddho brought to our web platform are world-class. From pixel-perfect responsive layouts to seamless API integrations, every single detail exceeded our expectations."
+    },
+    {
+      "id": "rev-4",
+      "category": "web-apps",
+      "name": "Sarah Chen",
+      "role": "VP of Technology",
+      "company": "PowerVault Digital",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+      "rating": 5,
+      "verified": true,
+      "metric": "📈 280% Increase in Engagement",
+      "headline": "Unmatched Speed & Craftsmanship",
+      "content": "Their engineering precision is top tier. They transformed complex user workflows into an effortless, buttery-smooth web app. Zero delays, zero excuses—just pure execution."
+    },
+    {
+      "id": "rev-5",
+      "category": "performance",
+      "name": "Alexandre Laurent",
+      "role": "Product Director",
+      "company": "FORZA Performance",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+      "rating": 5,
+      "verified": true,
+      "metric": "⚡ 99.99% Lighthouse Score",
+      "headline": "Exceptional UX & Technical Depth",
+      "content": "Shuddho doesn't just write code; they elevate digital products. The custom interactive components and silky smooth scroll effects gave our brand a huge competitive edge."
+    }
+  ]
+}
