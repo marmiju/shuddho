@@ -472,8 +472,8 @@ $(function () {
                   <div class="swiper-slide">
                     <div class="project-image-box">
                       <img src="${imgSrc}" alt="${project.name} Section ${slideIdx + 1}" class="project-scroll-img">
-                    </div>
-                  </div>
+                </div>
+                      </div>
                 `).join('');
 
                 return `
@@ -482,11 +482,11 @@ $(function () {
                     <div class="swiper project-swiper">
                       <div class="swiper-wrapper">
                         ${slidesHTML}
-                      </div>
+                    </div>
                       <div class="swiper-button-prev project-swiper-prev"></div>
                       <div class="swiper-button-next project-swiper-next"></div>
                       <div class="swiper-pagination project-swiper-pagination"></div>
-                    </div>
+                  </div>
                   </div>
                 `;
               } else {
@@ -495,8 +495,8 @@ $(function () {
                     <div class="project-image-box">
                       <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
                       <div class="image-overlay-title">${project.name}</div>
-                    </div>
-                  </div>
+                </div>
+              </div>
                 `;
               }
             }).join(''));
@@ -675,27 +675,31 @@ $(function () {
   }
 
   function initDragToScroll() {
-    const $container = $('.horizontal-track-container');
-    if (!$container.length) return;
+    const $containers = $('.horizontal-track-container, .projects-scroll-right');
+    if (!$containers.length) return;
 
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+    $containers.each(function () {
+      const $container = $(this);
+      let isDown = false;
+      let startX;
+      let scrollLeft;
 
-    $container.on('mousedown', function (e) {
-      isDown = true;
-      $container.addClass('dragging');
-      startX = e.pageX - $container.offset().left;
-      scrollLeft = $container.scrollLeft();
-    }).on('mouseleave mouseup', function () {
-      isDown = false;
-      $container.removeClass('dragging');
-    }).on('mousemove', function (e) {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - $container.offset().left;
-      const walk = (x - startX) * 2;
-      $container.scrollLeft(scrollLeft - walk);
+      $container.on('mousedown', function (e) {
+        if (e.target.closest('.swiper-button-next, .swiper-button-prev, .swiper-pagination')) return;
+        isDown = true;
+        $container.addClass('dragging');
+        startX = e.pageX - $container.offset().left;
+        scrollLeft = $container.scrollLeft();
+      }).on('mouseleave mouseup', function () {
+        isDown = false;
+        $container.removeClass('dragging');
+      }).on('mousemove', function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - $container.offset().left;
+        const walk = (x - startX) * 2;
+        $container.scrollLeft(scrollLeft - walk);
+      });
     });
   }
 
@@ -1016,14 +1020,14 @@ $(function () {
         }
 
         if (Array.isArray(data.reviews) && data.reviews.length > 0) {
-          const slidesHTML = data.reviews.map(rev => {
+          const slidesHTML = data.reviews.map((rev, idx) => {
             const starSVGs = Array(rev.rating || 5).fill(0).map(() => `
               <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             `).join('');
 
             return `
               <div class="swiper-slide review-card-slide">
-                <div class="review-card-item spotlight-card">
+                <div class="review-card-item spotlight-card reveal-on-scroll reveal-delay-${(idx % 3) + 1}">
                   <div class="review-card-top">
                     <div class="stars-row">
                       ${starSVGs}
@@ -1056,6 +1060,7 @@ $(function () {
 
           $wrapper.html(slidesHTML);
           initSpotlightGlowEffect();
+          initScrollRevealObserver();
           initReviewsSwiper();
         }
       })
@@ -1072,7 +1077,7 @@ $(function () {
     if (reviewsSwiperInstance) {
       try {
         reviewsSwiperInstance.destroy(true, true);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     reviewsSwiperInstance = new Swiper('#reviews-swiper', {
