@@ -169,7 +169,7 @@ ul {
    min-height: 90vh;
    display: flex;
    flex-direction: column;
-   justify-content: space-between;
+   justify-content: center;
 }
 
 /* Ambient Blue Background Glows */
@@ -1332,6 +1332,12 @@ ul {
    flex-direction: column;
    gap: 48px;
    min-width: 0;
+}
+
+/* Mobile project card elements (hidden on desktop) */
+.mobile-project-card-info,
+.mobile-project-card-footer {
+   display: none;
 }
 
 .project-scroll-item {
@@ -2731,25 +2737,131 @@ body {
 @media (max-width: 992px) {
    .projects-split-container {
       grid-template-columns: 1fr !important;
-      gap: 28px !important;
+      gap: 32px !important;
    }
 
+   /* Hide separate left sticky column on tablet/mobile since each project is displayed as a full standalone card */
    .projects-sticky-left {
-      position: static !important;
-      top: 0 !important;
-      width: 100% !important;
+      display: none !important;
    }
 
    .projects-scroll-right {
       width: 100% !important;
       min-width: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 32px !important;
+   }
+
+   /* Transform each project item into a complete, modern mobile card */
+   .project-scroll-item {
+      background-color: var(--color-card-bg, #11141c) !important;
+      border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1)) !important;
+      border-radius: 20px !important;
+      padding: 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.28) !important;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+   }
+
+   .project-scroll-item:hover,
+   .project-scroll-item.active {
+      transform: translateY(-2px) !important;
+      border-color: rgba(37, 99, 235, 0.4) !important;
+      box-shadow: 0 16px 40px -10px rgba(37, 99, 235, 0.22) !important;
+   }
+
+   .mobile-project-card-info {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+   }
+
+   .mobile-card-header {
+      display: flex !important;
+      align-items: center !important;
+      gap: 14px !important;
+   }
+
+   .mobile-card-header .brand-icon {
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(37, 99, 235, 0.12) !important;
+      border: 1px solid rgba(37, 99, 235, 0.25) !important;
+      color: var(--color-brand-blue, #3b82f6) !important;
+   }
+
+   .mobile-card-title-group {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;
+   }
+
+   .mobile-card-title {
+      font-size: 1.35rem !important;
+      font-weight: 800 !important;
+      color: var(--color-dark-text, #ffffff) !important;
+      margin: 0 !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.25 !important;
+   }
+
+   .mobile-card-category {
+      font-size: 0.82rem !important;
+      font-weight: 600 !important;
+      color: #60a5fa !important;
+      letter-spacing: 0.02em !important;
+   }
+
+   .mobile-card-description {
+      font-size: 0.92rem !important;
+      color: var(--color-body-text, #94a3b8) !important;
+      line-height: 1.6 !important;
+      margin: 0 !important;
+   }
+
+   .project-media-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      border-radius: 14px !important;
+      overflow: hidden !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+   }
+
+   .project-media-wrapper .project-image-box,
+   .project-media-wrapper .project-swiper {
+      border-radius: 14px !important;
    }
 
    .project-swiper,
    .project-swiper .swiper-slide,
    .project-swiper .project-image-box,
    .project-image-box {
-      height: 400px !important;
+      height: 320px !important;
+   }
+
+   .mobile-project-card-footer {
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+      margin-top: 4px !important;
+   }
+
+   .mobile-card-btn {
+      width: 100% !important;
+      justify-content: center !important;
+      padding: 14px 20px !important;
+      border-radius: 12px !important;
+      font-size: 0.92rem !important;
+      font-weight: 700 !important;
+      gap: 8px !important;
    }
 }
 
@@ -2783,11 +2895,25 @@ body {
       font-size: 1.35rem !important;
    }
 
+   .project-scroll-item {
+      padding: 20px 16px !important;
+      border-radius: 16px !important;
+      gap: 16px !important;
+   }
+
+   .mobile-card-title {
+      font-size: 1.22rem !important;
+   }
+
+   .mobile-card-description {
+      font-size: 0.88rem !important;
+   }
+
    .project-swiper,
    .project-swiper .swiper-slide,
    .project-swiper .project-image-box,
    .project-image-box {
-      height: 340px !important;
+      height: 250px !important;
    }
 
    .project-swiper-prev,
@@ -3840,7 +3966,7 @@ html.lenis body {
 
 .reveal-on-scroll.reveal-visible {
    opacity: 1;
-   transform: translateY(0) scale(1);
+   transform: translateY(0) scale(1.2);
 }
 
 .reveal-delay-1 {
@@ -4210,6 +4336,10 @@ html.lenis body {
 
 .blog-section-wrapper {
    position: relative;
+}
+
+.img.project-scroll-img {
+   width: 100%;
 }
 
 .blog-grid-3 {

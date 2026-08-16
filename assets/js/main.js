@@ -467,36 +467,78 @@ $(function () {
 
           if ($projectsScrollRight.length) {
             $projectsScrollRight.html(featuredProjects.map((project, idx) => {
+              const isExternal = project.url && project.url.startsWith('http');
+              const ctaText = isExternal ? 'Visit Live Web App' : 'Discuss Solution';
+              const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
+              const projectSvg = project.svg || '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+
+              const mobileHeaderHTML = `
+                <div class="mobile-project-card-info">
+                  <div class="mobile-card-header">
+                    <div class="brand-icon ${project.iconClass || ''}">
+                      ${projectSvg}
+                    </div>
+                    <div class="mobile-card-title-group">
+                      <h3 class="mobile-card-title">${project.name}</h3>
+                      ${project.category ? `<span class="mobile-card-category">${project.category}</span>` : ''}
+                    </div>
+                  </div>
+                  ${project.description ? `<p class="mobile-card-description">${project.description}</p>` : ''}
+                </div>
+              `;
+
+              const mobileFooterHTML = `
+                <div class="mobile-project-card-footer">
+                  <a href="${project.url || '#collaborate'}" ${targetAttr} class="btn-dark btn-project mobile-card-btn">
+                    <span>${ctaText}</span>
+                    <span class="badge-icon">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                      </svg>
+                    </span>
+                  </a>
+                </div>
+              `;
+
               if (project.images && Array.isArray(project.images) && project.images.length > 0) {
                 const slidesHTML = project.images.map((imgSrc, slideIdx) => `
                   <div class="swiper-slide">
                     <div class="project-image-box">
                       <img src="${imgSrc}" alt="${project.name} Section ${slideIdx + 1}" class="project-scroll-img">
-                </div>
-                      </div>
+                    </div>
+                  </div>
                 `).join('');
 
                 return `
                   <div class="project-scroll-item ${idx === 0 ? 'active' : ''} swiper-project-card" data-project-id="${project.id}" data-index="${idx}">
-                    <div class="floating-slide-counter">01 / ${String(project.images.length).padStart(2, '0')}</div>
-                    <div class="swiper project-swiper">
-                      <div class="swiper-wrapper">
-                        ${slidesHTML}
+                    ${mobileHeaderHTML}
+                    <div class="project-media-wrapper">
+                      <div class="floating-slide-counter">01 / ${String(project.images.length).padStart(2, '0')}</div>
+                      <div class="swiper project-swiper">
+                        <div class="swiper-wrapper">
+                          ${slidesHTML}
+                        </div>
+                        <div class="swiper-button-prev project-swiper-prev"></div>
+                        <div class="swiper-button-next project-swiper-next"></div>
+                        <div class="swiper-pagination project-swiper-pagination"></div>
+                      </div>
                     </div>
-                      <div class="swiper-button-prev project-swiper-prev"></div>
-                      <div class="swiper-button-next project-swiper-next"></div>
-                      <div class="swiper-pagination project-swiper-pagination"></div>
-                  </div>
+                    ${mobileFooterHTML}
                   </div>
                 `;
               } else {
                 return `
                   <div class="project-scroll-item ${idx === 0 ? 'active' : ''}" data-project-id="${project.id}" data-index="${idx}">
-                    <div class="project-image-box">
-                      <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
-                      <div class="image-overlay-title">${project.name}</div>
-                </div>
-              </div>
+                    ${mobileHeaderHTML}
+                    <div class="project-media-wrapper">
+                      <div class="project-image-box">
+                        <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
+                        <div class="image-overlay-title">${project.name}</div>
+                      </div>
+                    </div>
+                    ${mobileFooterHTML}
+                  </div>
                 `;
               }
             }).join(''));
