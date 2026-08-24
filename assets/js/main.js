@@ -451,6 +451,73 @@ $(function () {
     }
   }
 
+  let featuredProjectsSwiperInstance = null;
+
+  function renderFeaturedProjectImages(imagesToRender) {
+    const $featuredWrapper = $('#featured-projects-wrapper');
+    if (!$featuredWrapper.length) return;
+
+    $featuredWrapper.html(imagesToRender.map((item) => {
+      const src = typeof item === 'string' ? item : item.src;
+      const alt = (typeof item === 'object' && item.alt) ? item.alt : 'Project Showcase Design';
+
+      return (
+        '<div class="swiper-slide featured-project-image-slide">' +
+        '<div class="project-image-card spotlight-card">' +
+        '<img src="' + src + '" alt="' + alt + '" class="project-slider-img" loading="lazy">' +
+        '</div>' +
+        '</div>'
+      );
+    }).join(''));
+
+    initSpotlightGlowEffect();
+    initScrollRevealObserver();
+    initFeaturedProjectsSwiper();
+  }
+
+  function initFeaturedProjectsSwiper() {
+    if (!window.Swiper) {
+      setTimeout(initFeaturedProjectsSwiper, 150);
+      return;
+    }
+
+    const $container = $('#featured-projects-swiper');
+    if (!$container.length) return;
+
+    if (featuredProjectsSwiperInstance && typeof featuredProjectsSwiperInstance.destroy === 'function') {
+      try {
+        featuredProjectsSwiperInstance.destroy(true, true);
+      } catch (e) { }
+    }
+
+    featuredProjectsSwiperInstance = new window.Swiper('#featured-projects-swiper', {
+      slidesPerView: 1.15,
+      spaceBetween: 10,
+      loop: true,
+      grabCursor: true,
+      speed: 700,
+      autoplay: {
+        delay: 3200,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1.5,
+          spaceBetween: 10
+        },
+        992: {
+          slidesPerView: 2.2,
+          spaceBetween: 16
+        },
+        1200: {
+          slidesPerView: 2.5,
+          spaceBetween: 18
+        }
+      }
+    });
+  }
+
   function loadPortfolioProjectsData() {
     $.getJSON('data/projects.json')
       .done(function (data) {
@@ -460,111 +527,20 @@ $(function () {
           if (data.section.badge) $('#projects-badge-text').text(data.section.badge);
         }
 
-        const capabilityList = data.capabilities || data.projects || [];
-        if (Array.isArray(capabilityList) && capabilityList.length > 0) {
-          allProjectsData = capabilityList;
-          featuredProjects = allProjectsData;
-
-          if ($projectsScrollRight.length) {
-            $projectsScrollRight.html(featuredProjects.map((project, idx) => {
-              const isExternal = project.url && project.url.startsWith('http');
-              const ctaText = isExternal ? 'Visit Live Web App' : 'Discuss Solution';
-              const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
-              const projectSvg = project.svg || '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
-
-              const mobileHeaderHTML = `
-                <div class="mobile-project-card-info">
-                  <div class="mobile-card-header">
-                    <div class="brand-icon ${project.iconClass || ''}">
-                      ${projectSvg}
-                    </div>
-                    <div class="mobile-card-title-group">
-                      <h3 class="mobile-card-title">${project.name}</h3>
-                      ${project.category ? `<span class="mobile-card-category">${project.category}</span>` : ''}
-                    </div>
-                  </div>
-                  ${project.description ? `<p class="mobile-card-description">${project.description}</p>` : ''}
-                </div>
-              `;
-
-              const mobileFooterHTML = `
-                <div class="mobile-project-card-footer">
-                  <a href="${project.url || '#collaborate'}" ${targetAttr} class="btn-dark btn-project mobile-card-btn">
-                    <span>${ctaText}</span>
-                    <span class="badge-icon">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
-                    </span>
-                  </a>
-                </div>
-              `;
-
-              if (project.images && Array.isArray(project.images) && project.images.length > 0) {
-                const slidesHTML = project.images.map((imgSrc, slideIdx) => `
-                  <div class="swiper-slide">
-                    <div class="project-image-box">
-                      <img src="${imgSrc}" alt="${project.name} Section ${slideIdx + 1}" class="project-scroll-img">
-                    </div>
-                  </div>
-                `).join('');
-
-                return `
-                  <div class="project-scroll-item ${idx === 0 ? 'active' : ''} swiper-project-card" data-project-id="${project.id}" data-index="${idx}">
-                    ${mobileHeaderHTML}
-                    <div class="project-media-wrapper">
-                      <div class="floating-slide-counter">01 / ${String(project.images.length).padStart(2, '0')}</div>
-                      <div class="swiper project-swiper">
-                        <div class="swiper-wrapper">
-                          ${slidesHTML}
-                        </div>
-                        <div class="swiper-button-prev project-swiper-prev"></div>
-                        <div class="swiper-button-next project-swiper-next"></div>
-                        <div class="swiper-pagination project-swiper-pagination"></div>
-                      </div>
-                    </div>
-                    ${mobileFooterHTML}
-                  </div>
-                `;
-              } else {
-                return `
-                  <div class="project-scroll-item ${idx === 0 ? 'active' : ''}" data-project-id="${project.id}" data-index="${idx}">
-                    ${mobileHeaderHTML}
-                    <div class="project-media-wrapper">
-                      <div class="project-image-box">
-                        <img src="${project.image || 'assets/images/project-elle.png'}" alt="${project.name}" class="project-scroll-img">
-                        <div class="image-overlay-title">${project.name}</div>
-                      </div>
-                    </div>
-                    ${mobileFooterHTML}
-                  </div>
-                `;
-              }
-            }).join(''));
-
-            initProjectSwiper();
-          }
-
-          const carouselItems = (data.currentlyBuilding && data.currentlyBuilding.length > 0) ? data.currentlyBuilding : allProjectsData;
-          renderCarouselCards(carouselItems);
-
-          const horizontalItems = [...(data.currentlyBuilding || []), ...(data.capabilities || [])];
-          renderHorizontalTrack(horizontalItems);
-          initHorizontalScrollListener();
-          initCategoryFilterPills(horizontalItems);
-          initDragToScroll();
-
-          updateStickySidebar(featuredProjects[0], 0, featuredProjects.length);
-
-          initProjectScrollObserver();
-          initTextWordAnimations();
-          initSpotlightGlowEffect();
-          initEnhancedScrollTracker();
+        const projectImages = data.images || [];
+        if (Array.isArray(projectImages) && projectImages.length > 0) {
+          renderFeaturedProjectImages(projectImages);
+        } else {
+          initFeaturedProjectsSwiper();
         }
+
+        initTextWordAnimations();
+        initSpotlightGlowEffect();
+        initEnhancedScrollTracker();
       })
       .fail(function (error) {
         console.warn('Unable to load projects.json dynamically:', error);
+        initFeaturedProjectsSwiper();
       });
   }
 
