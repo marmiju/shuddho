@@ -5055,6 +5055,7 @@ html.lenis body {
 }
 
 @media (max-width: 992px) {
+
    .featured-project-image-slide .project-image-card,
    .project-slider-img {
       height: 380px;
@@ -5062,6 +5063,7 @@ html.lenis body {
 }
 
 @media (max-width: 768px) {
+
    .featured-project-image-slide .project-image-card,
    .project-slider-img {
       height: 320px;
@@ -5070,6 +5072,7 @@ html.lenis body {
 }
 
 @media (max-width: 480px) {
+
    .featured-project-image-slide .project-image-card,
    .project-slider-img {
       height: 240px;
