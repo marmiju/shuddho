@@ -26,8 +26,16 @@
 </head>
 
 <body>
-    <!-- Top Reading Scroll Progress Bar -->
-    <div class="top-scroll-progress" id="top-scroll-progress"></div>
+    <!-- Fullscreen First-Visit Brand Text Preloader Overlay -->
+    <div class="site-preloader" id="site-preloader">
+        <div class="preloader-content">
+            <h1 class="preloader-brand-title" id="preloader-brand-title">shuddho</h1>
+            <div class="preloader-progress-info">
+                <span class="preloader-status-tag">Engineered Digital Experience</span>
+                <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Custom Cursor Pointer Elements -->
     <div class="custom-cursor-dot" id="cursor-dot"></div>
@@ -133,6 +141,8 @@
             </div>
         </div>
 
+        <!-- Site Reading Scroll Progress Bar at Bottom of Header -->
+        <div class="top-scroll-progress" id="top-scroll-progress"></div>
     </header>
 
 
@@ -242,10 +252,9 @@
 
     <!-- Portfolio Featured Capabilities Section -->
     <div class="separator"></div>
-    <div class="container">
-        <section class="projects-section" id="work">
+    <div class="container container-dots-top container-dots-bottom">
+        <section class="projects-section-header" id="work">
             <div class="projects-glow"></div>
-
             <div class="projects-header">
                 <div class="section-badge fade-in-up">
                     <span class="badge-dot"></span>
@@ -256,35 +265,26 @@
                     Drag horizontally to explore high-performance web applications and brand designs.
                 </p>
             </div>
+        </section>
+    </div>
 
-            <!-- Draggable Project Images Slider -->
-            <div class="featured-projects-slider-container fade-in-up">
-                <div class="swiper featured-projects-swiper" id="featured-projects-swiper">
-                    <div class="swiper-wrapper" id="featured-projects-wrapper">
-                        <!-- Dynamically rendered from data/projects.json -->
-                    </div>
-                </div>
+    <!-- Draggable Project Images Slider (Full-width - NO vertical side lines) -->
+    <div class="featured-projects-slider-container fade-in-up">
+        <div class="swiper featured-projects-swiper" id="featured-projects-swiper">
+            <div class="swiper-wrapper" id="featured-projects-wrapper">
+                <!-- Dynamically rendered from data/projects.json -->
             </div>
+        </div>
+    </div>
 
-            <!-- View Availability & Powerful Hooks CTA Trigger -->
-            <div class="projects-cta-wrapper">
-                <button class="btn-dark btn-view-all-projects" id="btn-view-all-projects">
-                    <span>⚡ Check Availability</span>
-                    <span class="badge-icon">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                    </span>
-                </button>
-            </div>
-
-            <!-- Availability & Work Together Powerful Hooks Container -->
+    <!-- Bottom Availability Section Container -->
+    <div class="container container-dots-top container-dots-bottom">
+        <section class="projects-availability-section">
             <div class="projects-carousel-container availability-container" id="projects-carousel-container">
                 <!-- Live Availability Badge -->
                 <div class="availability-header-badge fade-in-up">
                     <span class="availability-pulse-dot"></span>
-                    <span class="availability-badge-text">🟢 CURRENTLY ACCEPTING NEW PROJECTS & CONTRACTS</span>
+                    <span class="availability-badge-text">CURRENTLY ACCEPTING NEW PROJECTS & CONTRACTS</span>
                 </div>
 
                 <!-- Main Hook Headline -->
@@ -786,40 +786,186 @@
                 </p>
             </div>
 
-            <div class="grid-3">
-                <div class="shuddho-card pricing-card-box">
-                    <h3 class="card-title-text">Project-Based Build</h3>
-                    <p class="card-desc-text">Fixed-scope development for business websites, landing pages, or custom
-                        web tools with clearly defined milestones.</p>
+            <div class="pricing-grid">
+                <!-- Starter Plan ($300 - $500) -->
+                <div class="pricing-card-box spotlight-card">
+                    <div class="pricing-card-header">
+                        <span class="hook-tag-pill" style="margin-bottom: 12px;">Fast Launch</span>
+                        <h3 class="card-title-text" style="font-size: 1.4rem;">Starter Build</h3>
+                        <p class="card-desc-text" style="margin-bottom: 0;">Essential high-speed web design for landing
+                            pages, portfolios, and small business sites.</p>
+                    </div>
+
+                    <div class="pricing-price-box">
+                        <span class="pricing-amount">$300 – $500</span>
+                        <span class="pricing-period">/ project</span>
+                    </div>
+
+                    <ul class="pricing-feature-list">
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Single or Multi-Page Responsive Web Design</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Clean HTML5, CSS3 & JavaScript Architecture</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Sub-Second Page Load Speed Guarantee</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Contact Form & Social Booking Setup</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Basic SEO & Mobile Viewport Optimization</span>
+                        </li>
+                    </ul>
+
                     <div style="margin-top: auto;">
                         <a href="#collaborate" class="btn-dark btn-project"
                             style="width: 100%; justify-content: center;">
-                            <span>Discuss Project Scope</span>
+                            <span>Choose Starter Build</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="shuddho-card pricing-card-box featured-pricing">
-                    <span class="pricing-tag-pill">Special</span>
-                    <h3 class="card-title-text">Monthly Retainer</h3>
-                    <p class="card-desc-text">Dedicated development support for growing startups requiring continuous
-                        feature additions, maintenance, and API enhancements.</p>
+                <!-- Professional Plan ($750+) -->
+                <div class="pricing-card-box featured-pricing spotlight-card">
+                    <span class="pricing-tag-pill">⭐ Most Popular</span>
+                    <div class="pricing-card-header">
+                        <span class="hook-tag-pill"
+                            style="margin-bottom: 12px; background: rgba(37, 99, 235, 0.1); color: var(--color-brand-blue);">Full
+                            Web App</span>
+                        <h3 class="card-title-text" style="font-size: 1.4rem;">Professional</h3>
+                        <p class="card-desc-text" style="margin-bottom: 0;">Comprehensive web application build for
+                            platforms, SaaS products, and custom brand solutions.</p>
+                    </div>
+
+                    <div class="pricing-price-box">
+                        <span class="pricing-amount">$750+</span>
+                        <span class="pricing-period">/ project</span>
+                    </div>
+
+                    <ul class="pricing-feature-list">
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Full Custom Web Application & Modular UI</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>REST API & Dynamic Content Integration</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Interactive Micro-Interactions & Hover Polish</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>100/100 Lighthouse Performance Audit</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Priority Developer Support & Revisions</span>
+                        </li>
+                    </ul>
+
                     <div style="margin-top: auto;">
                         <a href="#collaborate" class="btn-dark btn-project"
                             style="width: 100%; justify-content: center; background-color: var(--color-brand-blue);">
-                            <span>Start Monthly Retainer</span>
+                            <span>Choose Professional Plan</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="shuddho-card pricing-card-box">
-                    <h3 class="card-title-text">API & Integration</h3>
-                    <p class="card-desc-text">Focused engineering sprint for custom REST API creation, database
-                        architecture setup, or business process automation scripts.</p>
+                <!-- Advance Plan ($1,000+) -->
+                <div class="pricing-card-box spotlight-card">
+                    <div class="pricing-card-header">
+                        <span class="hook-tag-pill" style="margin-bottom: 12px;">Ultra-Premium</span>
+                        <h3 class="card-title-text" style="font-size: 1.4rem;">Advance</h3>
+                        <p class="card-desc-text" style="margin-bottom: 0;">Ultra-smooth web experience with momentum
+                            animations, custom database backend, and CMS system.</p>
+                    </div>
+
+                    <div class="pricing-price-box">
+                        <span class="pricing-amount">$1,000+</span>
+                        <span class="pricing-period">/ project</span>
+                    </div>
+
+                    <ul class="pricing-feature-list">
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Lenis Smooth Momentum Scroll & Advanced Animations</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Interactive Spotlight Glow Effects & Parallax Elements</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Custom Backend API, Database & CMS Architecture</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>E-Commerce / Payment Gateway & Custom Form Integration</span>
+                        </li>
+                        <li class="pricing-feature-item">
+                            <svg class="pricing-feature-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.8">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Continuous Maintenance & Dedicated 24/7 Support</span>
+                        </li>
+                    </ul>
+
                     <div style="margin-top: auto;">
                         <a href="#collaborate" class="btn-dark btn-project"
                             style="width: 100%; justify-content: center;">
-                            <span>Request API Consultation</span>
+                            <span>Choose Advance Plan</span>
                         </a>
                     </div>
                 </div>

@@ -26,7 +26,16 @@
 </head>
 
 <body>
-    <div class="top-scroll-progress" id="top-scroll-progress"></div>
+    <!-- Fullscreen First-Visit Brand Text Preloader Overlay -->
+    <div class="site-preloader" id="site-preloader">
+        <div class="preloader-content">
+            <h1 class="preloader-brand-title" id="preloader-brand-title">shuddho</h1>
+            <div class="preloader-progress-info">
+                <span class="preloader-status-tag">Engineered Digital Experience</span>
+                <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Custom Cursor Pointer Elements -->
     <div class="custom-cursor-dot" id="cursor-dot"></div>
@@ -130,10 +139,13 @@
             </div>
         </div>
 
+        <!-- Site Reading Scroll Progress Bar at Bottom of Header -->
+        <div class="top-scroll-progress" id="top-scroll-progress"></div>
     </header>
 
     <!-- Terms & Conditions Section Banner -->
-    <section class="shuddho-section" style="padding-top: 100px; padding-bottom: 80px;">
+    <div class="container">
+        <section class="shuddho-section" style="padding-top: 100px; padding-bottom: 80px;">
         <div class="shuddho-header">
             <div class="section-badge fade-in-up">
                 <span class="badge-dot"></span>

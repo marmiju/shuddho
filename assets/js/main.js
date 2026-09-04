@@ -1,5 +1,87 @@
 $(function () {
   /* ==========================================================================
+     First-Time Visit Fullscreen Brand Text Preloader Engine
+     ========================================================================== */
+  initFirstVisitPreloader();
+
+  function initFirstVisitPreloader() {
+    let $preloader = $('#site-preloader');
+
+    if (!$preloader.length) {
+      $('body').prepend(`
+        <div class="site-preloader" id="site-preloader">
+            <div class="preloader-content">
+                <h1 class="preloader-brand-title" id="preloader-brand-title">shuddho</h1>
+                <div class="preloader-progress-info">
+                    <span class="preloader-status-tag">Engineered Digital Experience</span>
+                    <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
+                </div>
+            </div>
+        </div>
+      `);
+      $preloader = $('#site-preloader');
+    }
+
+    $('body').addClass('preloader-active');
+
+    const $title = $('#preloader-brand-title');
+    const $percent = $('#preloader-percent-num');
+
+    let currentProgress = 0;
+    const minDuration = 3000; // Guaranteed minimum 3-second animation duration
+    const intervalTime = 20;
+    const increment = 100 / (minDuration / intervalTime);
+    let isLoaded = document.readyState === 'complete';
+
+    $(window).on('load', function () {
+      isLoaded = true;
+    });
+
+    const timer = setInterval(() => {
+      // Increment progress smoothly; if loading is slow, pause at 95% until load completes
+      if (currentProgress < 95 || isLoaded) {
+        currentProgress += increment + (Math.random() * 0.3);
+      }
+
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(timer);
+        updatePreloaderUI(100);
+
+        // Smooth exit transition after minimum 3s duration completes
+        setTimeout(() => {
+          $preloader.addClass('fade-out');
+          setTimeout(() => {
+            $preloader.remove();
+            $('body').removeClass('preloader-active');
+          }, 850);
+        }, 300);
+      } else {
+        updatePreloaderUI(Math.floor(currentProgress));
+      }
+    }, intervalTime);
+
+    function updatePreloaderUI(pct) {
+      if ($percent.length) {
+        $percent.text(pct + '%');
+      }
+      if ($title.length) {
+        $title.css({
+          'background': `linear-gradient(90deg, #2563eb ${pct}%, #cbd5e1 ${pct}%)`,
+          'background-clip': 'text',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent'
+        });
+      }
+    }
+  }
+
+  /* ==========================================================================
+     Global Touch-Point Grid Bullet Initialization
+     ========================================================================== */
+  $('.container').addClass('container-dots-top container-dots-bottom');
+
+  /* ==========================================================================
      Lenis Smooth Momentum Scroll Engine & Global Synchronization
      ========================================================================== */
   let lenis = null;
@@ -496,7 +578,13 @@ $(function () {
     const $featuredWrapper = $('#featured-projects-wrapper');
     if (!$featuredWrapper.length) return;
 
-    $featuredWrapper.html(imagesToRender.map((item) => {
+    // Duplicate array if fewer than 15 items to guarantee seamless infinite linear marquee looping
+    let finalImages = imagesToRender;
+    if (Array.isArray(imagesToRender) && imagesToRender.length > 0 && imagesToRender.length < 15) {
+      finalImages = imagesToRender.concat(imagesToRender);
+    }
+
+    $featuredWrapper.html(finalImages.map((item) => {
       const src = typeof item === 'string' ? item : (item.src || item.image || item.img);
       const alt = (typeof item === 'object' && (item.alt || item.name || item.title)) ? (item.alt || item.name || item.title) : 'Project Showcase Design';
 
@@ -512,6 +600,36 @@ $(function () {
     initSpotlightGlowEffect();
     initScrollRevealObserver();
     initFeaturedProjectsSwiper();
+  }
+
+  function enableUnbrokenDrag(container) {
+    if (!container || container.getAttribute('data-unbroken-drag-initialized')) return;
+    container.setAttribute('data-unbroken-drag-initialized', 'true');
+
+    container.addEventListener('pointerdown', function (e) {
+      if (e.isPrimary !== false && e.button === 0) {
+        try {
+          if (typeof container.setPointerCapture === 'function') {
+            container.setPointerCapture(e.pointerId);
+          }
+        } catch (err) { }
+      }
+    }, { capture: true, passive: true });
+
+    container.addEventListener('mouseleave', function (e) {
+      if (e.buttons > 0) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
+    window.addEventListener('pointerup', function (e) {
+      try {
+        if (typeof container.hasPointerCapture === 'function' && container.hasPointerCapture(e.pointerId)) {
+          container.releasePointerCapture(e.pointerId);
+        }
+      } catch (err) { }
+    }, { capture: true, passive: true });
   }
 
   function initFeaturedProjectsSwiper() {
@@ -530,31 +648,66 @@ $(function () {
     }
 
     featuredProjectsSwiperInstance = new window.Swiper('#featured-projects-swiper', {
-      slidesPerView: 1.15,
-      spaceBetween: 10,
+      slidesPerView: 1.2,
+      spaceBetween: 16,
       loop: true,
-      grabCursor: true,
-      speed: 700,
+      loopAdditionalSlides: 5,
+      speed: 6000,
       autoplay: {
-        delay: 3200,
+        delay: 0,
         disableOnInteraction: false,
-        pauseOnMouseEnter: true
+        pauseOnMouseEnter: true,
+        stopOnLastSlide: false,
       },
+      freeMode: {
+        enabled: true,
+        momentum: true,
+        momentumRatio: 1,
+        sticky: false
+      },
+      touchEventsTarget: 'container',
+      touchReleaseOnEdges: false,
+      edgeSwipeDetection: false,
+      simulateTouch: true,
+      grabCursor: true,
       breakpoints: {
-        640: {
+        576: {
           slidesPerView: 1.5,
-          spaceBetween: 10
-        },
-        992: {
-          slidesPerView: 2.2,
-          spaceBetween: 16
-        },
-        1200: {
-          slidesPerView: 2.5,
           spaceBetween: 18
+        },
+        768: {
+          slidesPerView: 2.0,
+          spaceBetween: 22
+        },
+        1024: {
+          slidesPerView: 2.6,
+          spaceBetween: 26
+        },
+        1400: {
+          slidesPerView: 2.6,
+          spaceBetween: 30
         }
       }
     });
+
+    const containerEl = $container.get(0);
+    if (containerEl) {
+      enableUnbrokenDrag(containerEl);
+
+      if (!containerEl.hasAttribute('data-hover-pause-bound')) {
+        containerEl.setAttribute('data-hover-pause-bound', 'true');
+        containerEl.addEventListener('mouseenter', function () {
+          if (featuredProjectsSwiperInstance && featuredProjectsSwiperInstance.autoplay) {
+            try { featuredProjectsSwiperInstance.autoplay.stop(); } catch (e) { }
+          }
+        });
+        containerEl.addEventListener('mouseleave', function () {
+          if (featuredProjectsSwiperInstance && featuredProjectsSwiperInstance.autoplay) {
+            try { featuredProjectsSwiperInstance.autoplay.start(); } catch (e) { }
+          }
+        });
+      }
+    }
   }
 
   function loadPortfolioProjectsData() {
@@ -584,7 +737,7 @@ $(function () {
   }
 
   function initEnhancedScrollTracker() {
-    const $topProgress = $('#top-scroll-progress');
+    let $topProgress = $('#top-scroll-progress');
     const $scrollTopBtn = $('#scroll-to-top-btn');
     const $progressCircle = $('#scroll-progress-circle');
     const pathLength = 113.097;
@@ -593,6 +746,12 @@ $(function () {
     const $allNavLinks = $('.nav-link, .drawer-link');
 
     const $header = $('.header');
+
+    // Ensure progress bar element is attached to header bottom
+    if ($topProgress.length && $header.length && !$topProgress.parent().hasClass('header')) {
+      $header.append($topProgress);
+    }
+
     let ticking = false;
 
     function updateTracker() {
@@ -1394,6 +1553,15 @@ $(function () {
         observer: true,
         observeParents: true,
         resizeObserver: true,
+        freeMode: {
+          enabled: true,
+          momentum: true,
+          sticky: false,
+        },
+        touchEventsTarget: 'container',
+        touchReleaseOnEdges: false,
+        edgeSwipeDetection: false,
+        simulateTouch: true,
         autoplay: totalSlidesCount > 1 ? {
           delay: 3500,
           disableOnInteraction: false,
@@ -1418,6 +1586,7 @@ $(function () {
         }
       });
 
+      enableUnbrokenDrag(swiperEl);
       activeSwiperInstances.push(instance);
     });
   }
