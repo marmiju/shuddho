@@ -1320,6 +1320,7 @@ ul {
 .project-image-card {
    position: relative;
    width: 100%;
+   height: 480px;
    background: #0f172a;
    border: 1px solid var(--color-border);
    border-radius: 24px;
@@ -1329,7 +1330,6 @@ ul {
    display: flex;
    align-items: center;
    justify-content: center;
-   max-height: 580px;
 }
 
 .project-image-card:hover {
@@ -1340,7 +1340,7 @@ ul {
 
 .project-slider-img {
    width: 100%;
-   height: 520px;
+   height: 480px;
    object-fit: cover;
    object-position: top center;
    display: block;
@@ -5018,7 +5018,7 @@ html.lenis body {
 }
 
 .featured-project-image-slide {
-   height: auto;
+   height: 100%;
    display: flex;
 }
 
@@ -5029,6 +5029,7 @@ html.lenis body {
    overflow: hidden;
    display: flex;
    width: 100%;
+   height: 480px;
    box-shadow: 0 12px 35px -10px rgba(15, 23, 42, 0.08);
    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -5041,8 +5042,7 @@ html.lenis body {
 
 .project-slider-img {
    width: 100%;
-   height: auto;
-   max-height: 480px;
+   height: 480px;
    object-fit: cover;
    object-position: top center;
    display: block;
@@ -5052,4 +5052,36 @@ html.lenis body {
 
 .featured-project-image-slide .project-image-card:hover .project-slider-img {
    transform: scale(1.03);
+}
+
+@media (max-width: 992px) {
+   .featured-project-image-slide .project-image-card,
+   .project-slider-img {
+      height: 380px;
+   }
+}
+
+@media (max-width: 768px) {
+   .featured-project-image-slide .project-image-card,
+   .project-slider-img {
+      height: 320px;
+      border-radius: 16px;
+   }
+}
+
+@media (max-width: 480px) {
+   .featured-project-image-slide .project-image-card,
+   .project-slider-img {
+      height: 240px;
+      border-radius: 12px;
+   }
+}
+
+/* Performance Hardware Acceleration Optimization */
+.project-slider-img,
+.project-image-card,
+.spotlight-card,
+.review-card-item {
+   backface-visibility: hidden;
+   transform: translateZ(0);
 }

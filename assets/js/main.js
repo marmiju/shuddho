@@ -27,37 +27,76 @@ $(function () {
     });
   }
 
-  // Smooth anchor navigation using Lenis
-  $(document).on('click', 'a[href^="#"]', function (e) {
-    const href = $(this).attr('href');
-    if (!href) return;
+  // Helper function to scroll to element
+  function scrollToSection(targetEl) {
+    if (!targetEl) return;
+    const headerOffset = 85;
+    if (lenis) {
+      lenis.scrollTo(targetEl, {
+        offset: -headerOffset,
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    } else {
+      const targetPos = $(targetEl).offset().top - headerOffset;
+      window.scrollTo({ top: targetPos, behavior: 'smooth' });
+    }
+  }
 
-    if (href === '#') {
-      e.preventDefault();
-      if (lenis) {
-        lenis.scrollTo(0, { duration: 1.2 });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Smooth anchor navigation using Lenis
+  $(document).on('click', 'a[href*="#"]', function (e) {
+    const rawHref = $(this).attr('href');
+    if (!rawHref || rawHref === '#') {
+      if (rawHref === '#') {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
       return;
     }
 
-    const $target = $(href);
-    if ($target.length) {
-      e.preventDefault();
-      const headerOffset = 85;
-      if (lenis) {
-        lenis.scrollTo($target.get(0), {
-          offset: -headerOffset,
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-        });
-      } else {
-        const targetPos = $target.offset().top - headerOffset;
-        window.scrollTo({ top: targetPos, behavior: 'smooth' });
+    // Standardize href (remove malformed slashes like index.html/#work or /#work)
+    let href = rawHref.replace('index.html/#', 'index.html#');
+    if (href.startsWith('/#')) {
+      href = href.substring(1);
+    }
+
+    const hashIndex = href.indexOf('#');
+    if (hashIndex === -1) return;
+
+    const pagePath = href.substring(0, hashIndex);
+    const hash = href.substring(hashIndex);
+    if (!hash || hash === '#') return;
+
+    const currentPath = window.location.pathname;
+    const isCurrentPageHome = currentPath.endsWith('index.html') || currentPath === '/' || currentPath.endsWith('/');
+    const isTargetPageHome = pagePath === '' || pagePath === 'index.html' || pagePath === '/';
+
+    if (isCurrentPageHome && isTargetPageHome) {
+      const $target = $(hash);
+      if ($target.length) {
+        e.preventDefault();
+        scrollToSection($target.get(0));
+        return;
       }
+    } else if (!isCurrentPageHome && isTargetPageHome) {
+      e.preventDefault();
+      window.location.href = 'index.html' + hash;
     }
   });
+
+  // Automatically scroll to target hash on initial page load if arriving from subpages
+  if (window.location.hash) {
+    const hashTarget = $(window.location.hash);
+    if (hashTarget.length) {
+      setTimeout(() => {
+        scrollToSection(hashTarget.get(0));
+      }, 350);
+    }
+  }
 
   /* ==========================================================================
      Mobile Appbar & Slide-Out Drawer Navigation
@@ -458,8 +497,8 @@ $(function () {
     if (!$featuredWrapper.length) return;
 
     $featuredWrapper.html(imagesToRender.map((item) => {
-      const src = typeof item === 'string' ? item : item.src;
-      const alt = (typeof item === 'object' && item.alt) ? item.alt : 'Project Showcase Design';
+      const src = typeof item === 'string' ? item : (item.src || item.image || item.img);
+      const alt = (typeof item === 'object' && (item.alt || item.name || item.title)) ? (item.alt || item.name || item.title) : 'Project Showcase Design';
 
       return (
         '<div class="swiper-slide featured-project-image-slide">' +
@@ -527,7 +566,7 @@ $(function () {
           if (data.section.badge) $('#projects-badge-text').text(data.section.badge);
         }
 
-        const projectImages = data.images || [];
+        const projectImages = data.images || data.projects || [];
         if (Array.isArray(projectImages) && projectImages.length > 0) {
           renderFeaturedProjectImages(projectImages);
         } else {
@@ -554,8 +593,10 @@ $(function () {
     const $allNavLinks = $('.nav-link, .drawer-link');
 
     const $header = $('.header');
+    let ticking = false;
 
     function updateTracker() {
+      ticking = false;
       const scrollTop = $(window).scrollTop();
       const docHeight = $(document).height() - $(window).height();
       const scrollPercent = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
@@ -622,7 +663,12 @@ $(function () {
       });
     }
 
-    $(window).on('scroll', updateTracker);
+    $(window).on('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(updateTracker);
+        ticking = true;
+      }
+    });
     updateTracker();
 
     if ($scrollTopBtn.length) {
@@ -679,15 +725,25 @@ $(function () {
   }
 
   function initSpotlightGlowEffect() {
-    $('.shuddho-card, .horizontal-project-card, .carousel-card').each(function () {
-      const $card = $(this);
-      $card.addClass('spotlight-card');
-      $card.on('mousemove', function (e) {
-        const offset = $card.offset();
-        const x = e.pageX - offset.left;
-        const y = e.pageY - offset.top;
-        this.style.setProperty('--mouse-x', x + 'px');
-        this.style.setProperty('--mouse-y', y + 'px');
+    $('.spotlight-card, .shuddho-card, .horizontal-project-card, .carousel-card').each(function () {
+      const card = this;
+      if (card.dataset.spotlightInit) return;
+      card.dataset.spotlightInit = 'true';
+      card.classList.add('spotlight-card');
+      let ticking = false;
+
+      $(card).on('mousemove', function (e) {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', x + 'px');
+            card.style.setProperty('--mouse-y', y + 'px');
+            ticking = false;
+          });
+          ticking = true;
+        }
       });
     });
   }

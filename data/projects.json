@@ -6,24 +6,40 @@
   },
   "images": [
     {
-      "src": "assets/images/project-trainex.png",
-      "alt": "Trainex Fitness Platform"
+      "src": "assets/images/project1.webp",
+      "alt": "Project Design 1"
     },
     {
-      "src": "assets/images/project-lifestyle-new.png",
-      "alt": "LifeStyle Fitness Platform"
+      "src": "assets/images/project2.webp",
+      "alt": "Project Design 2"
     },
     {
-      "src": "assets/images/project-barbel.png",
-      "alt": "Barbel Gym & Fitness Platform"
+      "src": "assets/images/project3.webp",
+      "alt": "Project Design 3"
     },
     {
-      "src": "assets/images/project-fitcore.png",
-      "alt": "Fitcore Gym & Fitness Platform"
+      "src": "assets/images/project4.webp",
+      "alt": "Project Design 4"
     },
     {
-      "src": "assets/images/project-motivemuscle.png",
-      "alt": "MotiveMuscle Fitness Hub"
+      "src": "assets/images/project5.webp",
+      "alt": "Project Design 5"
+    },
+    {
+      "src": "assets/images/project6.webp",
+      "alt": "Project Design 6"
+    },
+    {
+      "src": "assets/images/project7.webp",
+      "alt": "Project Design 7"
+    },
+    {
+      "src": "assets/images/project8.webp",
+      "alt": "Project Design 8"
+    },
+    {
+      "src": "assets/images/project9.webp",
+      "alt": "Project Design 9"
     }
   ]
 }
