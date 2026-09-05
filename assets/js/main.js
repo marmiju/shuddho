@@ -11,9 +11,8 @@ $(function () {
       $('body').prepend(`
         <div class="site-preloader" id="site-preloader">
             <div class="preloader-content">
-                <h1 class="preloader-brand-title" id="preloader-brand-title">shuddho</h1>
+                <h1 class="preloader-brand-title" id="preloader-brand-title">Shuddho</h1>
                 <div class="preloader-progress-info">
-                    <span class="preloader-status-tag">Engineered Digital Experience</span>
                     <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
                 </div>
             </div>
@@ -66,12 +65,14 @@ $(function () {
         $percent.text(pct + '%');
       }
       if ($title.length) {
-        $title.css({
-          'background': `linear-gradient(90deg, #2563eb ${pct}%, #cbd5e1 ${pct}%)`,
-          'background-clip': 'text',
-          '-webkit-background-clip': 'text',
-          '-webkit-text-fill-color': 'transparent'
-        });
+        const titleH = $title.outerHeight() || 180;
+        // At 0%: wave top sits 20px below title bottom (startY = titleH + 20)
+        // At 100%: wave top sits 60px above title top (endY = -60)
+        const startY = titleH + 20;
+        const endY = -60;
+        const currentY = (startY - ((startY - endY) * (pct / 100))).toFixed(1);
+
+        $title.css('background-position-y', `${currentY}px, ${currentY}px, 0px`);
       }
     }
   }

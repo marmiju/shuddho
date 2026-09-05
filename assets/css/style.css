@@ -2922,14 +2922,39 @@ body.preloader-active {
    font-size: clamp(4.5rem, 18vw, 16.5rem);
    font-weight: 900;
    line-height: 0.85;
-   letter-spacing: -0.06em;
+   letter-spacing: -0.05em;
    margin: 0 0 24px 0;
-   text-transform: lowercase;
-   background: linear-gradient(90deg, var(--color-brand-blue, #2563eb) 0%, #cbd5e1 0%);
+   text-transform: none;
+
+   /* Clean Liquid Wave Fill: Solid Electric Blue, Translucent Back Wave, Crisp Grey Base */
+   background-image: 
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 600' preserveAspectRatio='none'%3E%3Cpath d='M 0,45 Q 175,90 350,45 T 700,45 T 1050,45 T 1400,45 V 600 H 0 Z' fill='%230022ff'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 600' preserveAspectRatio='none'%3E%3Cpath d='M 0,25 Q 175,-15 350,25 T 700,25 T 1050,25 T 1400,25 V 600 H 0 Z' fill='%2360a5fa' opacity='0.7'/%3E%3C/svg%3E"),
+      linear-gradient(#b0b0b0, #b0b0b0);
+
+   background-repeat: repeat-x, repeat-x, no-repeat;
+   background-size: 1400px 600px, 1400px 600px, 100% 100%;
+   background-position-x: 0px, 0px, 0px;
+   background-position-y: 220px, 220px, 0px;
+
    background-clip: text;
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
-   transition: background 0.05s ease;
+
+   animation: preloaderLiquidWave 3.6s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+   will-change: background-position;
+}
+
+@keyframes preloaderLiquidWave {
+   0% {
+      background-position-x: 0px, 0px, 0px;
+   }
+   50% {
+      background-position-x: -700px, 700px, 0px;
+   }
+   100% {
+      background-position-x: -1400px, 1400px, 0px;
+   }
 }
 
 .preloader-progress-info {
