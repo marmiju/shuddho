@@ -1,80 +1,192 @@
 $(function () {
   /* ==========================================================================
-     First-Time Visit Fullscreen Brand Text Preloader Engine
+     Light / Dark / System Theme Engine with SVG Switcher
      ========================================================================== */
-  initFirstVisitPreloader();
+  initThemeEngine();
 
-  function initFirstVisitPreloader() {
-    let $preloader = $('#site-preloader');
+  function initThemeEngine() {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    if (!$preloader.length) {
-      $('body').prepend(`
-        <div class="site-preloader" id="site-preloader">
-            <div class="preloader-content">
-                <h1 class="preloader-brand-title" id="preloader-brand-title">Shuddho</h1>
-                <div class="preloader-progress-info">
-                    <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
-                </div>
-            </div>
-        </div>
-      `);
-      $preloader = $('#site-preloader');
+    function getSavedSetting() {
+      return localStorage.getItem('shuddho-theme') || 'system';
     }
+
+    function applyTheme(setting) {
+      let activeTheme = setting;
+      if (setting === 'system') {
+        activeTheme = mediaQuery.matches ? 'dark' : 'light';
+      }
+
+      document.documentElement.setAttribute('data-theme', activeTheme);
+      document.documentElement.setAttribute('data-theme-setting', setting);
+      localStorage.setItem('shuddho-theme', setting);
+
+      updateSwitcherUI(setting, activeTheme);
+      updatePreloaderVideo(activeTheme);
+    }
+
+    function updateSwitcherUI(setting, activeTheme) {
+      const sunSvg = `<svg class="theme-svg sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+      const moonSvg = `<svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+      const systemSvg = `<svg class="theme-svg system-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`;
+
+      let iconSvg = systemSvg;
+      let labelText = 'System';
+
+      if (setting === 'system') {
+        iconSvg = systemSvg;
+        labelText = 'System (' + (activeTheme === 'dark' ? 'Dark' : 'Light') + ')';
+      } else if (setting === 'dark') {
+        iconSvg = moonSvg;
+        labelText = 'Dark';
+      } else {
+        iconSvg = sunSvg;
+        labelText = 'Light';
+      }
+
+      $('.theme-icon-wrap').html(iconSvg);
+      $('.theme-mode-text').text(labelText);
+    }
+
+    function updatePreloaderVideo(activeTheme) {
+      const vLight = document.getElementById('preloader-video-light');
+      const vDark = document.getElementById('preloader-video-dark');
+
+      if (!vLight || !vDark) return;
+
+      const currentTheme = activeTheme || document.documentElement.getAttribute('data-theme') || 'dark';
+
+      if (currentTheme === 'dark') {
+        if (vLight) vLight.pause();
+        if (vDark) {
+          vDark.muted = false;
+          vDark.play().catch(() => {
+            vDark.muted = true;
+            vDark.play().catch(() => {});
+          });
+        }
+      } else {
+        if (vDark) vDark.pause();
+        if (vLight) {
+          vLight.muted = false;
+          vLight.play().catch(() => {
+            vLight.muted = true;
+            vLight.play().catch(() => {});
+          });
+        }
+      }
+    }
+
+    // Toggle logic: system -> light -> dark -> system
+    $(document).on('click', '.theme-switcher-btn', function (e) {
+      e.preventDefault();
+      const current = getSavedSetting();
+      let next = 'system';
+      if (current === 'system') next = 'light';
+      else if (current === 'light') next = 'dark';
+      else next = 'system';
+
+      applyTheme(next);
+    });
+
+    mediaQuery.addEventListener('change', () => {
+      if (getSavedSetting() === 'system') {
+        applyTheme('system');
+      }
+    });
+
+    applyTheme(getSavedSetting());
+  }
+
+  /* ==========================================================================
+     Fullscreen Intro Video Preloader Engine (Only runs on index.html)
+     ========================================================================== */
+  initVideoPreloader();
+
+  function initVideoPreloader() {
+    let $preloader = $('#site-preloader');
+    if (!$preloader.length) return;
 
     $('body').addClass('preloader-active');
 
-    const $title = $('#preloader-brand-title');
-    const $percent = $('#preloader-percent-num');
+    const vLight = document.getElementById('preloader-video-light');
+    const vDark = document.getElementById('preloader-video-dark');
+    const $fill = $('#preloader-progress-fill');
 
-    let currentProgress = 0;
-    const minDuration = 3000; // Guaranteed minimum 3-second animation duration
-    const intervalTime = 20;
-    const increment = 100 / (minDuration / intervalTime);
-    let isLoaded = document.readyState === 'complete';
+    let finished = false;
 
-    $(window).on('load', function () {
-      isLoaded = true;
-    });
+    function finishPreloader() {
+      if (finished) return;
+      finished = true;
+      $fill.css('width', '100%');
 
-    const timer = setInterval(() => {
-      // Increment progress smoothly; if loading is slow, pause at 95% until load completes
-      if (currentProgress < 95 || isLoaded) {
-        currentProgress += increment + (Math.random() * 0.3);
-      }
-
-      if (currentProgress >= 100) {
-        currentProgress = 100;
-        clearInterval(timer);
-        updatePreloaderUI(100);
-
-        // Smooth exit transition after minimum 3s duration completes
+      setTimeout(() => {
+        $preloader.addClass('fade-out');
         setTimeout(() => {
-          $preloader.addClass('fade-out');
-          setTimeout(() => {
-            $preloader.remove();
-            $('body').removeClass('preloader-active');
-          }, 850);
-        }, 300);
-      } else {
-        updatePreloaderUI(Math.floor(currentProgress));
-      }
-    }, intervalTime);
+          $preloader.remove();
+          $('body').removeClass('preloader-active');
+        }, 850);
+      }, 200);
+    }
 
-    function updatePreloaderUI(pct) {
-      if ($percent.length) {
-        $percent.text(pct + '%');
-      }
-      if ($title.length) {
-        const titleH = $title.outerHeight() || 180;
-        // At 0%: wave top sits 20px below title bottom (startY = titleH + 20)
-        // At 100%: wave top sits 60px above title top (endY = -60)
-        const startY = titleH + 20;
-        const endY = -60;
-        const currentY = (startY - ((startY - endY) * (pct / 100))).toFixed(1);
+    function getActiveVideo() {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      return activeTheme === 'dark' ? vDark : vLight;
+    }
 
-        $title.css('background-position-y', `${currentY}px, ${currentY}px, 0px`);
+    function playActiveVideo() {
+      const currentVideo = getActiveVideo();
+      if (!currentVideo) return;
+
+      currentVideo.muted = false;
+      let playPromise = currentVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          currentVideo.muted = true;
+          currentVideo.play().catch(() => {});
+        });
       }
     }
+
+    // Auto-unmute on first user touch/click/keydown if browser blocked unmuted autoplay initially
+    const unmuteAll = () => {
+      if (vLight) vLight.muted = false;
+      if (vDark) vDark.muted = false;
+    };
+    $(document).one('click touchstart keydown', unmuteAll);
+
+    // Start video playback
+    playActiveVideo();
+
+    // Attach playback listeners to both light and dark video elements
+    [vLight, vDark].forEach(v => {
+      if (!v) return;
+
+      v.addEventListener('timeupdate', () => {
+        const activeVideo = getActiveVideo();
+        if (v === activeVideo && v.duration) {
+          const percent = (v.currentTime / v.duration) * 100;
+          $fill.css('width', percent.toFixed(1) + '%');
+        }
+      });
+
+      // Video will play till end
+      v.addEventListener('ended', () => {
+        const activeVideo = getActiveVideo();
+        if (v === activeVideo) {
+          finishPreloader();
+        }
+      });
+
+      v.addEventListener('error', () => {
+        finishPreloader();
+      });
+    });
+
+    // Allow user click to skip intro video instantly
+    $preloader.on('click', function () {
+      finishPreloader();
+    });
   }
 
   /* ==========================================================================
