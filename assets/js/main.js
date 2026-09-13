@@ -22,7 +22,6 @@ $(function () {
       localStorage.setItem('shuddho-theme', setting);
 
       updateSwitcherUI(setting, activeTheme);
-      updatePreloaderVideo(activeTheme);
     }
 
     function updateSwitcherUI(setting, activeTheme) {
@@ -48,35 +47,6 @@ $(function () {
       $('.theme-mode-text').text(labelText);
     }
 
-    function updatePreloaderVideo(activeTheme) {
-      const vLight = document.getElementById('preloader-video-light');
-      const vDark = document.getElementById('preloader-video-dark');
-
-      if (!vLight || !vDark) return;
-
-      const currentTheme = activeTheme || document.documentElement.getAttribute('data-theme') || 'dark';
-
-      if (currentTheme === 'dark') {
-        if (vLight) vLight.pause();
-        if (vDark) {
-          vDark.muted = false;
-          vDark.play().catch(() => {
-            vDark.muted = true;
-            vDark.play().catch(() => {});
-          });
-        }
-      } else {
-        if (vDark) vDark.pause();
-        if (vLight) {
-          vLight.muted = false;
-          vLight.play().catch(() => {
-            vLight.muted = true;
-            vLight.play().catch(() => {});
-          });
-        }
-      }
-    }
-
     // Toggle logic: system -> light -> dark -> system
     $(document).on('click', '.theme-switcher-btn', function (e) {
       e.preventDefault();
@@ -99,93 +69,84 @@ $(function () {
   }
 
   /* ==========================================================================
-     Fullscreen Intro Video Preloader Engine (Only runs on index.html)
+     Fullscreen Liquid Brand Text Preloader Engine
      ========================================================================== */
-  initVideoPreloader();
+  initPreloader();
 
-  function initVideoPreloader() {
+  function initPreloader() {
     let $preloader = $('#site-preloader');
-    if (!$preloader.length) return;
+    if (!$preloader.length) {
+      $('body').prepend(`
+        <div class="site-preloader" id="site-preloader">
+            <div class="preloader-content">
+                <h1 class="preloader-brand-title" id="preloader-brand-title">Shuddho</h1>
+                <div class="preloader-progress-info">
+                    <span class="preloader-percent-num" id="preloader-percent-num">0%</span>
+                </div>
+            </div>
+        </div>
+      `);
+      $preloader = $('#site-preloader');
+    }
 
     $('body').addClass('preloader-active');
 
-    const vLight = document.getElementById('preloader-video-light');
-    const vDark = document.getElementById('preloader-video-dark');
-    const $fill = $('#preloader-progress-fill');
+    const $title = $('#preloader-brand-title');
+    const $percent = $('#preloader-percent-num');
 
-    let finished = false;
+    let currentProgress = 0;
+    const minDuration = 2500; // Guaranteed 2.5s smooth animation duration
+    const intervalTime = 20;
+    const increment = 100 / (minDuration / intervalTime);
+    let isLoaded = document.readyState === 'complete';
 
-    function finishPreloader() {
-      if (finished) return;
-      finished = true;
-      $fill.css('width', '100%');
+    $(window).on('load', function () {
+      isLoaded = true;
+    });
 
-      setTimeout(() => {
-        $preloader.addClass('fade-out');
+    const timer = setInterval(() => {
+      if (currentProgress < 95 || isLoaded) {
+        currentProgress += increment + (Math.random() * 0.2);
+      }
+
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(timer);
+        updatePreloaderUI(100);
+
         setTimeout(() => {
-          $preloader.remove();
-          $('body').removeClass('preloader-active');
-        }, 850);
-      }, 200);
-    }
+          $preloader.addClass('fade-out');
+          setTimeout(() => {
+            $preloader.remove();
+            $('body').removeClass('preloader-active');
+          }, 850);
+        }, 300);
+      } else {
+        updatePreloaderUI(Math.floor(currentProgress));
+      }
+    }, intervalTime);
 
-    function getActiveVideo() {
-      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      return activeTheme === 'dark' ? vDark : vLight;
-    }
+    function updatePreloaderUI(pct) {
+      if ($percent.length) {
+        $percent.text(pct + '%');
+      }
+      if ($title.length) {
+        const titleH = $title.outerHeight() || 180;
+        const startY = titleH + 20;
+        const endY = -60;
+        const currentY = (startY - ((startY - endY) * (pct / 100))).toFixed(1);
 
-    function playActiveVideo() {
-      const currentVideo = getActiveVideo();
-      if (!currentVideo) return;
-
-      currentVideo.muted = false;
-      let playPromise = currentVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          currentVideo.muted = true;
-          currentVideo.play().catch(() => {});
-        });
+        $title.css('background-position-y', `${currentY}px, ${currentY}px, 0px`);
       }
     }
 
-    // Auto-unmute on first user touch/click/keydown if browser blocked unmuted autoplay initially
-    const unmuteAll = () => {
-      if (vLight) vLight.muted = false;
-      if (vDark) vDark.muted = false;
-    };
-    $(document).one('click touchstart keydown', unmuteAll);
-
-    // Start video playback
-    playActiveVideo();
-
-    // Attach playback listeners to both light and dark video elements
-    [vLight, vDark].forEach(v => {
-      if (!v) return;
-
-      v.addEventListener('timeupdate', () => {
-        const activeVideo = getActiveVideo();
-        if (v === activeVideo && v.duration) {
-          const percent = (v.currentTime / v.duration) * 100;
-          $fill.css('width', percent.toFixed(1) + '%');
-        }
-      });
-
-      // Video will play till end
-      v.addEventListener('ended', () => {
-        const activeVideo = getActiveVideo();
-        if (v === activeVideo) {
-          finishPreloader();
-        }
-      });
-
-      v.addEventListener('error', () => {
-        finishPreloader();
-      });
-    });
-
-    // Allow user click to skip intro video instantly
     $preloader.on('click', function () {
-      finishPreloader();
+      clearInterval(timer);
+      $preloader.addClass('fade-out');
+      setTimeout(() => {
+        $preloader.remove();
+        $('body').removeClass('preloader-active');
+      }, 850);
     });
   }
 

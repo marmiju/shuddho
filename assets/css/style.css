@@ -76,7 +76,7 @@ body {
    display: inline-flex;
    align-items: center;
    gap: 7px;
-   padding: 6px 13px;
+   padding: 10px;
    background: var(--color-nav-bg);
    border: 1px solid var(--color-border);
    border-radius: var(--radius-pill);
@@ -87,7 +87,7 @@ body {
    cursor: pointer;
    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
    user-select: none;
-   margin-left: 8px;
+   /* margin-left: 8px; */
 }
 
 .theme-switcher-btn:hover {
@@ -112,6 +112,7 @@ body {
 
 .theme-mode-text {
    letter-spacing: -0.01em;
+   display: none;
 }
 
 *,
@@ -317,30 +318,67 @@ ul {
    justify-content: center;
 }
 
-/* Ambient Blue Background Glows */
+.site-section-outer {
+   position: relative;
+   width: 100%;
+   max-width: 100vw;
+   overflow: hidden;
+}
+
+.shuddho-section {
+   position: relative;
+   z-index: 2;
+   background: transparent !important;
+}
+
+/* Ambient Background Radial Glows & Glowing Aura System */
+@keyframes ambientPulse {
+
+   0%,
+   100% {
+      opacity: 0.75;
+      transform: scale(1);
+   }
+
+   50% {
+      opacity: 0.95;
+      transform: scale(1.08);
+   }
+}
+
 .ambient-glow {
    position: absolute;
    border-radius: 50%;
    pointer-events: none;
    z-index: 1;
-   filter: blur(110px);
-   opacity: 0.8;
+   filter: blur(100px);
+   opacity: 0.85;
+   animation: ambientPulse 7s ease-in-out infinite alternate;
+   will-change: transform, opacity;
 }
 
 .glow-blue-primary {
-   width: 600px;
-   height: 600px;
+   width: 650px;
+   height: 650px;
    top: -10%;
    left: -10%;
-   background: radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, rgba(147, 197, 253, 0.35) 55%, rgba(255, 255, 255, 0) 80%);
+   background: radial-gradient(circle, rgba(37, 99, 235, 0.38) 0%, rgba(59, 130, 246, 0.22) 45%, rgba(147, 197, 253, 0.08) 70%, transparent 85%);
 }
 
 .glow-cyan-secondary {
-   width: 650px;
-   height: 650px;
+   width: 700px;
+   height: 700px;
    top: -5%;
    right: -12%;
-   background: radial-gradient(circle, rgba(14, 165, 233, 0.25) 0%, rgba(186, 230, 253, 0.35) 55%, rgba(255, 255, 255, 0) 80%);
+   background: radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(56, 189, 248, 0.2) 45%, rgba(186, 230, 253, 0.08) 70%, transparent 85%);
+}
+
+[data-theme="dark"] .glow-blue-primary {
+   background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(59, 130, 246, 0.25) 50%, transparent 80%);
+}
+
+[data-theme="dark"] .glow-cyan-secondary {
+   background: radial-gradient(circle, rgba(14, 165, 233, 0.42) 0%, rgba(56, 189, 248, 0.22) 50%, transparent 80%);
 }
 
 /* ==========================================================================
@@ -378,7 +416,6 @@ ul {
 .brand-logo {
    display: flex;
    align-items: center;
-   gap: 10px;
    font-size: 1.35rem;
    font-weight: 800;
    letter-spacing: -0.03em;
@@ -389,7 +426,7 @@ ul {
 
 .header.scrolled .brand-logo {
    font-size: 1.15rem;
-   gap: 8px;
+
 }
 
 .logo-icon {
@@ -1004,13 +1041,26 @@ ul {
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
-   width: 600px;
-   height: 400px;
-   background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 75%);
+   width: 750px;
+   height: 500px;
+   background: radial-gradient(circle, rgba(37, 99, 235, 0.35) 0%, rgba(14, 165, 233, 0.2) 45%, transparent 75%);
    border-radius: 50%;
    pointer-events: none;
    z-index: 1;
-   filter: blur(80px);
+   filter: blur(100px);
+}
+
+.projects-glow {
+   position: absolute;
+   top: 20%;
+   right: 5%;
+   width: 750px;
+   height: 600px;
+   background: radial-gradient(circle, rgba(37, 99, 235, 0.35) 0%, rgba(14, 165, 233, 0.2) 50%, transparent 75%);
+   border-radius: 50%;
+   pointer-events: none;
+   z-index: 1;
+   filter: blur(100px);
 }
 
 .brands-header {
@@ -2981,7 +3031,7 @@ ul {
    ========================================================================== */
 
 /* ==========================================================================
-   Fullscreen Video Preloader System (Intro Video Light & Dark Loader)
+   Fullscreen Liquid Brand Text Preloader System
    ========================================================================== */
 
 body.preloader-active {
@@ -3011,87 +3061,6 @@ body.preloader-active {
 .site-preloader.fade-out {
    transform: translateY(-100%);
    pointer-events: none;
-}
-
-.preloader-video-wrapper {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   border-radius: 0;
-   overflow: hidden;
-   box-shadow: none;
-   background: var(--color-bg-page);
-}
-
-.preloader-video {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   display: none;
-   border-radius: 0;
-}
-
-/* Light / Dark Video Toggle based on data-theme */
-[data-theme="light"] .preloader-video.light-video {
-   display: block;
-}
-
-[data-theme="dark"] .preloader-video.dark-video {
-   display: block;
-}
-
-/* Fallback when system mode resolves to light/dark */
-:root:not([data-theme="dark"]) .preloader-video.light-video {
-   display: block;
-}
-
-.preloader-progress-bar {
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   width: 100%;
-   height: 4px;
-   background: rgba(125, 125, 125, 0.2);
-   z-index: 10;
-}
-
-.preloader-progress-fill {
-   height: 100%;
-   width: 0%;
-   background: var(--color-brand-blue);
-   transition: width 0.1s linear;
-}
-
-/* Mobile Video Preloader Layout (Clean light/dark theme card with edge-to-edge video fill) */
-@media (max-width: 768px) {
-   .site-preloader {
-      background-color: var(--color-bg-page);
-   }
-
-   .preloader-video-wrapper {
-      position: relative;
-      top: auto;
-      left: auto;
-      width: min(90vw, 420px);
-      height: 60vh;
-      max-height: 520px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-      background: var(--color-card-bg);
-   }
-
-   .preloader-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
-   }
 }
 
 .preloader-content {
@@ -3169,26 +3138,58 @@ body.preloader-active {
    font-variant-numeric: tabular-nums;
 }
 
-/* Mouse Spotlight Glow Hover Effect */
-.spotlight-card {
+/* Universal Interactive Glowing Cards & Spotlight Hover System */
+.spotlight-card,
+.shuddho-card,
+.pricing-card-box,
+.contact-card-box,
+.contact-info-card,
+.contact-option-card,
+.review-card-item,
+.blog-card-item {
    position: relative;
    overflow: hidden;
+   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.spotlight-card::before {
+.spotlight-card::before,
+.shuddho-card::before,
+.pricing-card-box::before,
+.contact-card-box::before,
+.review-card-item::before,
+.blog-card-item::before {
    content: '';
    position: absolute;
    inset: 0;
-   background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.08), transparent 40%);
+   background: radial-gradient(700px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.18), rgba(56, 189, 248, 0.08) 40%, transparent 70%);
    border-radius: inherit;
    opacity: 0;
-   transition: opacity 0.3s ease;
+   transition: opacity 0.35s ease;
    pointer-events: none;
    z-index: 2;
 }
 
-.spotlight-card:hover::before {
+.spotlight-card:hover::before,
+.shuddho-card:hover::before,
+.pricing-card-box:hover::before,
+.contact-card-box:hover::before,
+.review-card-item:hover::before,
+.blog-card-item:hover::before {
    opacity: 1;
+}
+
+.spotlight-card:hover,
+.shuddho-card:hover,
+.pricing-card-box:hover,
+.contact-card-box:hover,
+.contact-info-card:hover,
+.contact-option-card:hover,
+.review-card-item:hover,
+.blog-card-item:hover {
+   border-color: var(--color-brand-blue, #2563eb);
+   box-shadow: 0 0 25px rgba(37, 99, 235, 0.28), 0 0 50px rgba(56, 189, 248, 0.14), 0 14px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* Real-Time Project Category Filter Pills */
