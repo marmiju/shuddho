@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-theme-setting="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -10,12 +10,11 @@
     <!-- Instant Theme Init Script (Prevents Dark/Light flicker on load) -->
     <script>
         (function () {
-            var savedTheme = localStorage.getItem('shuddho-theme') || 'system';
-            var activeTheme = savedTheme;
-            if (savedTheme === 'system') {
-                activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            var savedTheme = localStorage.getItem('shuddho-theme') || 'dark';
+            if (savedTheme !== 'dark' && savedTheme !== 'light') {
+                savedTheme = 'dark';
             }
-            document.documentElement.setAttribute('data-theme', activeTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
             document.documentElement.setAttribute('data-theme-setting', savedTheme);
         })();
     </script>
@@ -115,10 +114,12 @@
                     </svg>
                 </span>
             </a>
-            <button class="theme-switcher-btn" title="Toggle Theme (Light / Dark / System)"
+            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
                 aria-label="Toggle Theme Mode">
-                <span class="theme-icon-wrap"></span>
-                <span class="theme-mode-text">System</span>
+                <span class="theme-icon-wrap">
+                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </span>
+                <span class="theme-mode-text">Dark</span>
             </button>
         </div>
     </aside>
@@ -168,10 +169,12 @@
                 </a>
 
                 <!-- SVG Theme Switcher Button -->
-                <button class="theme-switcher-btn" id="theme-switcher-btn" title="Toggle Theme (Light / Dark / System)"
+                <button class="theme-switcher-btn" id="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
                     aria-label="Toggle Theme Mode">
-                    <span class="theme-icon-wrap" id="theme-icon-wrap"></span>
-                    <span class="theme-mode-text" id="theme-mode-text">System</span>
+                    <span class="theme-icon-wrap" id="theme-icon-wrap">
+                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </span>
+                    <span class="theme-mode-text" id="theme-mode-text">Dark</span>
                 </button>
 
                 <!-- Hamburger Mobile Appbar Toggle Button -->
@@ -295,10 +298,7 @@
     <div class="separator"></div>
     <section class="site-section-outer" id="work">
         <div class="projects-glow"></div>
-        <div class="ambient-glow glow-blue-primary"
-            style="top: 10%; left: -5%; width: 750px; height: 750px; opacity: 0.75;"></div>
-        <div class="ambient-glow glow-cyan-secondary"
-            style="bottom: 10%; right: -5%; width: 800px; height: 800px; opacity: 0.75;"></div>
+
 
         <div class="container container-dots-top container-dots-bottom">
             <div class="projects-section-header">
@@ -413,7 +413,6 @@
     </section>
 
     <!-- Services Section -->
-    <div class="separator"></div>
     <!-- Services Section -->
     <div class="separator"></div>
     <section class="site-section-outer" id="services">

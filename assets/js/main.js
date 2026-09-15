@@ -1,68 +1,47 @@
 $(function () {
   /* ==========================================================================
-     Light / Dark / System Theme Engine with SVG Switcher
+     Dark / Light Theme Engine with SVG Switcher (Dark Default)
      ========================================================================== */
   initThemeEngine();
 
   function initThemeEngine() {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
     function getSavedSetting() {
-      return localStorage.getItem('shuddho-theme') || 'system';
+      let saved = localStorage.getItem('shuddho-theme');
+      if (saved !== 'dark' && saved !== 'light') {
+        saved = 'dark';
+      }
+      return saved;
     }
 
     function applyTheme(setting) {
-      let activeTheme = setting;
-      if (setting === 'system') {
-        activeTheme = mediaQuery.matches ? 'dark' : 'light';
-      }
+      let activeTheme = (setting === 'light') ? 'light' : 'dark';
 
       document.documentElement.setAttribute('data-theme', activeTheme);
-      document.documentElement.setAttribute('data-theme-setting', setting);
-      localStorage.setItem('shuddho-theme', setting);
+      document.documentElement.setAttribute('data-theme-setting', activeTheme);
+      localStorage.setItem('shuddho-theme', activeTheme);
 
-      updateSwitcherUI(setting, activeTheme);
+      updateSwitcherUI(activeTheme);
     }
 
-    function updateSwitcherUI(setting, activeTheme) {
+    function updateSwitcherUI(activeTheme) {
       const sunSvg = `<svg class="theme-svg sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
       const moonSvg = `<svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-      const systemSvg = `<svg class="theme-svg system-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`;
 
-      let iconSvg = systemSvg;
-      let labelText = 'System';
-
-      if (setting === 'system') {
-        iconSvg = systemSvg;
-        labelText = 'System (' + (activeTheme === 'dark' ? 'Dark' : 'Light') + ')';
-      } else if (setting === 'dark') {
-        iconSvg = moonSvg;
-        labelText = 'Dark';
-      } else {
-        iconSvg = sunSvg;
-        labelText = 'Light';
-      }
+      let iconSvg = (activeTheme === 'dark') ? moonSvg : sunSvg;
+      let labelText = (activeTheme === 'dark') ? 'Dark' : 'Light';
 
       $('.theme-icon-wrap').html(iconSvg);
       $('.theme-mode-text').text(labelText);
+      $('.theme-switcher-btn').attr('title', 'Toggle Theme (' + (activeTheme === 'dark' ? 'Switch to Light' : 'Switch to Dark') + ')');
     }
 
-    // Toggle logic: system -> light -> dark -> system
+    // Toggle logic: dark <-> light
     $(document).on('click', '.theme-switcher-btn', function (e) {
       e.preventDefault();
       const current = getSavedSetting();
-      let next = 'system';
-      if (current === 'system') next = 'light';
-      else if (current === 'light') next = 'dark';
-      else next = 'system';
+      const next = (current === 'dark') ? 'light' : 'dark';
 
       applyTheme(next);
-    });
-
-    mediaQuery.addEventListener('change', () => {
-      if (getSavedSetting() === 'system') {
-        applyTheme('system');
-      }
     });
 
     applyTheme(getSavedSetting());
@@ -303,59 +282,8 @@ $(function () {
     }
   });
 
-  /* ==========================================================================
-     Custom Pointer & Color Inversion Effect (Text Content Focus)
-     ========================================================================== */
-  const $cursorDot = $('#cursor-dot');
-  const $cursorCircle = $('#cursor-circle');
-
-  if ($cursorDot.length && $cursorCircle.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    let mouseX = -100;
-    let mouseY = -100;
-    let circleX = -100;
-    let circleY = -100;
-    let isMoving = false;
-
-    $(window).on('mousemove', function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      // Move the inner dot pointer
-      $cursorDot.css({ left: mouseX + 'px', top: mouseY + 'px' });
-
-      if (!isMoving) {
-        $cursorDot.addClass('visible');
-        $cursorCircle.addClass('visible');
-        isMoving = true;
-      }
-    });
-
-    $(window).on('mouseleave', function () {
-      $cursorDot.removeClass('visible');
-      $cursorCircle.removeClass('visible');
-      isMoving = false;
-    });
-
-    // Smooth 60fps linear interpolation (LERP) for trailing circle
-    function animateCursor() {
-      circleX += (mouseX - circleX) * 0.22;
-      circleY += (mouseY - circleY) * 0.22;
-
-      $cursorCircle.css({ left: circleX + 'px', top: circleY + 'px' });
-
-      requestAnimationFrame(animateCursor);
-    }
-    requestAnimationFrame(animateCursor);
-
-    // Target ONLY text content (headings, paragraphs, labels)
-    $(document).on('mouseenter', 'h1, h2, h3, h4, p, .hero-title, .hero-description, .rating-label, .brands-title, .brands-subtitle, .brand-name', function () {
-      $cursorCircle.addClass('hover-active');
-      $cursorDot.addClass('hover-active');
-    }).on('mouseleave', 'h1, h2, h3, h4, p, .hero-title, .hero-description, .rating-label, .brands-title, .brands-subtitle, .brand-name', function () {
-      $cursorCircle.removeClass('hover-active');
-      $cursorDot.removeClass('hover-active');
-    });
-  }
+  /* Custom Pointer Disabled - Restored Default Browser Cursor */
+  $('#cursor-dot, #cursor-circle').remove();
 
   /* ==========================================================================
      Desktop Nav Capsule Interactive Tab Switching
