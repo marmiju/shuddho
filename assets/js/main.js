@@ -1548,6 +1548,26 @@ $(function () {
         e.stopPropagation();
         goToSlide($(this).index());
       });
+
+      $slider.find('.cs-card-arrow.cs-card-prev').off('click.csArrow').on('click.csArrow', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentSlide - 1);
+      });
+
+      $slider.find('.cs-card-arrow.cs-card-next').off('click.csArrow').on('click.csArrow', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentSlide + 1);
+      });
+
+      $slider.closest('.sticky-media-link').off('click.csArrowGuard').on('click.csArrowGuard', function (e) {
+        if ($(e.target).closest('.cs-card-arrow, .cs-auto-dot').length) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      });
     });
   }
 
@@ -1623,11 +1643,25 @@ $(function () {
 
     const mediaContent = hasMultipleImages ? `
       <div class="cs-card-auto-slider" data-slide-count="${cs.images.length}">
-        <div class="cs-auto-slide-track">
-          ${cs.images.map((img, i) => `
-            <img src="${img}" alt="${cs.title} view ${i + 1}" class="sticky-media-img cs-auto-slide ${i === 0 ? 'active' : ''}" loading="lazy">
-          `).join('')}
-        </div>
+        <a href="case-study.html?slug=${cs.slug}" class="cs-track-link" aria-label="${cs.title}">
+          <div class="cs-auto-slide-track">
+            ${cs.images.map((img, i) => `
+              <img src="${img}" alt="${cs.title} view ${i + 1}" class="sticky-media-img cs-auto-slide ${i === 0 ? 'active' : ''}" loading="lazy">
+            `).join('')}
+          </div>
+        </a>
+        <button type="button" class="cs-card-arrow cs-card-prev" aria-label="Previous image">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="cs-card-arrow cs-card-next" aria-label="Next image">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
         <div class="cs-auto-slide-dots">
           ${cs.images.map((_, i) => `<span class="cs-auto-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
         </div>
@@ -1637,7 +1671,9 @@ $(function () {
         </div>
       </div>
     ` : `
-      <img src="${cs.image}" alt="${cs.title}" class="sticky-media-img" loading="lazy">
+      <a href="case-study.html?slug=${cs.slug}" class="cs-track-link" aria-label="${cs.title}">
+        <img src="${cs.image}" alt="${cs.title}" class="sticky-media-img" loading="lazy">
+      </a>
     `;
 
     return `
@@ -1690,9 +1726,9 @@ $(function () {
           </div>
 
           <div class="sticky-card-media">
-            <a href="case-study.html?slug=${cs.slug}" class="sticky-media-link" aria-label="${cs.title}">
+            <div class="sticky-media-link">
               ${mediaContent}
-            </a>
+            </div>
           </div>
         </div>
       </article>
