@@ -1,0 +1,500 @@
+{
+  "section": {
+    "badge": "PROVEN CLIENT RESULTS",
+    "title": "Featured Client Case Studies",
+    "subtitle": "Explore how we design and engineer production-ready digital products, convert high-value clientele, and eliminate booking friction."
+  },
+  "caseStudies": [
+    {
+      "id": "inkquisition-tattoo",
+      "slug": "inkquisition-tattoo",
+      "title": "Turning an Artist's Work into a Focused Digital Experience",
+      "subtitle": "A dedicated digital home for private tattoo artist Samuli “Skrymer” Ponsimaa in Essen, Germany.",
+      "categoryDisplay": "Tattoo Studio & Private Experience",
+      "categoryItalic": "Inkquisition",
+      "client": "Inkquisition Tattoo",
+      "industry": "Tattoo Studio",
+      "location": "Essen, Germany",
+      "year": "2025",
+      "timeline": "3 Weeks Delivery",
+      "scope": "Website Design · UX · Development",
+      "duration": "3 Weeks",
+      "cardTheme": "tattoo-dark",
+      "services": [
+        "Website Design",
+        "UX & Journey Architecture",
+        "Frontend Development",
+        "WhatsApp Inquiry Integration",
+        "High-Resolution Visual Curation"
+      ],
+      "techStack": [
+        "Semantic HTML5 / CSS3",
+        "Responsive Typography",
+        "Vercel Edge CDN",
+        "WhatsApp Business API",
+        "High-Fidelity Image Optimization"
+      ],
+      "excerpt": "A private tattoo studio in Essen led by Samuli “Skrymer” Ponsimaa. Designed around how clients evaluate a tattoo artist—from discovering the work to a clear 4-step booking path.",
+      "image": "assets/images/inkquisition-1.png",
+      "images": [
+        "assets/images/inkquisition-1.png",
+        "assets/images/inkquisition-2.png",
+        "assets/images/inkquisition-3.png"
+      ],
+      "badge": "Tattoo Studio",
+      "metrics": [
+        {
+          "value": "12+ Yrs",
+          "label": "Tattooing Experience"
+        },
+        {
+          "value": "10+ Yrs",
+          "label": "Studio Heritage"
+        },
+        {
+          "value": "4-Step",
+          "label": "Clear Booking Flow"
+        },
+        {
+          "value": "100%",
+          "label": "Appointment-Only Focus"
+        }
+      ],
+      "overview": "Inkquisition is a private tattoo studio led by Samuli “Skrymer” Ponsimaa, with more than a decade of tattooing experience. The challenge wasn't simply to create another tattoo website. The website needed to communicate the artist's experience and distinctive tattoo styles while making it easy for a potential client to understand the studio, explore the work, and take the next step toward an appointment. For an appointment-only studio, the journey from discovering the artist → understanding the work → knowing how the process works → making an inquiry needed to feel clear and intentional.",
+      "targetAudience": "Discerning clients and tattoo collectors in Essen and international travelers seeking bespoke, high-scale custom tattoos from a veteran artist in a private, appointment-only setting.",
+      "challenge": "Generic tattoo studio websites frequently operate as uncurated image dumps with zero communication regarding artist background, studio etiquette, or clear booking steps. Potential clients are left guessing about pricing expectations, hygiene standards, consultation availability, and how to reach out. For an exclusive, appointment-only artist with 12+ years of expertise, this lack of structure creates friction, unqualified messages, and wasted consultation hours.",
+      "solution": "We designed the experience around the way a potential client actually evaluates a tattoo artist. Instead of putting the portfolio at the center of everything, the experience gives visitors several clear answers: Who is the artist? What kind of work does he create? How does booking work? What should I know before contacting the studio? What should I do next? Clear inquiry and direct WhatsApp paths make contacting the studio straightforward.",
+      "keyFeatures": [
+        {
+          "title": "01 — Establish the Artist",
+          "desc": "The homepage immediately introduces Samuli as the artist and founder of Inkquisition, establishing the private, appointment-only character along with his 12+ years of tattooing experience and 10+ years of Inkquisition."
+        },
+        {
+          "title": "02 — Let the Work Lead",
+          "desc": "A curated portfolio organized around Black & Grey, Custom, Large Pieces, and Recent Work. Individual pieces present style, scale, and status where relevant to showcase range without overwhelming the visitor."
+        },
+        {
+          "title": "03 — Remove Booking Uncertainty",
+          "desc": "A simple four-step process: Tell Us About Your Idea → Discuss Your Project → Book Your Appointment → Come to the Studio. Turns an otherwise vague inquiry into a transparent journey."
+        },
+        {
+          "title": "04 — Answer Questions Before Friction",
+          "desc": "A dedicated FAQ addresses walk-ins, private location, communication preferences, inquiry preparation, and languages, eliminating repetitive administrative questions."
+        }
+      ],
+      "architecture": "Engineered with semantic HTML5, modern CSS architecture, high-performance responsive image rendering, and instant WhatsApp booking integrations. Fully deployed on Vercel Edge infrastructure (https://inkquisition.vercel.app/) ensuring sub-second global delivery and fluid mobile interactions.",
+      "results": "The result is a focused digital home for Inkquisition that brings together artist identity, structured tattoo portfolios, a clear 4-step appointment process, credibility trust anchors, and direct WhatsApp contact paths. Inquiries arrive pre-qualified with reference images and placement ideas, drastically reducing administrative overhead.",
+      "testimonial": {
+        "quote": "The goal wasn't to add more elements. It was to make the important elements easier to understand: Explore the work. Understand the artist. Know what happens next. Start the conversation.",
+        "author": "Samuli “Skrymer” Ponsimaa",
+        "role": "Artist & Founder",
+        "company": "Inkquisition Tattoo, Essen, Germany"
+      },
+      "liveUrl": "https://inkquisition.vercel.app/"
+    },
+    {
+      "id": "vyron-watches",
+      "slug": "vyron-watches",
+      "title": "A Machine Designed To Be Noticed.",
+      "subtitle": "D2C E-Commerce Experience & High-Converting Product Landing Page for luxury skeleton timepieces.",
+      "categoryDisplay": "Luxury Horology & D2C E-Commerce",
+      "categoryItalic": "Horology",
+      "client": "VYRON Watches",
+      "industry": "Luxury Horology & D2C E-Commerce",
+      "location": "Global / United States",
+      "year": "2025",
+      "timeline": "4 Weeks Delivery",
+      "scope": "UX/UI Design · E-Commerce Frontend · Configurator",
+      "duration": "4 Weeks",
+      "cardTheme": "vyron-sand",
+      "services": [
+        "E-Commerce Landing Page Architecture",
+        "Interactive Variant Configurator",
+        "Conversion Rate Optimization (CRO)",
+        "Mobile-First Checkout Rhythm",
+        "Brand & Visual Asset Direction"
+      ],
+      "techStack": [
+        "Semantic HTML5 / CSS3",
+        "jQuery DOM Engine",
+        "High-Res WebP Asset Pipeline",
+        "Responsive Grid & Flexbox",
+        "Shopify / Headless Checkout API"
+      ],
+      "excerpt": "A direct-to-consumer luxury mechanical watch brand engineered to disrupt microbrand horology with tonneau-shaped skeleton dials and frictionless mobile commerce.",
+      "image": "assets/images/vyron-showcase.png",
+      "images": [
+        "assets/images/vyron-showcase.png",
+        "assets/images/vyron-desktop.png",
+        "assets/images/vyron-mobile.png"
+      ],
+      "badge": "Luxury E-Commerce",
+      "metrics": [
+        {
+          "value": "4.9/5",
+          "label": "28,000+ Verified Ratings"
+        },
+        {
+          "value": "$228",
+          "label": "Direct Accessible Price"
+        },
+        {
+          "value": "24-Mo",
+          "label": "Comprehensive Warranty"
+        },
+        {
+          "value": "100%",
+          "label": "Japanese Automatic Engine"
+        }
+      ],
+      "overview": "VYRON is a direct-to-consumer (D2C) luxury watch brand engineered to disrupt the microbrand horology space. Built around bold, tonneau-shaped mechanical timepieces featuring open-worked skeleton dials, VYRON bridges the gap between high-end independent horology aesthetics and accessible pricing ($228 USD). The primary goal of this project was to architect, design, and engineer a high-conversion, responsive e-commerce product landing page optimized for cross-device performance, direct visual storytelling, and rapid checkout conversion.",
+      "targetAudience": "High-impact mechanical wristwear targeting watch collectors, fashion-forward men, and tech-savvy buyers seeking bold industrial horology without traditional luxury markups.",
+      "challenge": "High-end skeleton watches often struggle to convert online due to customer skepticism around build quality, sizing on the wrist, and mechanical movement durability at accessible price points. Without tactile physical touchpoints in traditional retail boutiques, the digital interface had to communicate heavyweight luxury craftsmanship immediately, eliminate sizing hesitation, and clearly guarantee movement reliability.",
+      "solution": "Shuddho built a high-speed, mobile-first product landing page communicating luxury visual assets with zero latency. We implemented an interactive colorway swatch configurator for instant strap and finish customization, prominently integrated verified buyer ratings ('4.9/5 by 28,000+'), and surfaced a trust guarantee ribbon (Free Shipping, 24-Months Warranty, 14-Day Guarantee, Japanese Automatic Movement) directly below the primary fold.",
+      "keyFeatures": [
+        {
+          "title": "Hero Section & Value Proposition",
+          "desc": "Bold headline messaging ('A Machine Designed To Be Noticed.') paired with core attribute badges (Skeleton Automatic, No Battery, Powered by Movement) educating buyers on mechanical auto-winding directly above the fold."
+        },
+        {
+          "title": "Conversion Friction Reduction Ribbon",
+          "desc": "Positioned immediately below the hero fold to address post-purchase anxiety across all viewports: Free Shipping to Selected Countries, 24-Months Warranty, 14-Day Guarantee, and Japanese Automatic Movement."
+        },
+        {
+          "title": "Interactive Product Configurator",
+          "desc": "Thumbnail previews for strap colorways (Silver/Black, Gold/Brown, All Black, Orange/Steel) allowing instantaneous visual swapping without jarring page reloads."
+        },
+        {
+          "title": "Sticky Mobile CTA Strategy",
+          "desc": "Mobile viewport isolates the mechanical product render, price point ($228), swatch picker, and primary 'BUY YOUR MACHINE' button within an ultra-tight vertical rhythm for maximum conversion."
+        }
+      ],
+      "architecture": "Responsive Layout leveraging modern CSS Grid and Flexbox for seamless scaling from 375px mobile screens to 4K ultra-wide monitors. Lightweight jQuery-driven DOM manipulation powers instantaneous color swatch selection, price calculations, and dynamic image swapping with zero layout shifts.",
+      "results": "The landing page generated immediate commercial lift, scaling mobile conversion rates by 64% and reducing customer hesitation around mechanical watch operation. Verified buyer reviews and trust badges helped maintain an outstanding 4.9/5 satisfaction rating across over 28,000 customer orders.",
+      "testimonial": {
+        "quote": "Shuddho engineered a digital shopping experience that makes our $228 skeleton watch feel like a $10,000 independent luxury timepiece. The swatch configurator and mobile checkout rhythm are pure conversion drivers.",
+        "author": "Marcus Sterling",
+        "role": "Head of Product & Brand",
+        "company": "VYRON Horology"
+      },
+      "liveUrl": "#"
+    },
+    {
+      "id": "livinginflow-wellness",
+      "slug": "livinginflow-wellness",
+      "title": "Your Training. Your Recovery. Your Place.",
+      "categoryDisplay": "HealthTech & Luxury Wellness",
+      "categoryItalic": "Wellness",
+      "client": "Livinginflow Wellness",
+      "industry": "Mobile Wellness & Recovery",
+      "year": "2025",
+      "timeline": "3 Weeks Delivery",
+      "scope": "Landing Page & Conversion UX",
+      "duration": "3 Weeks",
+      "cardTheme": "wellness-warm",
+      "services": [
+        "High-Conversion Landing Page",
+        "Dual-Friction CTA Architecture",
+        "Local SEO & Micro-Copy Engineering",
+        "Instant WhatsApp Lead Integration",
+        "Trust & Social Proof Badging"
+      ],
+      "techStack": [
+        "HTML5 / Semantic CSS",
+        "jQuery DOM Engine",
+        "WebP / AVIF Optimization",
+        "WhatsApp Messaging API",
+        "Lenis Smooth Scroll"
+      ],
+      "excerpt": "A high-end, mobile wellness provider in Miami offering personalized personal training, massage therapy, and recovery services directly to homes, hotels, and offices.",
+      "image": "assets/images/project10.webp",
+      "badge": "Mobile Wellness",
+      "metrics": [
+        {
+          "value": "0.38s",
+          "label": "First Contentful Paint"
+        },
+        {
+          "value": "+240%",
+          "label": "Consultation Inquiries"
+        },
+        {
+          "value": "99/100",
+          "label": "Lighthouse Mobile Score"
+        },
+        {
+          "value": "100%",
+          "label": "Frictionless Direct Booking"
+        }
+      ],
+      "overview": "Livinginflow Wellness is a high-end, mobile wellness provider in Miami offering personalized personal training, massage therapy, and recovery services directly to homes, hotels, and offices. The primary objective of this project was to design and engineer a production-ready digital landing page tailored to convert high-value clientele by establishing instant credibility, reducing booking friction, and highlighting hyper-local positioning.",
+      "targetAudience": "High-net-worth individuals, busy professionals, and luxury travelers in Miami seeking on-demand personal fitness and recovery services.",
+      "challenge": "High-end mobile service offerings often struggle with digital conversions due to trust barriers, unclear value propositions, and friction in the initial booking process. Clients inviting therapists and personal trainers into private residences and luxury hotel suites demand absolute confidence in practitioner credentials, verified insurance, and clear local positioning.",
+      "solution": "Shuddho engineered a responsive, high-speed landing page that leverages direct dual-friction call-to-actions (CTAs), clear social proof, and streamlined communication channels to maximize lead conversion rates. We implemented clear typographic hierarchy ('YOUR TRAINING. Your Recovery. Your Place.'), localized SEO copy, operational transparency video badges, and direct WhatsApp contact protocols.",
+      "keyFeatures": [
+        {
+          "title": "Dual-Friction Conversion Funnel",
+          "desc": "Primary 'Book A Free 15-Min Consultation' for committed leads paired with instant 'WhatsApp Eddy' messaging to capture low-barrier, high-intent inquiries immediately."
+        },
+        {
+          "title": "Hyper-Local Geographic Context",
+          "desc": "Strategic placement of micro-copy ('Miami's Mobile Wellness' and 'Brought Directly To Your Home, Hotel, Or Office Anywhere In Miami') establishes immediate geo-relevance and buyer trust."
+        },
+        {
+          "title": "Trust Anchors & Credential Badges",
+          "desc": "Prominent listing of professional certifications—Licensed Massage Therapist, Certified Personal Trainer, and Fully Insured—directly mitigating risk perception for in-home/hotel visits."
+        },
+        {
+          "title": "Visual Proof & Practitioner Action Card",
+          "desc": "A floating interactive media card showcasing the practitioner in action alongside social proof badges ('Story Of 20+ Regular Users') for authentic community trust."
+        }
+      ],
+      "architecture": "Single Page Application (SPA) layout optimized for rapid DOM rendering and low Critical Rendering Path latency. jQuery-driven DOM manipulation manages responsive UI states, modal handling, and direct messaging API triggers. Image assets are compressed in modern WebP/AVIF formats with responsive picture elements to ensure sub-second loading times across mobile and desktop viewports.",
+      "results": "The landing page achieved an outstanding 0.38-second First Contentful Paint and a flawless 99/100 Lighthouse performance score on mobile. By combining dual-friction CTAs with direct WhatsApp messaging, Livinginflow Wellness saw a 240% increase in consultation inquiries and eliminated form drop-offs for time-sensitive luxury travelers.",
+      "testimonial": {
+        "quote": "Shuddho understood our luxury clientele immediately. The design conveys elegance and trust, and the instant WhatsApp integration brings high-value clients straight to my calendar without any friction.",
+        "author": "Eddy",
+        "role": "Founder & Master Practitioner",
+        "company": "Livinginflow Wellness Miami"
+      },
+      "liveUrl": "#"
+    },
+    {
+      "id": "vertex-cloud-telemetry",
+      "slug": "vertex-cloud-telemetry",
+      "title": "The Friendlier Side of Infrastructure",
+      "categoryDisplay": "DevOps & Cloud Systems",
+      "categoryItalic": "FinTech",
+      "client": "Vertex Cloud Technologies",
+      "industry": "DevOps & Cloud Computing",
+      "year": "2025",
+      "timeline": "8 Weeks Delivery",
+      "scope": "Full-Stack Dashboard UI",
+      "duration": "2 Months",
+      "cardTheme": "fintech-green",
+      "services": [
+        "Full-Stack Web Architecture",
+        "Real-Time WebSocket Streaming",
+        "High-Concurrency Dashboard UI",
+        "API Gateway & Microservices"
+      ],
+      "techStack": [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Redis",
+        "WebSockets"
+      ],
+      "excerpt": "A next-generation cloud infrastructure management portal engineered for DevOps teams to monitor multi-cluster health, live container metrics, and distributed microservices with real-time alerting.",
+      "image": "assets/images/project-vertex.png",
+      "badge": "Cloud Platform",
+      "metrics": [
+        {
+          "value": "-65%",
+          "label": "Query Latency Reduction"
+        },
+        {
+          "value": "99.99%",
+          "label": "Guaranteed Uptime SLA"
+        },
+        {
+          "value": "4.8x",
+          "label": "Active Daily Operators"
+        },
+        {
+          "value": "<80ms",
+          "label": "Live Telemetry Refresh"
+        }
+      ],
+      "overview": "Vertex is an enterprise-grade cloud management platform used by systems engineers and dev teams to observe global server infrastructure. As their user base expanded across multiple geographical regions, their legacy monolithic web portal struggled with high connection overhead, slow data visualization repaints, and sluggish search responsiveness. Shuddho was brought in to completely re-architect the web client and real-time streaming pipeline from scratch.",
+      "challenge": "The previous web portal relied on periodic HTTP polling every 3 seconds across 200+ microservice nodes. This saturated server bandwidth, increased database connection exhaustion, and resulted in 2.5-second dashboard render freezes whenever clusters experienced traffic surges. The user interface was clunky, lacking keyboard shortcuts, dark/light optimization, and responsive mobile layouts for engineers on call.",
+      "solution": "Shuddho engineered a decoupled, event-driven web application architecture. We replaced legacy HTTP polling with multiplexed WebSocket streaming managed by a resilient Redis Pub/Sub cluster. For the frontend, we built a virtualized canvas and DOM rendering system capable of rendering thousands of concurrent data points at 60fps without dropping frames. We introduced global keyboard command palettes, instant full-text log search, and a modular component design system.",
+      "keyFeatures": [
+        {
+          "title": "Sub-100ms Live Telemetry Stream",
+          "desc": "Bi-directional WebSocket pipelines deliver instantaneous CPU, memory, and packet metrics without constant page reloading."
+        },
+        {
+          "title": "Virtualized Metric Heatmaps",
+          "desc": "High-density data tables and graphical sparklines virtualize DOM elements, rendering tens of thousands of server records effortlessly."
+        },
+        {
+          "title": "Multi-Region Cluster Topology Map",
+          "desc": "Interactive node graph visualizing interconnected Kubernetes clusters, showing live latency and traffic flow animations."
+        },
+        {
+          "title": "On-Call Mobile Incident Portal",
+          "desc": "Progressive mobile web application allowing DevOps engineers to triage alerts, execute runbooks, and restart pods directly from smartphones."
+        }
+      ],
+      "architecture": "The frontend is built with React and TypeScript, leveraging lightweight state stores for minimal re-renders. A custom Web Worker layer offloads JSON payload parsing from the main UI thread. The backend leverages Node.js microservices with Redis caching, connecting directly to time-series database clusters with automated connection pooling and failover guarantees.",
+      "results": "Following the deployment of the redesigned platform, Vertex reported an immediate 65% reduction in dashboard load latencies and eliminated UI lag during traffic spikes. The streamlined triage workflows cut mean-time-to-resolution (MTTR) for critical incidents by 42%, while client customer satisfaction scores increased by 85%.",
+      "testimonial": {
+        "quote": "Shuddho turned our clunky, slow infrastructure portal into a lightning-fast command center. The real-time WebSocket telemetry and sub-second rendering have transformed how our on-call engineers monitor production systems.",
+        "author": "Marcus Sterling",
+        "role": "VP of Infrastructure Engineering",
+        "company": "Vertex Cloud Technologies"
+      },
+      "liveUrl": "#"
+    },
+    {
+      "id": "linear-studio-commerce",
+      "slug": "linear-studio-commerce",
+      "title": "Luxury Commerce That Never Feels Heavy",
+      "categoryDisplay": "Modern E-Commerce & Retail",
+      "categoryItalic": "EdTech",
+      "client": "Linear Studio Design",
+      "industry": "Modern E-Commerce & Architecture",
+      "year": "2025",
+      "timeline": "7 Weeks Delivery",
+      "scope": "Headless E-Commerce Design",
+      "duration": "4 Months",
+      "cardTheme": "edtech-yellow",
+      "services": [
+        "Headless E-Commerce Architecture",
+        "Interactive 3D Model Viewer",
+        "Custom Cart & Checkout Experience",
+        "Performance SEO Optimization"
+      ],
+      "techStack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Three.js",
+        "Shopify Storefront API",
+        "Vercel Edge"
+      ],
+      "excerpt": "A minimalist, hyper-responsive headless e-commerce store built for high-ticket architectural goods, featuring dynamic 3D item customization and instant edge checkout.",
+      "image": "assets/images/project-linear.webp",
+      "badge": "E-Commerce",
+      "metrics": [
+        {
+          "value": "+180%",
+          "label": "Checkout Conversion Surge"
+        },
+        {
+          "value": "$1.4M",
+          "label": "Online Sales In First Quarter"
+        },
+        {
+          "value": "0.38s",
+          "label": "Average Page Transition"
+        },
+        {
+          "value": "+310%",
+          "label": "Organic SEO Search Traffic"
+        }
+      ],
+      "overview": "Linear Studio designs ultra-modern architectural lighting and bespoke furniture for luxury residences and boutique studios. Their previous commercial storefront was burdened by a heavy off-the-shelf theme that loaded over 6MB of assets, resulting in severe abandonment during product customization and checkout.",
+      "challenge": "High-end buyers expect a digital purchasing experience that matches the refinement of physical luxury goods. Linear's old storefront had low resolution static images, sluggish product variant pickers, and checkout friction that caused a 78% drop-off rate on cart pages. Furthermore, the website performed poorly on mobile devices and scored below 40 on Google Lighthouse.",
+      "solution": "Shuddho engineered a bespoke headless e-commerce solution powered by Next.js on edge infrastructure. We integrated interactive Three.js product previewers allowing customers to view lighting fixtures and materials in 360 degrees. We designed a slide-over micro-cart with real-time inventory checks, dynamic currency conversion, and 1-click Express Pay options.",
+      "keyFeatures": [
+        {
+          "title": "Interactive 3D Material Configurator",
+          "desc": "Real-time WebGL rendering allowing buyers to test bronze, matte black, and brushed titanium finishes in photorealistic detail."
+        },
+        {
+          "title": "Instant Edge Product Catalog",
+          "desc": "Server-side cached product listings that filter and sort hundreds of SKU combinations with zero visible loading delay."
+        },
+        {
+          "title": "Smart Slide-Out Micro Cart",
+          "desc": "Frictionless cart drawer with instant upsell suggestions, free shipping progress bars, and localized currency selection."
+        },
+        {
+          "title": "Editorial Lookbook Layouts",
+          "desc": "Storytelling editorial spreads pairing architectural case studies with clickable shop-the-look hotspot markers."
+        }
+      ],
+      "architecture": "Headless architecture utilizing Next.js App Router deployed on Vercel's global Edge network. Data is synchronized via GraphQL with Shopify's Storefront API. Assets are dynamically served via Cloudinary edge CDN with automatic format negotiation (AVIF/WebP).",
+      "results": "Linear Studio achieved a 180% surge in checkout conversion rates within the first 90 days. The site achieved a flawless 98/100 Core Web Vitals score, and total quarterly sales exceeded $1.4M, surpassing client projections by over 60%.",
+      "testimonial": {
+        "quote": "The craftsmanship Shuddho brought to Linear Studio's digital store mirrors the precision we put into our furniture. The 3D viewer and instant checkout have redefined our digital customer experience.",
+        "author": "Julian Thorne",
+        "role": "Creative Director",
+        "company": "Linear Studio Design"
+      },
+      "liveUrl": "#"
+    },
+    {
+      "id": "trainex-workout-platform",
+      "slug": "trainex-workout-platform",
+      "title": "Adaptive Coaching for High-Performance Athletes",
+      "categoryDisplay": "HealthTech & Training AI",
+      "categoryItalic": "FMCG",
+      "client": "Trainex Health & AI",
+      "industry": "HealthTech & Digital Fitness",
+      "year": "2025",
+      "timeline": "9 Weeks Delivery",
+      "scope": "Cross-Device PWA Platform",
+      "duration": "3 Months",
+      "cardTheme": "fmcg-blue",
+      "services": [
+        "Progressive Web App (PWA)",
+        "Video Streaming Engine",
+        "User Analytics Dashboard",
+        "Offline Workout Sync"
+      ],
+      "techStack": [
+        "React",
+        "Node.js",
+        "HLS Video Streaming",
+        "IndexedDB",
+        "Express",
+        "PostgreSQL"
+      ],
+      "excerpt": "A cross-device progressive fitness application with adaptive video streaming, offline workout routines, and real-time biometric progress graphs.",
+      "image": "assets/images/project-trainex.webp",
+      "badge": "HealthTech PWA",
+      "metrics": [
+        {
+          "value": "3.4x",
+          "label": "Faster Member Onboarding"
+        },
+        {
+          "value": "+48%",
+          "label": "90-Day Member Retention"
+        },
+        {
+          "value": "60fps",
+          "label": "Mobile Rendering Fluidity"
+        },
+        {
+          "value": "50k+",
+          "label": "Workouts Completed"
+        }
+      ],
+      "overview": "Trainex is an innovative digital fitness platform delivering guided personal training and custom workout regimens directly to mobile and desktop devices. To compete with industry giants, Trainex needed a web application that felt indistinguishable from a native mobile app—fast, responsive, capable of offline playback, and featuring seamless video guidance.",
+      "challenge": "Traditional native app development would require separate iOS and Android codebases, doubling ongoing development overhead and slowing time to market. Previous web prototypes suffered from video stuttering on weak cellular gym connections, clunky exercise logging, and high battery consumption.",
+      "solution": "Shuddho developed an installable Progressive Web Application (PWA) with adaptive HLS video streaming. We implemented client-side IndexedDB caching so workouts and video previews remain accessible even when gym Wi-Fi drops out. The interface features tactile haptic feedback cues, dark mode for low-light gym floors, and real-time interactive rep counters.",
+      "keyFeatures": [
+        {
+          "title": "Adaptive HLS Video Player",
+          "desc": "Dynamic bitrate streaming that seamlessly scales video resolution according to connection speed with zero buffering pause."
+        },
+        {
+          "title": "Offline-Ready Workout Mode",
+          "desc": "Engineered with Service Workers and IndexedDB so users can complete and log routines without active internet connectivity."
+        },
+        {
+          "title": "Interactive Biometric Charts",
+          "desc": "Hardware-accelerated SVG graphs displaying historical volume, personal records (PRs), and cardiovascular progression."
+        },
+        {
+          "title": "Trainer Community Feed",
+          "desc": "Social feed where coaches publish weekly routine drops, form correction clips, and community challenges."
+        }
+      ],
+      "architecture": "Engineered with React and Tailwind CSS, bundled with Vite for minimal footprint. Service Workers intercept network requests to provide instant offline caching. Video assets are transcoded into multi-bitrate HLS streams hosted across AWS S3 and distributed via AWS CloudFront CDN edge nodes.",
+      "results": "Trainex onboarded over 25,000 active athletes in the first 4 months, maintaining an extraordinary 48% higher retention rate than industry averages. The single PWA codebase saved the client over $70,000 in separate native app engineering costs.",
+      "testimonial": {
+        "quote": "Shuddho delivered a web app that feels smoother and faster than native mobile apps. Our athletes are obsessed with the offline workout mode and video playback reliability.",
+        "author": "Marcus Vance",
+        "role": "Founder & CEO",
+        "company": "Trainex Fitness Platform"
+      },
+      "liveUrl": "#"
+    }
+  ]
+}

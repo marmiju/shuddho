@@ -1503,6 +1503,464 @@ $(function () {
       });
   }
 
+  /* ==========================================================================
+     Dynamic Case Studies System
+     ========================================================================== */
+  let allCaseStudies = [];
+  let cardSliderIntervals = [];
+  let detailSliderInterval = null;
+
+  function initCardAutoSliders() {
+    cardSliderIntervals.forEach(timer => clearInterval(timer));
+    cardSliderIntervals = [];
+
+    $('.cs-card-auto-slider').each(function () {
+      const $slider = $(this);
+      const $slides = $slider.find('.cs-auto-slide');
+      const $dots = $slider.find('.cs-auto-dot');
+      if ($slides.length <= 1) return;
+
+      let currentSlide = 0;
+      const count = $slides.length;
+      let isPaused = false;
+
+      function goToSlide(n) {
+        currentSlide = (n + count) % count;
+        $slides.removeClass('active').eq(currentSlide).addClass('active');
+        $dots.removeClass('active').eq(currentSlide).addClass('active');
+      }
+
+      const $card = $slider.closest('.sticky-case-card');
+      $card.off('mouseenter.csSlider mouseleave.csSlider');
+      $card.on('mouseenter.csSlider', () => { isPaused = true; });
+      $card.on('mouseleave.csSlider', () => { isPaused = false; });
+
+      const timer = setInterval(() => {
+        if (!isPaused) {
+          goToSlide(currentSlide + 1);
+        }
+      }, 3500);
+
+      cardSliderIntervals.push(timer);
+
+      $dots.off('click.csDot').on('click.csDot', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide($(this).index());
+      });
+    });
+  }
+
+  function initDetailAutoSlider() {
+    if (detailSliderInterval) {
+      clearInterval(detailSliderInterval);
+      detailSliderInterval = null;
+    }
+
+    const $slider = $('#cs-detail-slider');
+    if (!$slider.length) return;
+
+    const $slides = $slider.find('.cs-detail-slide');
+    const $dots = $slider.find('.cs-auto-dot');
+    const count = $slides.length;
+    if (count <= 1) return;
+
+    let currentIndex = 0;
+    let isPaused = false;
+
+    function showSlide(index) {
+      currentIndex = (index + count) % count;
+      $slides.removeClass('active').eq(currentIndex).addClass('active');
+      $dots.removeClass('active').eq(currentIndex).addClass('active');
+    }
+
+    $slider.find('.cs-slider-prev').off('click').on('click', function (e) {
+      e.preventDefault();
+      showSlide(currentIndex - 1);
+    });
+
+    $slider.find('.cs-slider-next').off('click').on('click', function (e) {
+      e.preventDefault();
+      showSlide(currentIndex + 1);
+    });
+
+    $dots.off('click').on('click', function (e) {
+      e.preventDefault();
+      const idx = parseInt($(this).data('index'), 10) || 0;
+      showSlide(idx);
+    });
+
+    $slider.off('mouseenter mouseleave');
+    $slider.on('mouseenter', () => { isPaused = true; });
+    $slider.on('mouseleave', () => { isPaused = false; });
+
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    $slider.off('touchstart touchend');
+    $slider.on('touchstart', function (e) {
+      touchStartX = e.originalEvent.touches[0].clientX;
+    });
+    $slider.on('touchend', function (e) {
+      const touchEndX = e.originalEvent.changedTouches[0].clientX;
+      const diff = touchEndX - touchStartX;
+      if (diff > 40) {
+        showSlide(currentIndex - 1);
+      } else if (diff < -40) {
+        showSlide(currentIndex + 1);
+      }
+    });
+
+    detailSliderInterval = setInterval(() => {
+      if (!isPaused) {
+        showSlide(currentIndex + 1);
+      }
+    }, 3600);
+  }
+
+  function createCaseStudyCardHTML(cs, index) {
+    const stackTop = 90 + (index * 26);
+    const hasMultipleImages = cs.images && Array.isArray(cs.images) && cs.images.length > 1;
+
+    const mediaContent = hasMultipleImages ? `
+      <div class="cs-card-auto-slider" data-slide-count="${cs.images.length}">
+        <div class="cs-auto-slide-track">
+          ${cs.images.map((img, i) => `
+            <img src="${img}" alt="${cs.title} view ${i + 1}" class="sticky-media-img cs-auto-slide ${i === 0 ? 'active' : ''}" loading="lazy">
+          `).join('')}
+        </div>
+        <div class="cs-auto-slide-dots">
+          ${cs.images.map((_, i) => `<span class="cs-auto-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+        </div>
+        <div class="cs-auto-badge">
+          <span class="cs-live-dot"></span>
+          <span>${cs.images.length} Showcase Views</span>
+        </div>
+      </div>
+    ` : `
+      <img src="${cs.image}" alt="${cs.title}" class="sticky-media-img" loading="lazy">
+    `;
+
+    return `
+      <article class="sticky-case-card theme-${cs.cardTheme || 'wellness-warm'}" style="--card-index: ${index}; --stack-top: ${stackTop}px;">
+        <div class="sticky-card-inner">
+          <div class="sticky-card-content">
+            <div class="sticky-card-header">
+              <span class="sticky-category"><em>${cs.categoryItalic || cs.badge || 'Case Study'}</em></span>
+            </div>
+            <h3 class="sticky-title">
+              <a href="case-study.html?slug=${cs.slug}">${cs.title}</a>
+            </h3>
+            <p class="sticky-desc">${cs.excerpt}</p>
+            
+            <div class="sticky-meta-row">
+              <div class="sticky-meta-item">
+                <span class="sticky-meta-label">Scope</span>
+                <strong class="sticky-meta-val">${cs.scope || 'Web App Design'}</strong>
+              </div>
+              <div class="sticky-meta-item">
+                <span class="sticky-meta-label">Duration</span>
+                <strong class="sticky-meta-val">${cs.duration || cs.timeline || '3 Weeks'}</strong>
+              </div>
+            </div>
+
+            <div class="sticky-footer-row">
+              <a href="case-study.html?slug=${cs.slug}" class="sticky-author-pill">
+                <div class="sticky-avatar-wrap">
+                  <img src="assets/images/avatar1.png" alt="Shuddho" class="sticky-avatar-img">
+                </div>
+                <span class="sticky-author-name">View Case Study</span>
+                <span class="sticky-arrow-circle">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </a>
+              ${cs.liveUrl && cs.liveUrl !== '#' ? `
+                <a href="${cs.liveUrl}" target="_blank" rel="noopener noreferrer" class="sticky-live-pill" title="Visit Live Website">
+                  <span>Live Site</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              ` : ''}
+            </div>
+          </div>
+
+          <div class="sticky-card-media">
+            <a href="case-study.html?slug=${cs.slug}" class="sticky-media-link" aria-label="${cs.title}">
+              ${mediaContent}
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function initMobileCaseStudiesSlider() {
+    const $slider = $('#case-studies-grid');
+    if (!$slider.length) return;
+
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let hasDragged = false;
+
+    $slider.off('mousedown.cs mousemove.cs mouseup.cs mouseleave.cs click.cs');
+
+    $slider.on('mousedown', function (e) {
+      if (window.innerWidth > 960) return;
+      isDown = true;
+      hasDragged = false;
+      $slider.addClass('is-dragging');
+      startX = e.pageX - $slider.offset().left;
+      scrollStart = $slider.scrollLeft();
+    });
+
+    $(window).on('mouseup.csslider mouseleave.csslider', function () {
+      if (!isDown) return;
+      isDown = false;
+      $slider.removeClass('is-dragging');
+      setTimeout(() => { hasDragged = false; }, 60);
+    });
+
+    $slider.on('mousemove', function (e) {
+      if (!isDown) return;
+      const x = e.pageX - $slider.offset().left;
+      const walk = (x - startX);
+      if (Math.abs(walk) > 4) {
+        hasDragged = true;
+        e.preventDefault();
+        $slider.scrollLeft(scrollStart - walk);
+      }
+    });
+
+    // Prevent accidental navigation when dragging
+    $slider.on('click', 'a', function (e) {
+      if (hasDragged) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    });
+  }
+
+  function loadCaseStudiesData() {
+    const $csGrid = $('#case-studies-grid');
+    if (!$csGrid.length) return;
+
+    $.getJSON('data/case-studies.json')
+      .done(function (data) {
+        if (data && data.caseStudies && Array.isArray(data.caseStudies)) {
+          allCaseStudies = data.caseStudies;
+          const html = allCaseStudies.map((cs, idx) => createCaseStudyCardHTML(cs, idx)).join('');
+          $csGrid.html(html);
+          initMobileCaseStudiesSlider();
+          initCardAutoSliders();
+        }
+      })
+      .fail(function (err) {
+        console.warn('Unable to load case-studies.json data:', err);
+      });
+  }
+
+  function loadSingleCaseStudyData() {
+    const $heroHeader = $('#cs-hero-header');
+    if (!$heroHeader.length) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || urlParams.get('id') || 'inkquisition-tattoo';
+
+    $.getJSON('data/case-studies.json')
+      .done(function (data) {
+        if (!data || !data.caseStudies || !data.caseStudies.length) return;
+        allCaseStudies = data.caseStudies;
+
+        let currentIndex = allCaseStudies.findIndex(c => c.slug === slug || c.id === slug);
+        if (currentIndex === -1) currentIndex = 0;
+        const cs = allCaseStudies[currentIndex];
+
+        document.title = `${cs.title} — Shuddho Case Study`;
+
+        // Breadcrumb
+        $('#cs-crumb-title').text(cs.client + ' — ' + cs.title);
+
+        // Header Meta
+        $('#cs-badge').text(cs.badge || 'Case Study');
+        $('#cs-industry-badge').text(cs.industry);
+        $('#cs-title').text(cs.title);
+        $('#cs-subtitle').text(cs.subtitle || cs.excerpt);
+        $('#cs-client').text(cs.client);
+        $('#cs-timeline').text(cs.timeline || cs.duration || 'N/A');
+        $('#cs-year').text(cs.year || '2025');
+        $('#cs-industry').text(cs.industry);
+
+        // Live URL Badge
+        $('#cs-live-url-link').remove();
+        if (cs.liveUrl && cs.liveUrl !== '#') {
+          $('#cs-badge').after(`
+            <a href="${cs.liveUrl}" target="_blank" rel="noopener noreferrer" class="cs-live-url-badge" id="cs-live-url-link">
+              <span>Visit Live Website</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          `);
+        }
+
+        // Key Metrics
+        if (cs.metrics && cs.metrics.length) {
+          const metricsHTML = cs.metrics.map(m => `
+            <div class="cs-metric-highlight-card">
+              <span class="cs-metric-highlight-val">${m.value}</span>
+              <span class="cs-metric-highlight-lbl">${m.label}</span>
+            </div>
+          `).join('');
+          $('#cs-metrics-grid').html(metricsHTML);
+        }
+
+        // Cover Box & Multi-Image Auto Slider
+        if (cs.images && Array.isArray(cs.images) && cs.images.length > 1) {
+          const detailSlidesHTML = cs.images.map((img, i) => `
+            <div class="cs-detail-slide ${i === 0 ? 'active' : ''}">
+              <img src="${img}" alt="${cs.title} view ${i + 1}" class="cs-cover-image">
+            </div>
+          `).join('');
+
+          const detailDotsHTML = cs.images.map((_, i) => `
+            <button type="button" class="cs-auto-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>
+          `).join('');
+
+          $('#cs-cover-box').html(`
+            <div class="cs-detail-auto-slider" id="cs-detail-slider">
+              <div class="cs-detail-track">
+                ${detailSlidesHTML}
+              </div>
+              <button type="button" class="cs-slider-arrow cs-slider-prev" aria-label="Previous Image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="cs-slider-arrow cs-slider-next" aria-label="Next Image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+              <div class="cs-auto-slide-dots">
+                ${detailDotsHTML}
+              </div>
+              <div class="cs-slider-badge-wrap">
+                <span class="cs-slider-badge">
+                  <span class="cs-live-dot"></span>
+                  Auto-sliding showcase (${cs.images.length} views)
+                </span>
+              </div>
+            </div>
+          `);
+
+          initDetailAutoSlider();
+        } else {
+          $('#cs-cover-box').html(`
+            <img src="${cs.image}" alt="${cs.title}" class="cs-cover-image">
+          `);
+        }
+
+        // Overview & Target Audience
+        let overviewHTML = `<p>${cs.overview}</p>`;
+        if (cs.targetAudience) {
+          overviewHTML += `
+            <div class="cs-target-audience-callout">
+              <strong class="cs-target-badge">TARGET AUDIENCE & POSITIONING:</strong>
+              <p style="margin-top: 8px;">${cs.targetAudience}</p>
+            </div>
+          `;
+        }
+        $('#cs-overview').html(overviewHTML);
+
+        // Challenge & Solution
+        $('#cs-challenge').html(`<p>${cs.challenge}</p>`);
+        $('#cs-solution').html(`<p>${cs.solution}</p>`);
+
+        // Key Features
+        if (cs.keyFeatures && cs.keyFeatures.length) {
+          const featuresHTML = cs.keyFeatures.map((f) => `
+            <div class="cs-feature-card">
+              <div class="cs-feature-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <h4 class="cs-feature-title">${f.title}</h4>
+              <p class="cs-feature-desc">${f.desc}</p>
+            </div>
+          `).join('');
+          $('#cs-features-grid').html(featuresHTML);
+        }
+
+        // Architecture
+        $('#cs-architecture').html(`<p>${cs.architecture}</p>`);
+
+        // Tech Stack & Services
+        if (cs.techStack && cs.techStack.length) {
+          const techHTML = cs.techStack.map(t => `<span class="cs-pill cs-tech-pill">${t}</span>`).join('');
+          $('#cs-tech-stack').html(techHTML);
+        }
+        if (cs.services && cs.services.length) {
+          const srvHTML = cs.services.map(s => `<span class="cs-pill cs-service-pill">${s}</span>`).join('');
+          $('#cs-services').html(srvHTML);
+        }
+
+        // Results
+        $('#cs-results').html(`<p>${cs.results}</p>`);
+
+        // Testimonial
+        if (cs.testimonial) {
+          $('#cs-testimonial-box').html(`
+            <div class="cs-testimonial-inner">
+              <div class="cs-testimonial-stars">★★★★★</div>
+              <blockquote class="cs-testimonial-quote">“${cs.testimonial.quote}”</blockquote>
+              <div class="cs-testimonial-author-meta">
+                <strong class="cs-testimonial-author-name">${cs.testimonial.author}</strong>
+                <span class="cs-testimonial-author-role">${cs.testimonial.role} — ${cs.testimonial.company}</span>
+              </div>
+            </div>
+          `);
+        }
+
+        // Prev & Next navigation
+        const prevIndex = (currentIndex - 1 + allCaseStudies.length) % allCaseStudies.length;
+        const nextIndex = (currentIndex + 1) % allCaseStudies.length;
+        const prevCS = allCaseStudies[prevIndex];
+        const nextCS = allCaseStudies[nextIndex];
+
+        $('#cs-navigation').html(`
+          <a href="case-study.html?slug=${prevCS.slug}" class="cs-nav-btn cs-nav-prev">
+            <span class="cs-nav-dir">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Previous Case Study</span>
+            </span>
+            <strong class="cs-nav-title">${prevCS.title}</strong>
+          </a>
+          <a href="case-study.html?slug=${nextCS.slug}" class="cs-nav-btn cs-nav-next">
+            <span class="cs-nav-dir">
+              <span>Next Case Study</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+            <strong class="cs-nav-title">${nextCS.title}</strong>
+          </a>
+        `);
+      })
+      .fail(function (err) {
+        console.warn('Unable to load single case study data:', err);
+      });
+  }
+
   let activeSwiperInstances = [];
   function initProjectSwiper() {
     if (!window.Swiper) {
@@ -1771,9 +2229,12 @@ $(function () {
   loadPortfolioProjectsData();
   loadTrustData();
   loadReviewsData();
+  loadCaseStudiesData();
+  loadSingleCaseStudyData();
   loadBlogsData();
   loadSingleArticleData();
   loadContactData();
   initProjectSwiper();
   initTermsPageScrollEngine();
 });
+

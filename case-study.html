@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Article — Shuddho Insights</title>
+    <title>Case Study Details — Shuddho Digital Engineering</title>
+    <meta name="description" content="Explore client results, technical architecture, and measurable outcomes engineered by Shuddho.">
 
     <!-- Instant Theme Init Script (Prevents Dark/Light flicker on load) -->
     <script>
@@ -33,6 +33,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+
     <!-- Swiper Slider CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -45,8 +46,6 @@
 </head>
 
 <body>
-
-
 
     <!-- Mobile Drawer Backdrop Overlay -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
@@ -84,13 +83,13 @@
             <ul class="drawer-list">
                 <li class="drawer-item"><a href="index.html" class="drawer-link">Home</a></li>
                 <li class="drawer-item"><a href="index.html#work" class="drawer-link">Work</a></li>
-                <li class="drawer-item"><a href="index.html#case-studies" class="drawer-link">Case Studies</a></li>
+                <li class="drawer-item"><a href="index.html#case-studies" class="drawer-link active">Case Studies</a></li>
                 <li class="drawer-item"><a href="index.html#about" class="drawer-link">About us</a></li>
                 <li class="drawer-item"><a href="index.html#services" class="drawer-link">Services</a></li>
                 <li class="drawer-item"><a href="index.html#stack" class="drawer-link">Tech Stack</a></li>
                 <li class="drawer-item"><a href="index.html#pricing" class="drawer-link">Pricing</a></li>
                 <li class="drawer-item"><a href="index.html#testimonials" class="drawer-link">Reviews</a></li>
-                <li class="drawer-item"><a href="blog.html" class="drawer-link active">Blog</a></li>
+                <li class="drawer-item"><a href="blog.html" class="drawer-link">Blog</a></li>
             </ul>
         </nav>
 
@@ -105,16 +104,19 @@
                     </svg>
                 </span>
             </a>
-            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
-                aria-label="Toggle Theme Mode">
+            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme Mode">
                 <span class="theme-icon-wrap">
-                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
                 </span>
                 <span class="theme-mode-text">Dark</span>
             </button>
         </div>
     </aside>
 
+    <!-- Main Site Header -->
     <header class="header">
         <div class="container">
             <a href="index.html" class="brand-logo" id="brand-logo">
@@ -139,13 +141,13 @@
                 <ul class="nav-list" id="nav-list">
                     <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="index.html#work" class="nav-link">Work</a></li>
-                    <li class="nav-item"><a href="index.html#case-studies" class="nav-link">Case Studies</a></li>
+                    <li class="nav-item"><a href="index.html#case-studies" class="nav-link active">Case Studies</a></li>
                     <li class="nav-item"><a href="index.html#about" class="nav-link">About us</a></li>
                     <li class="nav-item"><a href="index.html#services" class="nav-link">Services</a></li>
                     <li class="nav-item"><a href="index.html#stack" class="nav-link">Tech Stack</a></li>
                     <li class="nav-item"><a href="index.html#pricing" class="nav-link">Pricing</a></li>
                     <li class="nav-item"><a href="index.html#testimonials" class="nav-link">Reviews</a></li>
-                    <li class="nav-item"><a href="blog.html" class="nav-link active">Blog</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                 </ul>
             </nav>
 
@@ -165,7 +167,10 @@
                 <button class="theme-switcher-btn" id="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
                     aria-label="Toggle Theme Mode">
                     <span class="theme-icon-wrap" id="theme-icon-wrap">
-                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
                     </span>
                     <span class="theme-mode-text" id="theme-mode-text">Dark</span>
                 </button>
@@ -183,43 +188,202 @@
         <div class="top-scroll-progress" id="top-scroll-progress"></div>
     </header>
 
-    <!-- Article Reader Section -->
-    <article class="shuddho-section article-detail-container" style="padding-top: 100px; padding-bottom: 60px;">
-        <div class="article-meta-header" id="article-header">
-            <!-- Dynamically rendered -->
-        </div>
+    <!-- Case Study Full Details Container -->
+    <main class="case-study-template-main" style="padding-top: 100px; padding-bottom: 80px; position: relative;">
+        <!-- Ambient Glowing Backgrounds -->
+        <div class="ambient-glow glow-blue-primary"
+            style="top: 0; left: -10%; width: 850px; height: 850px; opacity: 0.75; pointer-events: none;"></div>
+        <div class="ambient-glow glow-cyan-secondary"
+            style="top: 30%; right: -10%; width: 800px; height: 800px; opacity: 0.65; pointer-events: none;"></div>
 
-        <!-- Cover Image -->
-        <div class="article-cover-box" id="article-cover-box">
-            <!-- Dynamically rendered -->
-        </div>
+        <div class="container" style="max-width: 1080px; position: relative; z-index: 2;">
+            
+            <!-- Breadcrumb Navigation -->
+            <nav class="cs-breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html" class="cs-breadcrumb-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <span>Home</span>
+                </a>
+                <span class="cs-breadcrumb-sep">/</span>
+                <a href="index.html#case-studies" class="cs-breadcrumb-link">Case Studies</a>
+                <span class="cs-breadcrumb-sep">/</span>
+                <span class="cs-breadcrumb-current" id="cs-crumb-title">Loading Case Study...</span>
+            </nav>
 
-        <!-- Article Body Content -->
-        <div class="article-body-content" id="article-body-content">
-            <!-- Dynamically rendered -->
-        </div>
+            <!-- Case Study Dynamic Hero Header -->
+            <header class="cs-hero-header" id="cs-hero-header">
+                <div class="cs-hero-badge-wrap">
+                    <span class="cs-badge" id="cs-badge">Case Study</span>
+                    <span class="cs-industry-badge" id="cs-industry-badge">Engineering</span>
+                </div>
+                <h1 class="cs-hero-title" id="cs-title">Loading project details...</h1>
+                <p class="cs-hero-subtitle" id="cs-subtitle"></p>
 
-        <!-- Article Share & CTA Box -->
-        <div class="article-cta-box"
-            style="margin-top: 50px; padding: 36px; background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 24px; text-align: center;">
-            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--color-dark-text); margin-bottom: 10px;">
-                Ready to Build a High-Performance Web Product?</h3>
-            <p style="font-size: 0.95rem; color: #475569; max-width: 600px; margin: 0 auto 24px auto;">Partner
-                directly with Shuddho developers to build fast, scalable, and beautifully designed web applications.
-            </p>
-            <a href="index.html#collaborate" class="btn-dark">
-                <span>Start Your Project</span>
-                <span class="badge-icon">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.8">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                    </svg>
-                </span>
-            </a>
+                <!-- Project Quick Metadata Bar -->
+                <div class="cs-meta-grid" id="cs-meta-grid">
+                    <div class="cs-meta-item">
+                        <span class="cs-meta-label">Client</span>
+                        <strong class="cs-meta-value" id="cs-client">—</strong>
+                    </div>
+                    <div class="cs-meta-item">
+                        <span class="cs-meta-label">Timeline</span>
+                        <strong class="cs-meta-value" id="cs-timeline">—</strong>
+                    </div>
+                    <div class="cs-meta-item">
+                        <span class="cs-meta-label">Year</span>
+                        <strong class="cs-meta-value" id="cs-year">—</strong>
+                    </div>
+                    <div class="cs-meta-item">
+                        <span class="cs-meta-label">Industry</span>
+                        <strong class="cs-meta-value" id="cs-industry">—</strong>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Key Results Metrics Showcase Grid -->
+            <section class="cs-metrics-showcase-section" aria-label="Key Performance Impact">
+                <div class="cs-metrics-grid" id="cs-metrics-grid">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- Project Showcase Main Cover Image -->
+            <div class="cs-cover-wrapper" id="cs-cover-box">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Deep-Dive Content Sections -->
+            <div class="cs-detail-content-layout">
+                
+                <!-- Project Overview & Executive Summary -->
+                <section class="cs-content-block">
+                    <div class="cs-block-badge">
+                        <span class="badge-dot"></span>
+                        <span>EXECUTIVE SUMMARY</span>
+                    </div>
+                    <h2 class="cs-block-heading">Project Overview & Objectives</h2>
+                    <div class="cs-block-prose" id="cs-overview">
+                        <!-- Populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- Challenge vs Solution Split Cards -->
+                <section class="cs-challenge-solution-split">
+                    <div class="cs-problem-card">
+                        <div class="cs-card-flag flag-problem">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            <span>The Challenge</span>
+                        </div>
+                        <h3 class="cs-split-title">Bottlenecks & Obstacles</h3>
+                        <div class="cs-split-desc" id="cs-challenge">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="cs-solution-card">
+                        <div class="cs-card-flag flag-solution">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            <span>The Shuddho Solution</span>
+                        </div>
+                        <h3 class="cs-split-title">Engineering Architecture & Approach</h3>
+                        <div class="cs-split-desc" id="cs-solution">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Capabilities & Features -->
+                <section class="cs-content-block" style="margin-top: 50px;">
+                    <div class="cs-block-badge">
+                        <span class="badge-dot"></span>
+                        <span>SYSTEM HIGHLIGHTS</span>
+                    </div>
+                    <h2 class="cs-block-heading">Key Features & Technical Capabilities</h2>
+                    <div class="cs-features-grid" id="cs-features-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- Technology Stack & Architecture Details -->
+                <section class="cs-content-block" style="margin-top: 50px;">
+                    <div class="cs-block-badge">
+                        <span class="badge-dot"></span>
+                        <span>TECH STACK & INFRASTRUCTURE</span>
+                    </div>
+                    <h2 class="cs-block-heading">Technical Architecture & Stack Choices</h2>
+                    <div class="cs-block-prose" id="cs-architecture">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <div class="cs-tags-section" style="margin-top: 24px;">
+                        <h4 class="cs-tags-title">Technologies & Tools Utilized</h4>
+                        <div class="cs-tech-pill-list" id="cs-tech-stack">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="cs-tags-section" style="margin-top: 20px;">
+                        <h4 class="cs-tags-title">Services & Deliverables Provided</h4>
+                        <div class="cs-services-pill-list" id="cs-services">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Measurable Results Section -->
+                <section class="cs-content-block cs-results-block" style="margin-top: 50px;">
+                    <div class="cs-block-badge">
+                        <span class="badge-dot"></span>
+                        <span>COMMERCIAL OUTCOMES</span>
+                    </div>
+                    <h2 class="cs-block-heading">Measurable Results & Business Impact</h2>
+                    <div class="cs-block-prose" id="cs-results">
+                        <!-- Populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- Client Testimonial Box -->
+                <div class="cs-testimonial-card" id="cs-testimonial-box" style="margin-top: 50px;">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Case Study Prev / Next Switcher -->
+                <nav class="cs-navigation-bar" id="cs-navigation" aria-label="More Case Studies Navigation" style="margin-top: 60px;">
+                    <!-- Populated dynamically -->
+                </nav>
+
+                <!-- Bottom CTA Card -->
+                <div class="cs-cta-box" style="margin-top: 60px;">
+                    <div class="section-badge fade-in-up" style="display: inline-flex; margin-bottom: 16px;">
+                        <span class="badge-dot"></span>
+                        <span>READY TO BUILD?</span>
+                    </div>
+                    <h3 class="cs-cta-title">Have a Complex Web Project in Mind?</h3>
+                    <p class="cs-cta-desc">
+                        Partner directly with our senior software engineers to architect fast, reliable, and high-converting web applications.
+                    </p>
+                    <div class="cs-cta-buttons">
+                        <a href="index.html#collaborate" class="btn-dark">
+                            <span>Start Your Project</span>
+                            <span class="badge-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.8">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </span>
+                        </a>
+                        <a href="index.html#case-studies" class="btn-secondary-link">
+                            <span>Browse All Case Studies</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    </article>
-    </div>
+    </main>
 
     <!-- Footer -->
     <div class="separator"></div>
@@ -231,12 +395,12 @@
                         <svg width="28" height="28" viewBox="0 0 400 400" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <defs>
-                                <linearGradient id="shuddho-mark-footer-detail" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="shuddho-mark-footer-cs" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#60A5FA" />
                                     <stop offset="40%" stop-color="#2665E6" />
                                     <stop offset="100%" stop-color="#1D4ED8" />
                                 </linearGradient>
-                                <linearGradient id="shuddho-star-footer-detail" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="shuddho-star-footer-cs" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#BAE6FD" />
                                     <stop offset="100%" stop-color="#38BDF8" />
                                 </linearGradient>
@@ -244,10 +408,10 @@
                             <g transform="translate(10, 10) scale(0.75)">
                                 <path
                                     d="M 210 70 C 170 66 134 86 110 118 C 78 162 86 218 130 250 C 170 278 218 286 250 306 C 278 322 290 346 278 370 C 262 398 218 410 178 398 C 146 386 122 362 110 338 L 58 374 C 82 422 130 458 190 466 C 258 478 326 450 350 394 C 374 338 346 278 290 246 C 246 218 194 210 166 190 C 142 174 134 154 146 134 C 158 110 198 98 234 110 C 258 118 278 138 290 158 L 342 122 C 318 78 270 54 210 70 Z"
-                                    fill="url(#shuddho-mark-footer-detail)" />
+                                    fill="url(#shuddho-mark-footer-cs)" />
                                 <path class="star-sparkle"
                                     d="M 290 40 C 290 58 274 74 256 74 C 274 74 290 90 290 108 C 290 90 306 74 324 74 C 306 74 290 58 290 40 Z"
-                                    fill="url(#shuddho-star-footer-detail)" />
+                                    fill="url(#shuddho-star-footer-cs)" />
                             </g>
                         </svg>
                     </span>
@@ -256,6 +420,7 @@
                 <ul class="footer-nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="index.html#work">Work</a></li>
+                    <li><a href="index.html#case-studies">Case Studies</a></li>
                     <li><a href="index.html#about">About us</a></li>
                     <li><a href="index.html#services">Services</a></li>
                     <li><a href="blog.html">Blog</a></li>

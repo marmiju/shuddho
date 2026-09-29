@@ -94,6 +94,7 @@
             <ul class="drawer-list">
                 <li class="drawer-item"><a href="#" class="drawer-link active">Home</a></li>
                 <li class="drawer-item"><a href="#work" class="drawer-link">Work</a></li>
+                <li class="drawer-item"><a href="#case-studies" class="drawer-link">Case Studies</a></li>
                 <li class="drawer-item"><a href="#about" class="drawer-link">About us</a></li>
                 <li class="drawer-item"><a href="#services" class="drawer-link">Services</a></li>
                 <li class="drawer-item"><a href="#stack" class="drawer-link">Tech Stack</a></li>
@@ -114,10 +115,12 @@
                     </svg>
                 </span>
             </a>
-            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
-                aria-label="Toggle Theme Mode">
+            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme Mode">
                 <span class="theme-icon-wrap">
-                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
                 </span>
                 <span class="theme-mode-text">Dark</span>
             </button>
@@ -147,6 +150,7 @@
                 <ul class="nav-list" id="nav-list">
                     <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
                     <li class="nav-item"><a href="#work" class="nav-link">Work</a></li>
+                    <li class="nav-item"><a href="#case-studies" class="nav-link">Case Studies</a></li>
                     <li class="nav-item"><a href="#about" class="nav-link">About us</a></li>
                     <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
                     <li class="nav-item"><a href="#stack" class="nav-link">Tech Stack</a></li>
@@ -172,7 +176,10 @@
                 <button class="theme-switcher-btn" id="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
                     aria-label="Toggle Theme Mode">
                     <span class="theme-icon-wrap" id="theme-icon-wrap">
-                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
                     </span>
                     <span class="theme-mode-text" id="theme-mode-text">Dark</span>
                 </button>
@@ -204,12 +211,11 @@
                 <!-- Hero Main Content (Development Focused) -->
                 <div class="hero-body">
                     <h1 class="hero-title">
-                        Building bold web apps <br>with modern engineering
+                        A better website. <br>Better first impressions
                     </h1>
                     <p class="hero-description">
-                        At Shuddho, we help ambitious startups and enterprises build scalable web applications, robust
-                        APIs,
-                        and high-performance digital products engineered for success.
+                        We design and build fast, modern websites that turn visitors into inquiries, bookings and
+                        customers — without unnecessary complexity.
                     </p>
 
                     <div class="hero-actions">
@@ -243,10 +249,12 @@
                                 <div class="stars" aria-label="5 out of 5 stars">
                                     ★★★★★
                                 </div>
-                                <span class="rating-label">Trusted by 20+ clients</span>
+                                <span class="rating-label">4.9/5 Clients Rated</span>
                             </div>
                         </div>
                     </div>
+                    <p style="margin-top: 24px; font-size: 1rem; color: #64748b; font-weight: 600;">Websites • Shopify •
+                        Custom Web Apps • Backend Systems</p>
                 </div>
     </section>
     </div>
@@ -297,27 +305,46 @@
     <!-- Portfolio Featured Capabilities Section -->
     <div class="separator"></div>
     <section class="site-section-outer" id="work">
-        <div class="projects-glow"></div>
 
 
-        <div class="container container-dots-top container-dots-bottom">
-            <div class="projects-section-header">
-                <div class="section-badge fade-in-up">
-                    <span class="badge-dot"></span>
-                    <span id="projects-badge-text">FEATURED PROJECT SHOWCASE</span>
-                </div>
-                <h2 class="projects-title reveal-word-target" id="projects-main-title">Selected Project Designs</h2>
-                <p class="projects-subtitle fade-in-up" id="projects-main-subtitle">
-                    Drag horizontally to explore high-performance web applications and brand designs.
-                </p>
-            </div>
-        </div>
 
         <!-- Draggable Project Images Slider (Full-width - NO vertical side lines) -->
         <div class="featured-projects-slider-container fade-in-up">
             <div class="swiper featured-projects-swiper" id="featured-projects-swiper">
                 <div class="swiper-wrapper" id="featured-projects-wrapper">
                     <!-- Dynamically rendered from data/projects.json -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Case Studies Section (Short Preview Cards on Homepage) -->
+    <div class="separator"></div>
+    <section class="site-section-outer" id="case-studies">
+        <!-- Full-Bleed Ambient Glowing Backgrounds -->
+        <div class="ambient-glow glow-blue-primary"
+            style="top: -10%; left: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
+        <div class="ambient-glow glow-cyan-secondary"
+            style="bottom: -10%; right: -8%; width: 800px; height: 800px; opacity: 0.85;"></div>
+
+        <div class="container">
+            <div class="shuddho-section case-studies-section-wrapper">
+                <div class="shuddho-header" style="position: relative; z-index: 2;">
+                    <div class="section-badge fade-in-up">
+                        <span class="badge-dot"></span>
+                        <span id="cs-section-badge-text">PROVEN CLIENT RESULTS</span>
+                    </div>
+                    <h2 class="projects-title reveal-word-target" id="cs-section-title">Client Case Studies & Engineering Impact</h2>
+                    <p class="projects-subtitle fade-in-up" id="cs-section-subtitle">
+                        Explore how we architect high-performance web products, solve complex technical challenges, and drive measurable revenue growth for ambitious brands.
+                    </p>
+                </div>
+
+                <!-- Sticky Stacking on Desktop / Free Drag Slider on Mobile -->
+                <div class="case-studies-slider-wrap" style="position: relative; z-index: 2;">
+                    <div class="sticky-case-studies-stack" id="case-studies-grid">
+                        <!-- Dynamically rendered from data/case-studies.json -->
+                    </div>
                 </div>
             </div>
         </div>
