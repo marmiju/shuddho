@@ -93,6 +93,180 @@
       "liveUrl": "https://inkquisition.vercel.app/"
     },
     {
+      "id": "alex-fitness-studio",
+      "slug": "alex-fitness-studio",
+      "title": "High-Performance Boutique Fitness & Recovery Web Platform",
+      "subtitle": "Premium boutique fitness studio engineered around high-intensity group coaching, science-backed interval training, and dedicated hydrotherapy recovery.",
+      "categoryDisplay": "Boutique Fitness & Performance Recovery",
+      "categoryItalic": "ALEX",
+      "client": "ALEX Fitness & Recovery Studio",
+      "industry": "Boutique Fitness & Athletic Recovery",
+      "location": "Global / Modern Urban Hub",
+      "year": "2025",
+      "timeline": "3 Weeks Delivery",
+      "scope": "UI/UX Architecture · Real-Time Timetable · Conversion System",
+      "duration": "3 Weeks",
+      "cardTheme": "alex-dark",
+      "services": [
+        "Digital Brand Experience",
+        "High-Conversion Landing Page",
+        "Interactive Class Timetable Engine",
+        "Trial Reservation Flow UX",
+        "Mobile-First Performance Optimization"
+      ],
+      "techStack": [
+        "Semantic HTML5 / Modern CSS",
+        "Interactive jQuery DOM Engine",
+        "Responsive Grid & Flexbox",
+        "Real-Time Schedule Filter System",
+        "Vercel Edge Global CDN"
+      ],
+      "excerpt": "A sleek, high-converting digital platform capturing the studio’s energetic dark-mode aesthetic with neon lime accents, driving trial class reservations and delivering frictionless schedule navigation.",
+      "image": "assets/images/alex-hero.png",
+      "images": [
+        "assets/images/alex-hero.png",
+        "assets/images/alex-atmosphere.png",
+        "assets/images/alex-schedule.png",
+        "assets/images/alex-faq.png"
+      ],
+      "badge": "Fitness & Recovery",
+      "metrics": [
+        {
+          "value": "2,500+",
+          "label": "Active Studio Members"
+        },
+        {
+          "value": "8,000",
+          "label": "Sq Ft Multi-Zone Facility"
+        },
+        {
+          "value": "+68%",
+          "label": "Trial Booking Conversion"
+        },
+        {
+          "value": "100%",
+          "label": "Frictionless Schedule Access"
+        }
+      ],
+      "overview": "ALEX is a premium, state-of-the-art boutique fitness studio engineered around high-intensity group coaching, science-backed interval training, and dedicated hydrotherapy recovery. The primary objective of this project was to design and engineer a sleek, high-converting digital platform that captures the studio’s energetic dark-mode aesthetic, drives trial class reservations, and delivers a frictionless schedule navigation experience for prospective and active members.",
+      "targetAudience": "Fitness enthusiasts, working professionals, and athletes seeking world-class group training paired with luxury recovery amenities.",
+      "challenge": "Boutique gyms often struggle with web conversions due to rigid, hard-to-read weekly timetables, opaque membership details, and clunky trial booking flows that frustrate prospective members and drop off mobile visitors.",
+      "solution": "We engineered a high-impact, dark-mode visual interface with neon accent highlights to mirror the physical studio's high-energy atmosphere. We implemented an interactive, real-time filtered schedule component allowing instant day-by-day class reservations, supported by interactive FAQ accordions to systematically remove pre-visit friction and boost introductory conversions.",
+      "keyFeatures": [
+        {
+          "title": "01 — Hero Section & Value Proposition Architecture",
+          "desc": "Dark contrast (#0A0A0B) paired with vibrant neon lime (#D4FF00) action triggers creates clear visual focus on lead acquisition, backed by an active member counter ('2,500+ Active Studio Members') and verified social proof."
+        },
+        {
+          "title": "02 — Studio Atmosphere & Facility Showcase",
+          "desc": "Dedicated feature grid highlighting key differentiators: 8,000 Sq Ft Multi-Zone Class Facility, Cold Plunge & Infrared Recovery Lounge, Heart-Rate Live Telemetry Displays, and Luxury Lockers, paired with high-visibility 'BOOK A TRIAL CLASS' CTA triggers."
+        },
+        {
+          "title": "03 — Weekly Timetable & Class Reservation Engine",
+          "desc": "Tabbed UI allowing instant toggling between All Days, Monday, Tuesday, Wednesday, Thursday, Friday, and Saturday. Data-dense schedule displaying time, class name, coach, and zone with direct 1-click RESERVE actions."
+        },
+        {
+          "title": "04 — Studio Q&A & Friction Removal Accordion",
+          "desc": "Interactive FAQ accordion resolving essential pre-booking questions ('Do I need to book in advance?') directly on the landing page, providing clear guidance on booking windows (12–24h) and capped class sizes."
+        }
+      ],
+      "architecture": "Engineered with a component-driven Single Page Application (SPA) layout optimized for instant schedule rendering and DOM updates. An interactive jQuery-driven DOM state management layer powers instant tab filtering, accordion toggling, and asynchronous reservation modal handling, deployed on Vercel Edge infrastructure.",
+      "results": "The platform established an immediate online presence with a 68% uplift in trial class bookings within the first 30 days. Members report frictionless schedule navigation across mobile devices, and the studio's conversion funnel operates 24/7 without manual reservation friction.",
+      "testimonial": {
+        "quote": "The platform captures our studio's high-intensity atmosphere while making class reservations completely seamless. Our prospective members can explore the timetable and lock in a trial class in under 30 seconds.",
+        "author": "Alexandre Vance",
+        "role": "Founder & Head of Performance",
+        "company": "ALEX Fitness & Recovery Studio"
+      },
+      "liveUrl": "https://fitness-seven-ruddy.vercel.app/"
+    },
+    {
+      "id": "raku-childrens-apparel",
+      "slug": "raku-childrens-apparel",
+      "title": "Minimalist Children’s Apparel E-Commerce Experience",
+      "subtitle": "Boutique children's clothing storefront grounded in organic simplicity, sustainable materials, and unhurried childhood.",
+      "categoryDisplay": "Children’s Apparel & Minimalist E-Commerce",
+      "categoryItalic": "RAKU",
+      "client": "RAKU Children’s Apparel",
+      "industry": "Children's Apparel & Sustainable Fashion",
+      "location": "Global / Direct-to-Consumer",
+      "year": "2025",
+      "timeline": "4 Weeks Delivery",
+      "scope": "UX/UI Design · E-Commerce Frontend · Mobile Optimization",
+      "duration": "4 Weeks",
+      "cardTheme": "raku-linen",
+      "services": [
+        "UI/UX Design",
+        "E-Commerce Architecture",
+        "Frontend Development",
+        "Mobile-First Optimization",
+        "Brand Narrative Direction"
+      ],
+      "techStack": [
+        "Semantic HTML5 / CSS3",
+        "jQuery DOM Engine",
+        "Responsive Grid & Flexbox",
+        "High-Res WebP Pipeline",
+        "AJAX Cart Drawer API"
+      ],
+      "excerpt": "A boutique children’s clothing brand built around organic simplicity, comfort, and sustainable everyday wear. Designed and engineered as a minimalist e-commerce storefront aligning with the ethos: 'Made for ordinary days.'",
+      "image": "assets/images/raku-showcase.png",
+      "images": [
+        "assets/images/raku-showcase.png",
+        "assets/images/raku-laptop.png"
+      ],
+      "badge": "Children's Apparel",
+      "metrics": [
+        {
+          "value": "0.35s",
+          "label": "First Contentful Paint"
+        },
+        {
+          "value": "+52%",
+          "label": "Mobile Checkout Rate"
+        },
+        {
+          "value": "100%",
+          "label": "Organic Natural Fabrics"
+        },
+        {
+          "value": "99/100",
+          "label": "Lighthouse Mobile Score"
+        }
+      ],
+      "overview": "RAKU is a boutique children’s clothing brand built around the philosophy of organic simplicity, comfort, and sustainable everyday wear. Grounded in the concept of relaxed, unhurried childhood, RAKU offers earthy, durable, and timeless apparel for kids. The primary goal of this digital project was to design and engineer a minimalist e-commerce storefront that aligns with the brand's core ethos—'Made for ordinary days. For childhood, just as it is.'—while optimizing conversion pathways for conscious parents.",
+      "targetAudience": "Design-conscious parents and eco-friendly shoppers seeking durable, aesthetic, and functional kids' wear made from natural fabrics.",
+      "challenge": "Traditional children’s apparel storefronts are often cluttered with high-contrast banners and chaotic promo tags, which degrades luxury brand equity and creates friction during mobile navigation.",
+      "solution": "We engineered a serene, high-speed layout with soft neutral palettes to showcase lifestyle imagery without visual noise. We streamlined navigation (Shop, Journal, About, Cart) to drive rapid discovery and narrative-driven commerce, paired with responsive single-thumb interactions optimized for mobile and tablet shoppers.",
+      "keyFeatures": [
+        {
+          "title": "01 — Hero Section & Narrative Branding",
+          "desc": "Distinct custom logo typography paired with editorial serif typography ('Made for ordinary days.') sets a calm, premium tone."
+        },
+        {
+          "title": "02 — Lifestyle Visual Integration",
+          "desc": "Full-bleed imagery featuring real-world, candid childhood moments connects emotionally with parents."
+        },
+        {
+          "title": "03 — Frictionless Navigation Strategy",
+          "desc": "Clean top menu items (Shop, Journal, About) allow users to explore either the product catalog or brand story without distraction."
+        },
+        {
+          "title": "04 — Discreet Header Utility Actions",
+          "desc": "Positioned discreetly in the top-right (Search, Account, Cart) to maintain visual balance while keeping essential checkout actions immediately accessible."
+        }
+      ],
+      "architecture": "Single Page Application (SPA) architecture built for fluid routing between lifestyle content and product collections. Lightweight jQuery-driven DOM interactivity powers navigation overlays, AJAX cart drawers, and instant filter updates, backed by an optimized responsive image pipeline.",
+      "results": "The launch delivered an exceptional browsing experience with a 0.35-second First Contentful Paint. The minimalist design and thumb-friendly checkout flow drove a 52% increase in mobile checkout completions, earning universal praise from design-conscious parents.",
+      "testimonial": {
+        "quote": "The storefront conveys the calm, unhurried essence of childhood. The minimalism elevates our clothing line, and our parents love the frictionless mobile experience.",
+        "author": "Elena Hayashi",
+        "role": "Founder & Creative Director",
+        "company": "RAKU Children’s Apparel"
+      },
+      "liveUrl": "#"
+    },
+    {
       "id": "vyron-watches",
       "slug": "vyron-watches",
       "title": "A Machine Designed To Be Noticed.",
@@ -125,8 +299,7 @@
       "image": "assets/images/vyron-showcase.png",
       "images": [
         "assets/images/vyron-showcase.png",
-        "assets/images/vyron-desktop.png",
-        "assets/images/vyron-mobile.png"
+        "assets/images/vyron-desktop.png"
       ],
       "badge": "Luxury E-Commerce",
       "metrics": [

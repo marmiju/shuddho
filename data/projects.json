@@ -1,10 +1,13 @@
 {
-  "section": {
-    "badge": "FEATURED PROJECT SHOWCASE",
-    "title": "Selected Project Designs",
-    "subtitle": "Drag horizontally to explore high-performance web applications and brand designs."
-  },
   "images": [
+    {
+      "src": "assets/images/alex-hero.png",
+      "alt": "ALEX High-Performance Boutique Fitness & Recovery"
+    },
+    {
+      "src": "assets/images/raku-laptop.png",
+      "alt": "RAKU E-Commerce Experience on Laptop"
+    },
     {
       "src": "assets/images/project1.webp",
       "alt": "Project Design 1"
