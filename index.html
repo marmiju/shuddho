@@ -19,7 +19,8 @@
     <!-- Modern Typography: Satoshi, Plus Jakarta Sans, Cormorant Garamond & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css?v=5.0">
     <!-- Swiper Slider CDN -->
@@ -181,11 +182,30 @@
             <div class="hero-white-canvas">
                 <div class="hero-split-container">
                     <div class="hero-split-line hero-line-top" id="hero-line-top">
-                        <span class="hero-split-text">A better website.</span>
+                        <span class="hero-split-content hero-content-top">
+                            <span class="hero-split-text">A better</span>
+                            <span class="hero-inline-badge">
+                                <img src="assets/images/hero-laptop.png" alt="Website preview"
+                                    class="hero-inline-laptop">
+                            </span>
+                            <span class="hero-split-text">website.</span>
+                            <span class="hero-curtain-band hero-curtain-top" aria-hidden="true"></span>
+                        </span>
                     </div>
                     <div class="hero-split-line hero-line-bottom" id="hero-line-bottom">
-                        <span class="hero-split-text">Better first impressions</span>
+                        <span class="hero-split-content hero-content-bottom">
+                            <span class="hero-split-text">Better first impressions</span>
+                            <span class="hero-curtain-band hero-curtain-bottom" aria-hidden="true"></span>
+                        </span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Sleek Editorial Scroll Hint Indicator -->
+            <div class="hero-scroll-hint" id="hero-scroll-hint" role="button" aria-label="Scroll to explore">
+                <span class="hero-scroll-hint-text">Scroll to explore</span>
+                <div class="hero-scroll-mouse" aria-hidden="true">
+                    <span class="hero-scroll-wheel"></span>
                 </div>
             </div>
 
@@ -196,10 +216,11 @@
                     <span class="hero-shuddho-word">Shuddho</span>
                 </div>
 
-                <!-- Centered Manifesto Text with Word-by-Word Scrub Reveal -->
+                <!-- Centered Manifesto Text with Char-by-Char Scrub Reveal -->
                 <div class="hero-manifesto-container" id="hero-manifesto-container">
                     <p class="hero-manifesto-para" id="hero-manifesto-para">
-                        We design and build digital experiences that feel as good as they look - blending thoughtful design, seamless interactions, and modern technology.
+                        We design and build digital experiences that feel as good as they look - blending thoughtful
+                        design, seamless interactions, and modern technology.
                     </p>
                     <div class="hero-manifesto-actions" id="hero-manifesto-actions">
                         <a href="#collaborate" class="btn-hero-dark">
@@ -215,8 +236,6 @@
     <!-- Trusted Brands & Past Clients Parallax Section (Starts Dark, Transforms to Light on Scroll) -->
     <section class="site-section-outer section-theme-dark is-dark scroll-theme-section" id="clients" data-theme="dark">
         <!-- Pixel Dissolve Transition Band (Hero to Clients) -->
-        <div class="pixel-transition-band" id="hero-pixel-transition" data-direction="light-to-dark" aria-hidden="true">
-        </div>
 
         <div class="brands-glow"></div>
         <div class="ambient-glow glow-blue-primary"
@@ -264,19 +283,7 @@
     <!-- Portfolio Featured Capabilities Section (WHITE) -->
     <section class="site-section-outer section-theme-light scroll-theme-section" id="work" data-theme="light">
         <div class="container">
-            <div class="projects-section-header" style="text-align: center; padding: 70px 0 36px 0;">
-                <div class="section-badge fade-in-up" style="display: inline-flex; margin-bottom: 16px;">
-                    <span class="badge-dot"></span>
-                    <span id="projects-badge-text">FEATURED WORK</span>
-                </div>
-                <h2 class="projects-title reveal-word-target" id="projects-main-title"
-                    style="font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px;">Selected
-                    Projects</h2>
-                <p class="projects-subtitle fade-in-up" id="projects-main-subtitle"
-                    style="font-size: 1.1rem; max-width: 640px; margin: 0 auto;">
-                    Explore high-performance web applications and engineered digital experiences.
-                </p>
-            </div>
+
         </div> <!-- Draggable Project Images Slider (Full-width - NO vertical side lines) -->
         <div class="featured-projects-slider-container fade-in-up">
             <div class="swiper featured-projects-swiper" id="featured-projects-swiper">

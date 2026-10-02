@@ -36,10 +36,13 @@ $(function () {
       if (timer) clearInterval(timer);
       if (safetyTimer) clearTimeout(safetyTimer);
       $preloader.addClass('fade-out');
-      $('body').removeClass('preloader-active');
+      $('body').removeClass('preloader-active').addClass('preloader-done');
       setTimeout(() => {
         $preloader.remove();
-      }, 500);
+        if (typeof triggerHeroLandingAnimation === 'function') {
+          triggerHeroLandingAnimation();
+        }
+      }, 400);
     }
 
     const timer = setInterval(() => {
@@ -2564,20 +2567,29 @@ $(function () {
     const $manifestoContainer = $('#hero-manifesto-container');
     const $manifestoPara = $('#hero-manifesto-para');
     const $manifestoActions = $('#hero-manifesto-actions');
+    const $scrollHint = $('#hero-scroll-hint');
 
     if (!$track.length || !$sticky.length) return;
 
-    // Manifesto text: exactly from image 4 and 5
+    // Manifesto text: exactly from editorial design
     const rawText = "We design and build digital experiences that feel as good as they look - blending thoughtful design, seamless interactions, and modern technology.";
     const words = rawText.split(' ');
 
-    // Wrap each word in a span for individual scrub reveal
-    $manifestoPara.html(
-      words.map((w, idx) => `<span class="manifesto-word" data-word="${idx}">${w}</span>`).join(' ')
-    );
+    // Wrap each word in a span and each character in an individual span for char-by-char scrub reveal
+    let charGlobalIdx = 0;
+    const wrappedWordsHtml = words.map(word => {
+      const charsHtml = word.split('').map(char => {
+        const span = `<span class="manifesto-char" data-char="${charGlobalIdx}">${char}</span>`;
+        charGlobalIdx++;
+        return span;
+      }).join('');
+      return `<span class="manifesto-word">${charsHtml}</span>`;
+    }).join(' ');
 
-    const $words = $manifestoPara.find('.manifesto-word');
-    const totalWords = $words.length;
+    $manifestoPara.html(wrappedWordsHtml);
+
+    const $chars = $manifestoPara.find('.manifesto-char');
+    const totalChars = $chars.length;
 
     function handleHeroScroll() {
       const trackEl = $track.get(0);
@@ -2594,16 +2606,25 @@ $(function () {
       const rawScrolled = -rect.top;
       const progress = Math.min(1, Math.max(0, rawScrolled / scrollableDistance));
 
+      // Hide scroll hint indicator as soon as user begins scrolling down
+      if ($scrollHint.length) {
+        if (progress > 0.02) {
+          $scrollHint.addClass('is-hidden');
+        } else {
+          $scrollHint.removeClass('is-hidden');
+        }
+      }
+
       const vh = windowHeight;
       const vw = window.innerWidth;
 
       // -------------------------------------------------------------
-      // STAGE 1 & 2: Progress 0.00 -> 0.35
+      // STAGE 1 & 2: Progress 0.00 -> 0.22
       // Split texts apart & expand black band from 0 to 38vh
       // "Shuddho" watermark slides right to left
       // -------------------------------------------------------------
-      if (progress <= 0.35) {
-        const p1 = progress / 0.35; // 0.0 -> 1.0
+      if (progress <= 0.22) {
+        const p1 = progress / 0.22; // 0.0 -> 1.0
         const bandHeight = p1 * (vh * 0.38);
 
         // Top line drifts Up and Left
@@ -2637,19 +2658,19 @@ $(function () {
 
         // Manifesto is hidden
         $manifestoContainer.css({ opacity: 0 });
-        $words.removeClass('is-active');
+        $chars.removeClass('is-active');
         $manifestoActions.removeClass('is-visible');
       }
 
       // -------------------------------------------------------------
-      // STAGE 3 & 4: Progress 0.35 -> 0.70
+      // STAGE 3 & 4: Progress 0.22 -> 0.44
       // Black band expands from 38vh to 100vh (full viewport)
       // Top & bottom lines push completely out of view
       // "Shuddho" slides completely out to the left and fades out
       // Centered manifesto fades in
       // -------------------------------------------------------------
-      else if (progress <= 0.70) {
-        const p2 = (progress - 0.35) / 0.35; // 0.0 -> 1.0
+      else if (progress <= 0.44) {
+        const p2 = (progress - 0.22) / 0.22; // 0.0 -> 1.0
         const bandHeight = (vh * 0.38) + (p2 * (vh * 0.62));
 
         // Top line pushes further up-left and exits
@@ -2687,15 +2708,16 @@ $(function () {
           transform: `translate3d(0, ${(1 - p2) * 18}px, 0)`
         });
 
-        // Words still dim in this stage
-        $words.removeClass('is-active');
+        // Characters still dim in this stage
+        $chars.removeClass('is-active');
         $manifestoActions.removeClass('is-visible');
       }
 
       // -------------------------------------------------------------
-      // STAGE 5: Progress 0.70 -> 0.96
+      // STAGE 5: Progress > 0.44
       // Whole section filled by black surface (100% viewport)
-      // Word-by-word scrub reveal of the manifesto text!
+      // Character scrub finishes by progress 0.65!
+      // From 0.69 -> 1.00, next section (#clients) overlaps Section 1!
       // -------------------------------------------------------------
       else {
         // Black band is 100% full screen
@@ -2713,19 +2735,23 @@ $(function () {
           transform: 'translate3d(0, 0, 0)'
         });
 
-        // Word scrubbing progress from 0.70 to 0.94
-        const p3 = Math.min(1, Math.max(0, (progress - 0.70) / 0.24));
-        const activeWordCount = Math.floor(p3 * (totalWords + 1));
+        // Char scrubbing completes by 0.65 so text is 100% revealed before overlap starts
+        const p3 = Math.min(1, Math.max(0, (progress - 0.44) / 0.21));
+        const activeCharCount = Math.min(totalChars, Math.floor(p3 * (totalChars + 1)));
 
-        $words.each(function (idx) {
-          if (idx < activeWordCount) {
-            $(this).addClass('is-active');
+        $chars.each(function (idx) {
+          if (idx < activeCharCount) {
+            if (!this.classList.contains('is-active')) {
+              this.classList.add('is-active');
+            }
           } else {
-            $(this).removeClass('is-active');
+            if (this.classList.contains('is-active')) {
+              this.classList.remove('is-active');
+            }
           }
         });
 
-        // Show action button when words are nearly finished (>85%)
+        // Show action button when characters are nearly finished (>85%)
         if (p3 > 0.85) {
           $manifestoActions.addClass('is-visible');
         } else {
@@ -2736,12 +2762,43 @@ $(function () {
       // Sticky header color adaptation
       const $header = $('.header');
       if ($header.length) {
-        if (progress > 0.38) {
+        if (progress > 0.20 && progress < 0.90) {
           $header.addClass('header-on-dark').removeClass('header-on-light');
         } else {
           $header.addClass('header-on-light').removeClass('header-on-dark');
         }
       }
+    }
+
+    function triggerHeroLandingAnimation() {
+      const $hero = $('#hero');
+      if (!$hero.hasClass('hero-revealed')) {
+        $hero.addClass('hero-revealed is-landed');
+        $('body').addClass('preloader-done hero-landing-ready');
+
+        // Safely cleanup curtain bands once sweep animation finishes
+        setTimeout(() => {
+          $('.hero-curtain-band').css({ display: 'none', visibility: 'hidden' });
+        }, 2200);
+      }
+    }
+    window.triggerHeroLandingAnimation = triggerHeroLandingAnimation;
+
+    // Guaranteed fallback trigger if preloader was absent or already dismissed
+    setTimeout(() => {
+      triggerHeroLandingAnimation();
+    }, 1800);
+
+    // Click scroll hint to smooth scroll into the hero split experience
+    if ($scrollHint.length) {
+      $scrollHint.on('click', function () {
+        const targetScroll = window.innerHeight * 1.1;
+        if (typeof lenis !== 'undefined' && lenis) {
+          lenis.scrollTo(targetScroll, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        }
+      });
     }
 
     $(window).on('scroll', handleHeroScroll);
