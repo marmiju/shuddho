@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-theme-setting="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -7,17 +7,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Shuddho — Building bold web apps with modern engineering</title>
 
-    <!-- Instant Theme Init Script (Prevents Dark/Light flicker on load) -->
-    <script>
-        (function () {
-            var savedTheme = localStorage.getItem('shuddho-theme') || 'dark';
-            if (savedTheme !== 'dark' && savedTheme !== 'light') {
-                savedTheme = 'dark';
-            }
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.documentElement.setAttribute('data-theme-setting', savedTheme);
-        })();
-    </script>
+
 
     <!-- Favicons & Official Brand Assets -->
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -26,12 +16,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#0B1220">
-    <!-- Modern Typography: Satoshi & Plus Jakarta Sans -->
+    <!-- Modern Typography: Satoshi, Plus Jakarta Sans, Cormorant Garamond & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=5.0">
     <!-- Swiper Slider CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -40,7 +30,7 @@
     <!-- Lenis Smooth Scroll CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/main.js?v=5.0" defer></script>
 </head>
 
 <body>
@@ -97,6 +87,7 @@
                 <li class="drawer-item"><a href="#case-studies" class="drawer-link">Case Studies</a></li>
                 <li class="drawer-item"><a href="#about" class="drawer-link">About us</a></li>
                 <li class="drawer-item"><a href="#services" class="drawer-link">Services</a></li>
+                <li class="drawer-item"><a href="#process" class="drawer-link">Process</a></li>
                 <li class="drawer-item"><a href="#stack" class="drawer-link">Tech Stack</a></li>
                 <li class="drawer-item"><a href="#pricing" class="drawer-link">Pricing</a></li>
                 <li class="drawer-item"><a href="#testimonials" class="drawer-link">Reviews</a></li>
@@ -115,18 +106,10 @@
                     </svg>
                 </span>
             </a>
-            <button class="theme-switcher-btn" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme Mode">
-                <span class="theme-icon-wrap">
-                    <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                    </svg>
-                </span>
-                <span class="theme-mode-text">Dark</span>
-            </button>
+
         </div>
     </aside>
-    <header class="header">
+    <header class="header header-on-light">
         <div class="container">
             <a href="#" class="brand-logo" id="brand-logo">
                 <span class="logo-icon" aria-hidden="true">
@@ -153,6 +136,7 @@
                     <li class="nav-item"><a href="#case-studies" class="nav-link">Case Studies</a></li>
                     <li class="nav-item"><a href="#about" class="nav-link">About us</a></li>
                     <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="#process" class="nav-link">Process</a></li>
                     <li class="nav-item"><a href="#stack" class="nav-link">Tech Stack</a></li>
                     <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
                     <li class="nav-item"><a href="#testimonials" class="nav-link">Reviews</a></li>
@@ -172,17 +156,7 @@
                     </span>
                 </a>
 
-                <!-- SVG Theme Switcher Button -->
-                <button class="theme-switcher-btn" id="theme-switcher-btn" title="Toggle Theme (Dark / Light)"
-                    aria-label="Toggle Theme Mode">
-                    <span class="theme-icon-wrap" id="theme-icon-wrap">
-                        <svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                        </svg>
-                    </span>
-                    <span class="theme-mode-text" id="theme-mode-text">Dark</span>
-                </button>
+
 
                 <!-- Hamburger Mobile Appbar Toggle Button -->
                 <button class="mobile-toggle-btn" id="mobile-toggle-btn" aria-label="Open mobile menu">
@@ -198,71 +172,52 @@
     </header>
 
 
-    <!-- Main Outer Wrapper -->
-    <section class="hero-card" style="position: relative; width: 100%; max-width: 100vw; overflow: hidden;">
-        <!-- Subtle Ambient Background Glows in Blue Tones -->
-        <div class="ambient-glow glow-blue-primary"
-            style="top: -10%; left: -8%; width: 900px; height: 900px; opacity: 0.85;"></div>
-        <div class="ambient-glow glow-cyan-secondary"
-            style="top: 10%; right: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
-
-        <div class="container">
-            <div class="hero-card__inner">
-                <!-- Hero Main Content (Development Focused) -->
-                <div class="hero-body">
-                    <h1 class="hero-title">
-                        A better website. <br>Better first impressions
-                    </h1>
-                    <p class="hero-description">
-                        We design and build fast, modern websites that turn visitors into inquiries, bookings and
-                        customers — without unnecessary complexity.
-                    </p>
-
-                    <div class="hero-actions">
-                        <a href="#get-started" class="btn-dark btn-get-started" id="btn-get-started">
-                            <span>Get Started</span>
-                            <span class="badge-icon">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                                    <polyline points="7 7 17 7 17 17"></polyline>
-                                </svg>
-                            </span>
-                        </a>
-
-                        <div class="social-proof">
-                            <div class="avatar-group">
-                                <figure class="avatar-item">
-                                    <img src="assets/images/avatar1.png" alt="Client 1">
-                                </figure>
-                                <figure class="avatar-item">
-                                    <img src="assets/images/avatar2.png" alt="Client 2">
-                                </figure>
-                                <figure class="avatar-item">
-                                    <img src="assets/images/avatar3.png" alt="Client 3">
-                                </figure>
-                                <figure class="avatar-item">
-                                    <img src="assets/images/avatar4.png" alt="Client 4">
-                                </figure>
-                            </div>
-                            <div class="rating-info">
-                                <div class="stars" aria-label="5 out of 5 stars">
-                                    ★★★★★
-                                </div>
-                                <span class="rating-label">4.9/5 Clients Rated</span>
-                            </div>
-                        </div>
+    <!-- ======================================================================
+         Dynamic Editorial Scroll Hero Experience (Split & Reveal)
+         ====================================================================== -->
+    <div class="hero-scroll-track" id="hero">
+        <div class="hero-scroll-sticky" id="hero-scroll-sticky">
+            <!-- White Base Canvas Layer -->
+            <div class="hero-white-canvas">
+                <div class="hero-split-container">
+                    <div class="hero-split-line hero-line-top" id="hero-line-top">
+                        <span class="hero-split-text">A better website.</span>
                     </div>
-                    <p style="margin-top: 24px; font-size: 1rem; color: #64748b; font-weight: 600;">Websites • Shopify •
-                        Custom Web Apps • Backend Systems</p>
+                    <div class="hero-split-line hero-line-bottom" id="hero-line-bottom">
+                        <span class="hero-split-text">Better first impressions</span>
+                    </div>
                 </div>
-    </section>
-    </div>
+            </div>
+
+            <!-- Central Expanding Black Band Surface -->
+            <div class="hero-black-band" id="hero-black-band">
+                <!-- Massive Sliding "Shuddho" Watermark / Headline -->
+                <div class="hero-shuddho-track" id="hero-shuddho-track">
+                    <span class="hero-shuddho-word">Shuddho</span>
+                </div>
+
+                <!-- Centered Manifesto Text with Word-by-Word Scrub Reveal -->
+                <div class="hero-manifesto-container" id="hero-manifesto-container">
+                    <p class="hero-manifesto-para" id="hero-manifesto-para">
+                        We design and build digital experiences that feel as good as they look - blending thoughtful design, seamless interactions, and modern technology.
+                    </p>
+                    <div class="hero-manifesto-actions" id="hero-manifesto-actions">
+                        <a href="#collaborate" class="btn-hero-dark">
+                            <span>Start a Project</span>
+                            <span class="btn-arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Trusted Brands & Past Clients Parallax Section -->
-    <div class="separator"></div>
-    <section class="site-section-outer" id="clients">
+    <!-- Trusted Brands & Past Clients Parallax Section (Starts Dark, Transforms to Light on Scroll) -->
+    <section class="site-section-outer section-theme-dark is-dark scroll-theme-section" id="clients" data-theme="dark">
+        <!-- Pixel Dissolve Transition Band (Hero to Clients) -->
+        <div class="pixel-transition-band" id="hero-pixel-transition" data-direction="light-to-dark" aria-hidden="true">
+        </div>
+
         <div class="brands-glow"></div>
         <div class="ambient-glow glow-blue-primary"
             style="top: 50%; left: -5%; transform: translateY(-50%); width: 700px; height: 700px; opacity: 0.6;"></div>
@@ -300,15 +255,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- Pixel Dissolve Transition Band (Clients to Work) -->
+        <div class="pixel-transition-band" id="work-pixel-transition" data-direction="dark-to-light" aria-hidden="true">
+        </div>
     </section>
 
-    <!-- Portfolio Featured Capabilities Section -->
-    <div class="separator"></div>
-    <section class="site-section-outer" id="work">
-
-
-
-        <!-- Draggable Project Images Slider (Full-width - NO vertical side lines) -->
+    <!-- Portfolio Featured Capabilities Section (WHITE) -->
+    <section class="site-section-outer section-theme-light scroll-theme-section" id="work" data-theme="light">
+        <div class="container">
+            <div class="projects-section-header" style="text-align: center; padding: 70px 0 36px 0;">
+                <div class="section-badge fade-in-up" style="display: inline-flex; margin-bottom: 16px;">
+                    <span class="badge-dot"></span>
+                    <span id="projects-badge-text">FEATURED WORK</span>
+                </div>
+                <h2 class="projects-title reveal-word-target" id="projects-main-title"
+                    style="font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px;">Selected
+                    Projects</h2>
+                <p class="projects-subtitle fade-in-up" id="projects-main-subtitle"
+                    style="font-size: 1.1rem; max-width: 640px; margin: 0 auto;">
+                    Explore high-performance web applications and engineered digital experiences.
+                </p>
+            </div>
+        </div> <!-- Draggable Project Images Slider (Full-width - NO vertical side lines) -->
         <div class="featured-projects-slider-container fade-in-up">
             <div class="swiper featured-projects-swiper" id="featured-projects-swiper">
                 <div class="swiper-wrapper" id="featured-projects-wrapper">
@@ -318,9 +287,9 @@
         </div>
     </section>
 
-    <!-- Client Case Studies Section (Short Preview Cards on Homepage) -->
+    <!-- Client Case Studies Section (WHITE) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="case-studies">
+    <section class="site-section-outer section-theme-dark scroll-theme-section" id="case-studies" data-theme="dark">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; left: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
@@ -351,9 +320,9 @@
         </div>
     </section>
 
-    <!-- About Us Section -->
+    <!-- About Us Section (BLACK) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="about">
+    <section class="site-section-outer section-theme-light scroll-theme-section" id="about" data-theme="light">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; left: -8%; width: 800px; height: 800px; opacity: 0.85;"></div>
@@ -440,10 +409,9 @@
         </div>
     </section>
 
-    <!-- Services Section -->
-    <!-- Services Section -->
+    <!-- Services Section (WHITE) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="services">
+    <section class="site-section-outer section-theme-dark scroll-theme-section" id="services" data-theme="dark">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-cyan-secondary"
             style="top: -10%; right: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
@@ -620,9 +588,215 @@
         </div>
     </section>
 
-    <!-- Tech Stack Section -->
+    <!-- Process Section (BLACK) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="stack">
+    <section class="site-section-outer process-scroll-section section-theme-light scroll-theme-section" id="process"
+        data-theme="light">
+        <!-- Full-Bleed Ambient Glowing Backgrounds -->
+        <div class="ambient-glow glow-cyan-secondary"
+            style="top: -10%; left: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
+        <div class="ambient-glow glow-blue-primary"
+            style="bottom: -10%; right: -8%; width: 800px; height: 800px; opacity: 0.85;"></div>
+
+        <!-- Sticky Viewport Wrapper -->
+        <div class="process-sticky-wrapper">
+            <div class="container">
+                <div class="shuddho-section process-section-inner">
+                    <div class="shuddho-header process-header" style="position: relative; z-index: 2;">
+                        <div class="section-badge fade-in-up">
+                            <span class="badge-dot"></span>
+                            <span>ENGINEERING WORKFLOW</span>
+                        </div>
+                        <h2 class="process-headline fade-in-up">
+                            <span class="process-headline-main">The process:</span>
+                            <span class="process-headline-sub">this is how we build it</span>
+                        </h2>
+                    </div>
+
+                    <div class="process-interactive-grid">
+                        <!-- Left Column: Interactive Timeline List -->
+                        <div class="process-timeline" id="process-timeline">
+                            <div class="process-timeline-line">
+                                <div class="process-timeline-progress" id="process-timeline-progress"></div>
+                            </div>
+
+                            <!-- Step 1: Discovery & Architecture -->
+                            <div class="process-step-item active" data-step="0">
+                                <div class="process-step-num">1</div>
+                                <div class="process-step-body">
+                                    <h3 class="process-step-title">Discovery &amp; Scope</h3>
+                                    <div class="process-step-desc">
+                                        <p>Technical discovery to map your vision, user flows, database models, and
+                                            KPIs. We choose the optimal tech stack and define APIs upfront to prevent
+                                            costly rebuilds.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: System Design & Architecture -->
+                            <div class="process-step-item" data-step="1">
+                                <div class="process-step-num">2</div>
+                                <div class="process-step-body">
+                                    <h3 class="process-step-title">System Design &amp; Architecture</h3>
+                                    <div class="process-step-desc">
+                                        <p>Architecting scalable SQL/NoSQL schemas, REST/GraphQL endpoints,
+                                            microservices, and interactive prototypes. We stress-test data models before
+                                            writing production code.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Full-Stack Development -->
+                            <div class="process-step-item" data-step="2">
+                                <div class="process-step-num">3</div>
+                                <div class="process-step-body">
+                                    <h3 class="process-step-title">Full-Stack Development</h3>
+                                    <div class="process-step-desc">
+                                        <p>Clean, production-grade coding with modern frameworks (React, Next.js,
+                                            Node.js, TypeScript). Responsive frontends, modular state management, and
+                                            robust backend logic.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Testing, Security & QA -->
+                            <div class="process-step-item" data-step="3">
+                                <div class="process-step-num">4</div>
+                                <div class="process-step-body">
+                                    <h3 class="process-step-title">Testing, Security &amp; QA</h3>
+                                    <div class="process-step-desc">
+                                        <p>End-to-end integration tests, automated unit testing, cross-device
+                                            responsiveness, Lighthouse performance optimization (95+ score), and strict
+                                            security auditing.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Cloud Deployment & Scaling -->
+                            <div class="process-step-item" data-step="4">
+                                <div class="process-step-num">5</div>
+                                <div class="process-step-body">
+                                    <h3 class="process-step-title">Cloud Deployment &amp; Scaling</h3>
+                                    <div class="process-step-desc">
+                                        <p>Automated CI/CD deployment to cloud infrastructure (Vercel, AWS, GCP), uptime
+                                            monitoring, edge caching, SEO tuning, and continuous scaling support.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Interactive Circular Radar -->
+                        <div class="process-radar-col">
+                            <div class="process-radar-wrapper" id="process-radar">
+                                <!-- SVG Radar Graphic (Orbit, Center Hole, Rotating Spotlight Wedge) -->
+                                <svg class="process-radar-svg" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="processWedgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.08" />
+                                            <stop offset="50%" stop-color="#a855f7" stop-opacity="0.32" />
+                                            <stop offset="100%" stop-color="#f97316" stop-opacity="0.55" />
+                                        </linearGradient>
+                                        <filter id="processWedgeBlur" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="6" />
+                                        </filter>
+                                    </defs>
+
+                                    <!-- Outer Orbit Circle -->
+                                    <circle cx="230" cy="230" r="185" class="process-orbit-ring" />
+
+                                    <!-- Rotating Spotlight Group (Default to Node 0: -90deg) -->
+                                    <g class="process-spotlight-group" id="process-spotlight-group"
+                                        style="transform: rotate(-90deg);">
+                                        <path class="process-spotlight-wedge"
+                                            d="M 295.78 200.71 L 399.01 154.75 A 185 185 0 0 1 399.01 305.25 L 295.78 259.29 A 72 72 0 0 0 295.78 200.71 Z"
+                                            fill="url(#processWedgeGrad)" />
+                                        <path class="process-spotlight-wedge-blur"
+                                            d="M 295.78 200.71 L 399.01 154.75 A 185 185 0 0 1 399.01 305.25 L 295.78 259.29 A 72 72 0 0 0 295.78 200.71 Z"
+                                            fill="url(#processWedgeGrad)" filter="url(#processWedgeBlur)"
+                                            opacity="0.75" />
+                                    </g>
+
+                                    <!-- Inner Center Hub (Donut Hole) -->
+                                    <circle cx="230" cy="230" r="72" class="process-center-hub" />
+                                </svg>
+
+                                <!-- 5 Interactive Orbit Nodes with Development Icons & Labels -->
+                                <!-- Node 1: Top (12 o'clock / -90 deg) -->
+                                <div class="radar-node active" data-step="0" style="left: 230px; top: 45px;">
+                                    <button type="button" class="radar-node-btn" aria-label="Step 1: Discovery & Scope">
+                                        <svg class="radar-node-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                                        </svg>
+                                    </button>
+                                    <div class="radar-pill-badge pill-top">Discovery &amp; Scope</div>
+                                </div>
+
+                                <!-- Node 2: Top-Right (-18 deg) -->
+                                <div class="radar-node" data-step="1" style="left: 406px; top: 173px;">
+                                    <button type="button" class="radar-node-btn" aria-label="Step 2: System Design">
+                                        <svg class="radar-node-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10H12V2zm1 0v9h9c-.52-4.79-4.21-8.48-9-9z" />
+                                        </svg>
+                                    </button>
+                                    <div class="radar-pill-badge pill-right">System Design</div>
+                                </div>
+
+                                <!-- Node 3: Bottom-Right (+54 deg) -->
+                                <div class="radar-node" data-step="2" style="left: 339px; top: 380px;">
+                                    <button type="button" class="radar-node-btn" aria-label="Step 3: Development">
+                                        <svg class="radar-node-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <rect x="10.5" y="2" width="5.5" height="5.5"
+                                                transform="rotate(45 13.25 4.75)" />
+                                            <rect x="10.5" y="16.5" width="5.5" height="5.5"
+                                                transform="rotate(45 13.25 19.25)" />
+                                            <rect x="3.25" y="9.25" width="5.5" height="5.5"
+                                                transform="rotate(45 6 12)" />
+                                            <rect x="17.75" y="9.25" width="5.5" height="5.5"
+                                                transform="rotate(45 20.5 12)" />
+                                        </svg>
+                                    </button>
+                                    <div class="radar-pill-badge pill-right">Development</div>
+                                </div>
+
+                                <!-- Node 4: Bottom-Left (+126 deg) -->
+                                <div class="radar-node" data-step="3" style="left: 121px; top: 380px;">
+                                    <button type="button" class="radar-node-btn" aria-label="Step 4: Testing & QA">
+                                        <svg class="radar-node-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M19 3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h4v2H7v2h10v-2h-2v-2h4c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12H5V5h14v10z" />
+                                        </svg>
+                                    </button>
+                                    <div class="radar-pill-badge pill-left">Testing &amp; QA</div>
+                                </div>
+
+                                <!-- Node 5: Left (+198 deg) -->
+                                <div class="radar-node" data-step="4" style="left: 54px; top: 173px;">
+                                    <button type="button" class="radar-node-btn"
+                                        aria-label="Step 5: Deployment & Scaling">
+                                        <svg class="radar-node-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
+                                            <path d="M12 13c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2z" opacity="0.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="radar-pill-badge pill-left pill-multiline">
+                                        <span>Deployment &amp;</span>
+                                        <span>Scaling</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section (WHITE) -->
+    <div class="separator"></div>
+    <section class="site-section-outer section-theme-dark scroll-theme-section" id="stack" data-theme="dark">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; left: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
@@ -733,9 +907,9 @@
         </div>
     </section>
 
-    <!-- Pricing / Engagement Models Section -->
+    <!-- Pricing Section (BLACK) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="pricing">
+    <section class="site-section-outer section-theme-light scroll-theme-section" id="pricing" data-theme="light">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; right: -8%; width: 900px; height: 900px; opacity: 0.85;"></div>
@@ -945,9 +1119,9 @@
         </div>
     </section>
 
-    <!-- Testimonials / Client Reviews Carousel Section -->
+    <!-- Testimonials Section (WHITE) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="testimonials">
+    <section class="site-section-outer section-theme-dark scroll-theme-section" id="testimonials" data-theme="dark">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-cyan-secondary"
             style="top: -10%; left: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
@@ -1084,9 +1258,9 @@
         </div>
     </section>
 
-    <!-- Engineering Insights & Blogs Section -->
+    <!-- Blog Section (BLACK) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="blog">
+    <section class="site-section-outer section-theme-light scroll-theme-section" id="blog" data-theme="light">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; right: -8%; width: 850px; height: 850px; opacity: 0.85;"></div>
@@ -1132,9 +1306,9 @@
         </div>
     </section>
 
-    <!-- Contact & Collaboration Section -->
+    <!-- Collaborate Section (WHITE) -->
     <div class="separator"></div>
-    <section class="site-section-outer" id="collaborate">
+    <section class="site-section-outer section-theme-dark scroll-theme-section" id="collaborate" data-theme="dark">
         <!-- Full-Bleed Ambient Glowing Backgrounds -->
         <div class="ambient-glow glow-blue-primary"
             style="top: -10%; left: -10%; width: 900px; height: 900px; opacity: 0.85;"></div>
@@ -1259,7 +1433,7 @@
         </div>
     </section>
 
-    <footer class="shuddho-footer-v2">
+    <footer class="shuddho-footer-v2 section-theme-dark scroll-theme-section" data-theme="dark">
         <!-- Top Legal & Copyright Header Bar -->
         <div class="footer-top-bar">
             <a href="terms.html" class="footer-legal-link">Terms & Conditions</a>
@@ -1317,6 +1491,8 @@
             </svg>
         </span>
     </button>
+    <!-- Scroll-Based Section Theme Engine -->
+    <script src="assets/js/scroll-theme.js?v=1.0"></script>
 </body>
 
 </html>

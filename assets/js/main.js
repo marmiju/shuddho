@@ -1,51 +1,5 @@
 $(function () {
-  /* ==========================================================================
-     Dark / Light Theme Engine with SVG Switcher (Dark Default)
-     ========================================================================== */
-  initThemeEngine();
 
-  function initThemeEngine() {
-    function getSavedSetting() {
-      let saved = localStorage.getItem('shuddho-theme');
-      if (saved !== 'dark' && saved !== 'light') {
-        saved = 'dark';
-      }
-      return saved;
-    }
-
-    function applyTheme(setting) {
-      let activeTheme = (setting === 'light') ? 'light' : 'dark';
-
-      document.documentElement.setAttribute('data-theme', activeTheme);
-      document.documentElement.setAttribute('data-theme-setting', activeTheme);
-      localStorage.setItem('shuddho-theme', activeTheme);
-
-      updateSwitcherUI(activeTheme);
-    }
-
-    function updateSwitcherUI(activeTheme) {
-      const sunSvg = `<svg class="theme-svg sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
-      const moonSvg = `<svg class="theme-svg moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-
-      let iconSvg = (activeTheme === 'dark') ? moonSvg : sunSvg;
-      let labelText = (activeTheme === 'dark') ? 'Dark' : 'Light';
-
-      $('.theme-icon-wrap').html(iconSvg);
-      $('.theme-mode-text').text(labelText);
-      $('.theme-switcher-btn').attr('title', 'Toggle Theme (' + (activeTheme === 'dark' ? 'Switch to Light' : 'Switch to Dark') + ')');
-    }
-
-    // Toggle logic: dark <-> light
-    $(document).on('click', '.theme-switcher-btn', function (e) {
-      e.preventDefault();
-      const current = getSavedSetting();
-      const next = (current === 'dark') ? 'light' : 'dark';
-
-      applyTheme(next);
-    });
-
-    applyTheme(getSavedSetting());
-  }
 
   /* ==========================================================================
      Fullscreen Liquid Brand Text Preloader Engine
@@ -74,36 +28,35 @@ $(function () {
     const $percent = $('#preloader-percent-num');
 
     let currentProgress = 0;
-    const minDuration = 2500; // Guaranteed 2.5s smooth animation duration
-    const intervalTime = 20;
+    const minDuration = 800;
+    const intervalTime = 16;
     const increment = 100 / (minDuration / intervalTime);
-    let isLoaded = document.readyState === 'complete';
 
-    $(window).on('load', function () {
-      isLoaded = true;
-    });
+    function dismissPreloader() {
+      if (timer) clearInterval(timer);
+      if (safetyTimer) clearTimeout(safetyTimer);
+      $preloader.addClass('fade-out');
+      $('body').removeClass('preloader-active');
+      setTimeout(() => {
+        $preloader.remove();
+      }, 500);
+    }
 
     const timer = setInterval(() => {
-      if (currentProgress < 95 || isLoaded) {
-        currentProgress += increment + (Math.random() * 0.2);
-      }
+      currentProgress += increment;
 
       if (currentProgress >= 100) {
         currentProgress = 100;
         clearInterval(timer);
         updatePreloaderUI(100);
-
-        setTimeout(() => {
-          $preloader.addClass('fade-out');
-          setTimeout(() => {
-            $preloader.remove();
-            $('body').removeClass('preloader-active');
-          }, 850);
-        }, 300);
+        setTimeout(dismissPreloader, 150);
       } else {
         updatePreloaderUI(Math.floor(currentProgress));
       }
     }, intervalTime);
+
+    // Guaranteed fallback: unblock scrolling under all conditions
+    const safetyTimer = setTimeout(dismissPreloader, 1500);
 
     function updatePreloaderUI(pct) {
       if ($percent.length) {
@@ -119,14 +72,7 @@ $(function () {
       }
     }
 
-    $preloader.on('click', function () {
-      clearInterval(timer);
-      $preloader.addClass('fade-out');
-      setTimeout(() => {
-        $preloader.remove();
-        $('body').removeClass('preloader-active');
-      }, 850);
-    });
+    $preloader.on('click', dismissPreloader);
   }
 
   /* ==========================================================================
@@ -744,7 +690,7 @@ $(function () {
     const $progressCircle = $('#scroll-progress-circle');
     const pathLength = 113.097;
 
-    const $sections = $('section[id], footer[id], header[id]');
+    const $sections = $('section, footer, .hero-card');
     const $allNavLinks = $('.nav-link, .drawer-link');
 
     const $header = $('.header');
@@ -762,12 +708,66 @@ $(function () {
       const docHeight = $(document).height() - $(window).height();
       const scrollPercent = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
 
-      // 0. Update sticky scaled header on scroll
+      // 0. Dynamic transformation of Hero and Clients when scrolling reaches the CENTER of Hero
+      const $hero = $('#hero');
+      const $clients = $('#clients');
+      const heroHeight = $hero.length ? $hero.outerHeight() : $(window).height();
+      const heroThreshold = heroHeight * 0.5; // Trigger at the CENTER of the hero section (50%)
+
+      const isHeroPhase = scrollTop < heroThreshold;
+
+      if (isHeroPhase) {
+        // Initially at top of Hero: Both Hero and Next Section (Clients) are WHITE
+        $hero.addClass('is-light').removeClass('is-dark');
+        $clients.addClass('is-light').removeClass('is-dark');
+        $('body').removeClass('theme-dark').addClass('theme-light');
+      } else {
+        // When scrolling reaches the CENTER of Hero: Hero and Clients smoothly transform to BLACK
+        $hero.addClass('is-dark').removeClass('is-light');
+        $clients.addClass('is-dark').removeClass('is-light');
+      }
+
+      // 0b. Update sticky scaled header and adaptive theme at the CENTER of viewport
       if ($header.length) {
         if (scrollTop > 25) {
           $header.addClass('scrolled');
         } else {
           $header.removeClass('scrolled');
+        }
+
+        // Trigger change at the CENTER of the screen (50% viewport) instead of waiting to fully enter
+        const viewportCenter = scrollTop + ($(window).height() * 0.5);
+        let activeTheme = 'light';
+
+        if (isHeroPhase) {
+          activeTheme = 'light';
+        } else {
+          activeTheme = 'dark'; // By default in hero/clients phase
+          $sections.each(function () {
+            const $sec = $(this);
+            const top = $sec.offset().top;
+            const height = $sec.outerHeight();
+            const id = $sec.attr('id');
+
+            // Trigger when the center of the viewport enters the section
+            if (viewportCenter >= top && viewportCenter < top + height) {
+              if (id === 'hero' || id === 'clients') {
+                activeTheme = 'dark';
+              } else if ($sec.hasClass('section-theme-dark') || $sec.attr('data-theme') === 'dark' || $sec.hasClass('is-dark')) {
+                activeTheme = 'dark';
+              } else if ($sec.hasClass('section-theme-light') || $sec.attr('data-theme') === 'light' || $sec.hasClass('is-light')) {
+                activeTheme = 'light';
+              }
+            }
+          });
+        }
+
+        if (activeTheme === 'dark') {
+          $header.addClass('header-on-dark').removeClass('header-on-light');
+          $('body').addClass('theme-dark').removeClass('theme-light');
+        } else {
+          $header.addClass('header-on-light').removeClass('header-on-dark');
+          $('body').addClass('theme-light').removeClass('theme-dark');
         }
       }
 
@@ -841,6 +841,174 @@ $(function () {
         }
       });
     }
+  }
+
+  /* ==========================================================================
+     Permanent Pixel Dissolve Grid (Always Visible, Always White Tiles)
+     ========================================================================== */
+  function initPixelDissolveTransition() {
+    const $bands = $('.pixel-transition-band');
+    if (!$bands.length) return;
+
+    function buildGrids() {
+      $bands.each(function () {
+        const $band = $(this);
+        const direction = $band.data('direction') || 'light-to-dark';
+        const isLightToDark = direction === 'light-to-dark';
+
+        $band.empty();
+        const bandWidth = $band.outerWidth() || window.innerWidth;
+        const pixelSize = window.innerWidth <= 768 ? 16 : 22;
+        const cols = Math.ceil(bandWidth / pixelSize);
+        const rows = 4;
+
+        $band.css({
+          'display': 'grid',
+          'grid-template-columns': `repeat(${cols}, ${100 / cols}%)`,
+          'grid-template-rows': `repeat(${rows}, ${pixelSize}px)`,
+          'height': `${rows * pixelSize}px`,
+          'background': 'transparent',
+          'position': 'relative',
+          'width': '100%',
+          'overflow': 'hidden',
+          'pointer-events': 'none',
+          'line-height': '0',
+          'font-size': '0',
+          'margin': '0',
+          'padding': '0',
+          'opacity': '1',
+          'visibility': 'visible'
+        });
+
+        const fragment = document.createDocumentFragment();
+
+        // 4 rows matching the user's exact 8-column repeating pixel teeth & checkerboard motif
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            let isTile = false;
+            if (isLightToDark) {
+              // Top is White (Hero), Bottom is Black (Clients)
+              if (r === 0) {
+                isTile = (c % 8 !== 2 && c % 8 !== 6);
+              } else if (r === 1) {
+                isTile = ((c + r) % 2 === 0);
+              } else if (r === 2) {
+                isTile = (c % 8 === 1 || c % 8 === 5);
+              } else if (r === 3) {
+                isTile = (c % 8 === 0);
+              }
+            } else {
+              // Top is Black (Clients), Bottom is White (Work) - Exact orientation of user image
+              if (r === 0) {
+                isTile = (c % 8 === 0);
+              } else if (r === 1) {
+                isTile = (c % 8 === 1 || c % 8 === 5);
+              } else if (r === 2) {
+                isTile = ((c + r) % 2 === 0);
+              } else if (r === 3) {
+                isTile = (c % 8 !== 2 && c % 8 !== 6);
+              }
+            }
+
+            if (isTile) {
+              const tile = document.createElement('div');
+              tile.className = 'pixel-tile';
+              tile.style.gridRow = (r + 1);
+              tile.style.gridColumn = (c + 1);
+              tile.style.backgroundColor = '#ffffff';
+              tile.style.transform = 'scale(1)';
+              tile.style.opacity = '1';
+              tile.style.visibility = 'visible';
+              tile.setAttribute('data-row', r);
+              fragment.appendChild(tile);
+            }
+          }
+        }
+        $band[0].appendChild(fragment);
+      });
+    }
+
+    buildGrids();
+
+    let resizeTimer;
+    $(window).on('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildGrids, 150);
+    });
+  }
+
+  /* ==========================================================================
+     Scroll Color Transform: Both Sections Swap Themes on Scroll
+     Initial: Current (#hero) is White, Next (#clients) is Black
+     Scrolled: Current (#hero) turns Black, Next (#clients) turns White
+     ========================================================================== */
+  /* ==========================================================================
+     Scroll Color Transform: Both Sections Swap Themes on Scroll
+     Initial: Current (#hero) is White, Next (#clients) is Black
+     Scrolled: Current (#hero) turns Black, Next (#clients) turns White
+     ========================================================================== */
+  function initAlternatingSectionColorTransform() {
+    const $hero = $('#hero');
+    const $clients = $('#clients');
+    const $transitionBand = $('#hero-pixel-transition');
+    if (!$hero.length || !$clients.length) return;
+
+    let isSwapped = false;
+
+    function applySwapState(shouldSwap) {
+      if (shouldSwap && !isSwapped) {
+        isSwapped = true;
+        // Hero: White -> Black
+        $hero.removeClass('section-theme-light is-light')
+          .addClass('section-theme-dark is-dark')
+          .attr('data-theme', 'dark');
+
+        // Clients: Black -> White
+        $clients.removeClass('section-theme-dark is-dark')
+          .addClass('section-theme-light is-light')
+          .attr('data-theme', 'light');
+
+        if ($transitionBand.length) {
+          $transitionBand.addClass('is-inverted');
+        }
+      } else if (!shouldSwap && isSwapped) {
+        isSwapped = false;
+        // Hero: Black -> White
+        $hero.removeClass('section-theme-dark is-dark')
+          .addClass('section-theme-light is-light')
+          .attr('data-theme', 'light');
+
+        // Clients: White -> Black
+        $clients.removeClass('section-theme-light is-light')
+          .addClass('section-theme-dark is-dark')
+          .attr('data-theme', 'dark');
+
+        if ($transitionBand.length) {
+          $transitionBand.removeClass('is-inverted');
+        }
+      }
+    }
+
+    function handleScroll() {
+      const scrollPos = (typeof lenis !== 'undefined' && lenis && typeof lenis.scroll === 'number')
+        ? lenis.scroll
+        : (window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0);
+
+      // Trigger swap as soon as scrolling begins (scrolled past 50px)
+      const shouldSwap = scrollPos > 50;
+      applySwapState(shouldSwap);
+    }
+
+    $(window).on('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+
+    if (typeof lenis !== 'undefined' && lenis) {
+      lenis.on('scroll', handleScroll);
+    }
+
+    // Run initial state check immediately
+    handleScroll();
   }
 
   function initScrollRevealObserver() {
@@ -2255,10 +2423,342 @@ $(function () {
     handleTermsScroll();
   }
 
+  /* ==========================================================================
+     Interactive Radial Workflow & Process Section Engine (Scroll-Driven)
+     ========================================================================== */
+  function initProcessInteractiveEngine() {
+    const $section = $('#process');
+    if (!$section.length) return;
+
+    const $stepItems = $('.process-step-item');
+    const $radarNodes = $('.radar-node');
+    const $spotlightGroup = $('#process-spotlight-group');
+    const $timelineProgress = $('#process-timeline-progress');
+
+    // Clockwise node angles for the 5 engineering steps:
+    // 0: Discovery & Scope (-90 deg, 12 o'clock)
+    // 1: System Design (-18 deg, ~2 o'clock)
+    // 2: Full-Stack Development (54 deg, ~4:30 o'clock)
+    // 3: Testing & QA (126 deg, ~7:30 o'clock)
+    // 4: Deployment & Scaling (198 deg, ~9:30 o'clock)
+    const stepAngles = [-90, -18, 54, 126, 198];
+
+    let currentStepIndex = 0;
+    let isClickScrolling = false;
+    let clickScrollTimer = null;
+
+    function setProcessStep(index, updateProgressLine = false) {
+      if (index < 0 || index >= $stepItems.length) return;
+      currentStepIndex = index;
+
+      // Update Timeline steps
+      $stepItems.removeClass('active');
+      $stepItems.eq(index).addClass('active');
+
+      // Update Radar circular nodes
+      $radarNodes.removeClass('active');
+      $radarNodes.eq(index).addClass('active');
+
+      // Optional discrete progress line update if triggered by click
+      if (updateProgressLine && $timelineProgress.length) {
+        const progressPercent = (index / ($stepItems.length - 1)) * 100;
+        $timelineProgress.css('height', progressPercent + '%');
+      }
+
+      // Rotate Spotlight Wedge directly towards active node
+      const targetAngle = stepAngles[index];
+      if ($spotlightGroup.length) {
+        $spotlightGroup.css('transform', 'rotate(' + targetAngle + 'deg)');
+        $spotlightGroup.attr('transform', 'rotate(' + targetAngle + ' 230 230)');
+      }
+    }
+
+    function scrollToStep(index) {
+      const sectionEl = $section.get(0);
+      if (!sectionEl) return;
+
+      const headerOffset = 65;
+      const windowHeight = window.innerHeight;
+      const sectionTop = $section.offset().top;
+      const totalScrollable = sectionEl.offsetHeight - (windowHeight - headerOffset);
+      const targetScroll = sectionTop - headerOffset + (index / ($stepItems.length - 1)) * totalScrollable;
+
+      isClickScrolling = true;
+      setProcessStep(index, true);
+
+      $('html, body').stop().animate({
+        scrollTop: targetScroll
+      }, 550, function () {
+        clearTimeout(clickScrollTimer);
+        clickScrollTimer = setTimeout(() => {
+          isClickScrolling = false;
+        }, 150);
+      });
+    }
+
+    // Click handler for timeline step items
+    $stepItems.on('click', function () {
+      const idx = parseInt($(this).data('step'), 10);
+      scrollToStep(idx);
+    });
+
+    // Click handler for circular radar nodes
+    $radarNodes.on('click', function () {
+      const idx = parseInt($(this).data('step'), 10);
+      scrollToStep(idx);
+    });
+
+    // Scroll-driven active step listener
+    function handleProcessScroll() {
+      const sectionEl = $section.get(0);
+      if (!sectionEl) return;
+
+      const rect = sectionEl.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const headerOffset = 65;
+      const sectionHeight = sectionEl.offsetHeight;
+      const totalScrollable = sectionHeight - (windowHeight - headerOffset);
+
+      if (totalScrollable <= 0) return;
+
+      // Distance scrolled past top of section
+      const scrolled = -(rect.top - headerOffset);
+      const progress = Math.min(1, Math.max(0, scrolled / totalScrollable));
+
+      // Continuous vertical progress line
+      if ($timelineProgress.length) {
+        $timelineProgress.css('height', (progress * 100).toFixed(1) + '%');
+      }
+
+      // Determine step based on scroll progress:
+      // Step 0: 0% - 20%
+      // Step 1: 20% - 40%
+      // Step 2: 40% - 60%
+      // Step 3: 60% - 80%
+      // Step 4: 80% - 100%
+      let targetStep = Math.min(4, Math.floor(progress * 5));
+      if (progress >= 0.98) targetStep = 4;
+
+      if (targetStep !== currentStepIndex && !isClickScrolling) {
+        setProcessStep(targetStep, false);
+      }
+    }
+
+    $(window).on('scroll', handleProcessScroll);
+    handleProcessScroll();
+
+    // Initial setup with Step 1 (Discovery & Scope)
+    setProcessStep(0, true);
+  }
+
+  /* ==========================================================================
+     Editorial Hero Pinned Scroll Animation (5-Stage Split & Word Reveal)
+     ========================================================================== */
+  function initEditorialHeroScroll() {
+    const $track = $('#hero');
+    const $sticky = $('#hero-scroll-sticky');
+    const $topLine = $('#hero-line-top');
+    const $bottomLine = $('#hero-line-bottom');
+    const $blackBand = $('#hero-black-band');
+    const $shuddhoTrack = $('#hero-shuddho-track');
+    const $manifestoContainer = $('#hero-manifesto-container');
+    const $manifestoPara = $('#hero-manifesto-para');
+    const $manifestoActions = $('#hero-manifesto-actions');
+
+    if (!$track.length || !$sticky.length) return;
+
+    // Manifesto text: exactly from image 4 and 5
+    const rawText = "We design and build digital experiences that feel as good as they look - blending thoughtful design, seamless interactions, and modern technology.";
+    const words = rawText.split(' ');
+
+    // Wrap each word in a span for individual scrub reveal
+    $manifestoPara.html(
+      words.map((w, idx) => `<span class="manifesto-word" data-word="${idx}">${w}</span>`).join(' ')
+    );
+
+    const $words = $manifestoPara.find('.manifesto-word');
+    const totalWords = $words.length;
+
+    function handleHeroScroll() {
+      const trackEl = $track.get(0);
+      if (!trackEl) return;
+
+      const rect = trackEl.getBoundingClientRect();
+      const trackHeight = trackEl.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const scrollableDistance = trackHeight - windowHeight;
+
+      if (scrollableDistance <= 0) return;
+
+      // Calculate normalized progress through hero track: 0.0 -> 1.0
+      const rawScrolled = -rect.top;
+      const progress = Math.min(1, Math.max(0, rawScrolled / scrollableDistance));
+
+      const vh = windowHeight;
+      const vw = window.innerWidth;
+
+      // -------------------------------------------------------------
+      // STAGE 1 & 2: Progress 0.00 -> 0.35
+      // Split texts apart & expand black band from 0 to 38vh
+      // "Shuddho" watermark slides right to left
+      // -------------------------------------------------------------
+      if (progress <= 0.35) {
+        const p1 = progress / 0.35; // 0.0 -> 1.0
+        const bandHeight = p1 * (vh * 0.38);
+
+        // Top line drifts Up and Left
+        const topY = -((bandHeight / 2) + (p1 * vh * 0.16));
+        const topX = -(p1 * vw * 0.40);
+        $topLine.css({
+          transform: `translate3d(${topX}px, ${topY}px, 0)`,
+          opacity: 1
+        });
+
+        // Bottom line drifts Down and Right
+        const botY = (bandHeight / 2) + (p1 * vh * 0.16);
+        const botX = p1 * vw * 0.40;
+        $bottomLine.css({
+          transform: `translate3d(${botX}px, ${botY}px, 0)`,
+          opacity: 1
+        });
+
+        // Expanding Black Band
+        $blackBand.css({
+          height: `${bandHeight}px`,
+          top: '50%'
+        });
+
+        // "Shuddho" slides in from the right across the black band
+        const shuddhoX = (1 - p1) * 75 - (p1 * 25); // 75vw down to -25vw
+        $shuddhoTrack.css({
+          transform: `translateY(-50%) translate3d(${shuddhoX}vw, 0, 0)`,
+          opacity: p1 > 0.04 ? Math.min(1, p1 * 2.5) : 0
+        });
+
+        // Manifesto is hidden
+        $manifestoContainer.css({ opacity: 0 });
+        $words.removeClass('is-active');
+        $manifestoActions.removeClass('is-visible');
+      }
+
+      // -------------------------------------------------------------
+      // STAGE 3 & 4: Progress 0.35 -> 0.70
+      // Black band expands from 38vh to 100vh (full viewport)
+      // Top & bottom lines push completely out of view
+      // "Shuddho" slides completely out to the left and fades out
+      // Centered manifesto fades in
+      // -------------------------------------------------------------
+      else if (progress <= 0.70) {
+        const p2 = (progress - 0.35) / 0.35; // 0.0 -> 1.0
+        const bandHeight = (vh * 0.38) + (p2 * (vh * 0.62));
+
+        // Top line pushes further up-left and exits
+        const topY = -((bandHeight / 2) + (vh * 0.16) + (p2 * vh * 0.35));
+        const topX = -((vw * 0.40) + (p2 * vw * 0.60));
+        $topLine.css({
+          transform: `translate3d(${topX}px, ${topY}px, 0)`,
+          opacity: Math.max(0, 1 - (p2 * 1.6))
+        });
+
+        // Bottom line pushes further down-right and exits
+        const botY = (bandHeight / 2) + (vh * 0.16) + (p2 * vh * 0.35);
+        const botX = (vw * 0.40) + (p2 * vw * 0.60);
+        $bottomLine.css({
+          transform: `translate3d(${botX}px, ${botY}px, 0)`,
+          opacity: Math.max(0, 1 - (p2 * 1.6))
+        });
+
+        // Expanding Black Band
+        $blackBand.css({
+          height: `${bandHeight}px`,
+          top: '50%'
+        });
+
+        // "Shuddho" slides completely out left and fades
+        const shuddhoX = -25 - (p2 * 90);
+        $shuddhoTrack.css({
+          transform: `translateY(-50%) translate3d(${shuddhoX}vw, 0, 0)`,
+          opacity: Math.max(0, 1 - (p2 * 1.3))
+        });
+
+        // Manifesto fades in prominently
+        $manifestoContainer.css({
+          opacity: Math.min(1, p2 * 1.5),
+          transform: `translate3d(0, ${(1 - p2) * 18}px, 0)`
+        });
+
+        // Words still dim in this stage
+        $words.removeClass('is-active');
+        $manifestoActions.removeClass('is-visible');
+      }
+
+      // -------------------------------------------------------------
+      // STAGE 5: Progress 0.70 -> 0.96
+      // Whole section filled by black surface (100% viewport)
+      // Word-by-word scrub reveal of the manifesto text!
+      // -------------------------------------------------------------
+      else {
+        // Black band is 100% full screen
+        $blackBand.css({
+          height: '100vh',
+          top: '50%'
+        });
+
+        $topLine.css({ opacity: 0 });
+        $bottomLine.css({ opacity: 0 });
+        $shuddhoTrack.css({ opacity: 0 });
+
+        $manifestoContainer.css({
+          opacity: 1,
+          transform: 'translate3d(0, 0, 0)'
+        });
+
+        // Word scrubbing progress from 0.70 to 0.94
+        const p3 = Math.min(1, Math.max(0, (progress - 0.70) / 0.24));
+        const activeWordCount = Math.floor(p3 * (totalWords + 1));
+
+        $words.each(function (idx) {
+          if (idx < activeWordCount) {
+            $(this).addClass('is-active');
+          } else {
+            $(this).removeClass('is-active');
+          }
+        });
+
+        // Show action button when words are nearly finished (>85%)
+        if (p3 > 0.85) {
+          $manifestoActions.addClass('is-visible');
+        } else {
+          $manifestoActions.removeClass('is-visible');
+        }
+      }
+
+      // Sticky header color adaptation
+      const $header = $('.header');
+      if ($header.length) {
+        if (progress > 0.38) {
+          $header.addClass('header-on-dark').removeClass('header-on-light');
+        } else {
+          $header.addClass('header-on-light').removeClass('header-on-dark');
+        }
+      }
+    }
+
+    $(window).on('scroll', handleHeroScroll);
+    window.addEventListener('scroll', handleHeroScroll, { passive: true });
+    if (typeof lenis !== 'undefined' && lenis) {
+      lenis.on('scroll', handleHeroScroll);
+    }
+    handleHeroScroll();
+  }
+
+  initEditorialHeroScroll();
   initHorizontalScrollListener();
   initTextWordAnimations();
   initSpotlightGlowEffect();
   initEnhancedScrollTracker();
+  initPixelDissolveTransition();
+  initAlternatingSectionColorTransform();
   initScrollRevealObserver();
   initDragToScroll();
 
@@ -2272,5 +2772,6 @@ $(function () {
   loadContactData();
   initProjectSwiper();
   initTermsPageScrollEngine();
+  initProcessInteractiveEngine();
 });
 
